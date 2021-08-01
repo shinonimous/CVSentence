@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cvrabbit.cvsentence.service.OverlayView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ov"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="end|top">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/watchRabbit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/rabbitComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/solid_transparentlightgreen_corners_rounded10dp"
+            android:drawableEnd="@drawable/vector_record"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/ov_rabbit_df"
+            android:textColor="@color/theme_color_text"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.cvrabbit.cvsentence.service.OverlayView>

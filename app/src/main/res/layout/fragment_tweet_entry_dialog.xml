@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tweetEntryBase"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A8252525"
+    tools:context=".view.Twitter">
+
+    <LinearLayout
+        android:id="@+id/tweetEntry"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/solid_thinlightgray_corners_rounded7dp_stroke_gray"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38">
+
+        <ImageView
+            android:id="@+id/closeTweetDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:scaleType="fitEnd"
+            app:srcCompat="@drawable/vector_close" />
+
+        <EditText
+            android:id="@+id/editTweet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/solid_white_corners_rounded7dp_stroke_gray"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/byteLength"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewEnd"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/includeAppLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
+            android:checked="true"
+            android:text="@string/ted_include_app_link"
+            android:textColor="#333333"
+            android:textColorHighlight="@color/theme_color_complement"
+            android:textColorLink="@color/theme_color_complement" />
+
+        <Button
+            android:id="@+id/doTweet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/solid_lightred_corners_rounded10dp"
+            android:text="@string/ted_tweet"
+            android:textColor="@color/theme_color_text_white"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/resetTweetConfig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/solid_gray_corners_rounded10dp"
+            android:text="@string/ted_change_twitter_account"
+            android:textColor="@color/theme_color_text"
+            android:textSize="18sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,187 @@
+<resources>
+    <string name="app_name">Clipboard WordBook(En-En)</string>
+    <string name="notification_content">00:00:00</string>
+    <!--overlay_view.xml-->
+    <string name="ov_firstGuidance">No words registered.\nPress START button and copy words in another App to register New Words.</string>
+    <string name="ov_rabbit_df">&#160;&#160;Let\'s Copy !&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
+    <!--base_settings.xml-->
+    <string name="bs_title">Base Settings</string>
+    <string name="bsc_soundtitle">Sound Settings</string>
+    <string name="bsc_onselectword_sound">Read Word While Copying</string>
+    <string name="bsc_onselectmeaning_sound">Read Meaning While Copying</string>
+    <string name="bsc_ontapword_sound">Read Word When Mic Tapped</string>
+    <string name="bsc_ontapmeaning_sound">Read Meaning When Mic Tapped</string>
+    <string name="bsc_volume">Sound Volume</string>
+    <string name="bsc_floatingposition">Rabbit Location</string>
+    <string name="bsc_floatingposition_righttop">TopRight</string>
+    <string name="bsc_reference_setting">Reference</string>
+    <string name="bsc_csv_export">CSV Export</string>
+    <string name="bsc_csv_export_save_dir">Saved Dir(Storage)：</string>
+    <string name="bsc_csv_export_button">Save as CSV</string>
+    <string name="bsc_reference_setting_description">You can register the reference of English words here. Ex, if you want to add words from "BBC News" app, then register "BBC News" as a reference. After references registered, you can select any reference when you start copy-pasting. You can change the reference of a certain word in each word card.</string>
+    <string name="bsc_reference_register">Register a reference</string>
+    <string name="bsc_reference_length">Enter the reference (less than 50 chars).</string>
+    <string name="bsc_reference_positive">Register</string>
+    <string name="bsc_reference_done">&#160; is registered.</string>
+    <string name="bsc_reference_cancel">Cancel</string>
+    <!--CSVExport.kt-->
+    <string name="csv_header">ID,Word,Main Meaning,Verb,Noun,Adjective,Adverb,Expression,Prefix,Suffix,Others,Lookup Count,Last Lookup Date,Recommended Recur Timing,Difficulty Score,Not Remembered Count,Remembered Count,Same Word Added Count,Registered Date,Reference\n</string>
+    <string name="csv_non_word_registered">No word exists</string>
+    <string name="csv_export_succeeded">Saved</string>
+    <string name="csv_export_failed">Failed to export as csv</string>
+    <!--sort_settings.xml-->
+    <string name="ss_title">Sort Settings</string>
+    <string name="ssc_sorttype">Sort Pattern</string>
+    <string name="ssc_regdate_dsc">Registered Date Dec(Default)</string>
+    <string name="ssc_filtercondition">Filter Pattern</string>
+    <string name="ssc_yellow">Green Card</string>
+    <string name="ssc_dsscore_range">Difficulty Score Range</string>
+    <string name="ssc_dsrange_start_def">0.0</string>
+    <string name="ssc_dsrange_dash">―</string>
+    <string name="ssc_dsrange_end_def">10.0</string>
+    <string name="ssc_regdate">Registered Date</string>
+    <string name="ssc_regdaterange_dash">―</string>
+    <string name="ssc_reference">Reference</string>
+    <!--word_meaning_card.xml-->
+    <string name="wmc_opendetail">Open Detail</string>
+    <string name="wmc_verb">Verb</string>
+    <string name="wmc_noun">Noun</string>
+    <string name="wmc_adjective">Adjective</string>
+    <string name="wmc_adverb">Adverb</string>
+    <string name="wmc_prefix">Prefix</string>
+    <string name="wmc_suffix">Suffix</string>
+    <string name="wmc_expression">Expression</string>
+    <string name="wmc_others">Others</string>
+    <!--word_progress_card.xml-->
+    <string name="wpc_notremembered">Not Remembered</string>
+    <string name="wpc_remembered">Remembered</string>
+    <string name="wpc_notremembered_count">&#160;Not Remembered Count</string>
+    <string name="wpc_notremembered_count_def">0</string>
+    <string name="wpc_notremembered_count_tail">times</string>
+    <string name="wpc_remembered_count">&#160;Remembered Count</string>
+    <string name="wpc_remembered_count_def">0</string>
+    <string name="wpc_remembered_count_tail">times</string>
+    <string name="wpc_rrt">&#160;&#160;Effective Date To Remember</string>
+    <string name="wpc_rrt_head">from</string>
+    <string name="wpc_rrt_dash">-</string>
+    <string name="wpc_rrt_def">1</string>
+    <string name="wpc_rrt_tail">days</string>
+    <string name="wpc_ds">&#160;&#160;Difficulty Score</string>
+    <string name="wpc_ds_def">7</string>
+    <string name="wpc_decimal">.</string>
+    <string name="wpc_ds_dec_def">0</string>
+    <string name="wpc_lookupcount">&#160;&#160;Lookup Count</string>
+    <string name="wpc_lookupcount_def">1</string>
+    <string name="wpc_lookupcount_tail">times</string>
+    <string name="wpc_durationfromlastlookupdate">&#160;&#160;Days from Last Lookup</string>
+    <string name="wpc_durationfromlastlookupdate_def">1</string>
+    <string name="wpc_durationfromlastlookupdate_tail">days</string>
+    <string name="wpc_tryaddsamewordcount">&#160;&#160;Try add Same Word Count</string>
+    <string name="wpc_tryaddsamewordcount_def">0</string>
+    <string name="wpc_tryaddsamewordcount_tail">times</string>
+    <string name="wpc_regdate">&#160;&#160;Registered Date</string>
+    <string name="wpc_reference">&#160;&#160;Reference</string>
+    <string name="wpc_change_reference">Change Reference</string>
+    <!--WordDetailAdapter.kt-->
+    <string name="wda_no_reference_title">No Reference Registered</string>
+    <string name="wda_no_reference">No reference registered. First add reference at Base Settings.</string>
+    <string name="wda_select_reference_title">Select Reference</string>
+    <string name="wda_select_reference_message">Select Reference of this word.</string>
+    <string name="wda_reference_ok">OK</string>
+    <string name="wda_reference_cancel">Cancel</string>
+
+    <!--ClipBoard.kt-->
+    <string name="cb_internet_connection">No Internet Connection</string>
+    <string name="cb_word_not_found">No Word Exist</string>
+    <!--FirstTimeGuidance.kt-->
+    <string name="ftg_showmainfirsttime_1">Welcome to Clipboard WordBook!\n\nLet\'s start short guidance for this app!</string>
+    <string name="ftg_showmainfirsttime_2">When you press START button below, You can start copy-pasting mode.</string>
+    <string name="ftg_showmainfirsttime_3">While copy-pasting mode, an overlay card to show word meaning instantly is shown.</string>
+    <string name="ftg_showmainfirsttime_4">While copy-pasting mode, the keyboard and back button of your device is disabled.</string>
+    <string name="ftg_showmainfirsttime_5">While copy-pasting mode, when you copy some English words, these are added to this app as word cards.</string>
+    <string name="ftg_showmainfirsttime_6">When you want to stop copy-pasting mode, press STOP.</string>
+    <string name="ftg_showmainfirsttime_7">You can delete words added by swiping right.</string>
+    <string name="ftg_showmainfirsttime_8">You can see word meanings by tapping the card.</string>
+    <string name="ftg_showmainfirsttime_9">At the first time you add the word, the card color is white, but when the recommended recur timing comes, it will turn green.</string>
+    <string name="ftg_showmainfirsttime_10">The good way to use this app is to start the app every day, tap the green card, and see if you remember the meaning.</string>
+    <string name="ftg_showmainfirsttime_11">You can sort or filter these word cards here.\nYou can not use when no word is registered.</string>
+    <string name="ftg_showmainfirsttime_12">You can adjust sound settings, set floating position, register words references here.</string>
+    <string name="ftg_showmainfirsttime_13">This is it.\n\nEnjoy your English life!!</string>
+    <string name="ftg_ok_button">\n＜OK＞</string>
+    <!--JsonInterpreter.kt-->
+    <string name="ji_adjective_tag"><![CDATA[<a>]]></string>
+    <string name="ji_verb_tag"><![CDATA[<v>]]></string>
+    <string name="ji_noun_tag"><![CDATA[<n>]]></string>
+    <string name="ji_adverb_tag"><![CDATA[<r>]]></string>
+    <string name="ji_main_tag"><![CDATA[<main>]]></string>
+    <string name="ji_def_tag"><![CDATA[<def>]]></string>
+    <string name="ji_itemname_word">word</string>
+    <string name="ji_url_decorder">UTF-8</string>
+    <string name="ji_itemname_definition">definition</string>
+    <!--MainActivity.kt-->
+    <string name="ma_overlaypermission_title">Permission</string>
+    <string name="ma_overlaypermission_content">Set the permission for the overlay screen over other apps.\nAfter allowing the permission to "Clipboard WordBook(En-En)", back to here.</string>
+    <string name="ma_reference_designation_title">Reference Designation</string>
+    <string name="ma_reference_designation_description">You can designate the reference of words that will be copied from now on.</string>
+    <string name="ma_reference_ok">OK</string>
+    <string name="ma_reference_cancel">Cancel</string>
+    <!--MyAccessibilityService.kt-->
+    <string name="mas_mypackage_name">com.cvrabbit.cvsentence</string>
+    <!--WordDetailAdapter-->
+    <string name="wda_opendetail">Open Detail</string>
+    <string name="wda_closedetail">Close Detail</string>
+    <!--fragment_tag.xml-->
+    <string name="ft_sort_settings">Sort Setting</string>
+    <string name="ft_floating_start">START</string>
+    <string name="ft_floating_stop">STOP</string>
+    <string name="ft_base_settings">Base Setting</string>
+    <!--unified_ad.xml-->
+    <string name="ua_ad">PR</string>
+    <!--Twitter.kt-->
+    <string name="tw_theme">I found this English word!</string>
+    <string name="tw_word">𝗪𝗢𝗥𝗗：</string>
+    <string name="tw_meaning">𝗠𝗘𝗔𝗡𝗜𝗡𝗚：\n</string>
+    <string name="tw_reference">𝗦𝗢𝗨𝗥𝗖𝗘：</string>
+    <string name="tw_error_common">Tweet failed. Some error happened.</string>
+    <string name="tw_error_64">Your account is stopped.</string>
+    <string name="tw_error_89">App linking might be lost.</string>
+    <string name="tw_error_185">Upper limit for number of tweets in one day is exceeded.</string>
+    <string name="tw_error_186">Upper limit for char count of one tweet is exceeded.</string>
+    <string name="tw_error_187">You cannot tweet same contents continuously.</string>
+    <string name="tw_success">Tweet succeeded!</string>
+    <!--twitter_entry_dialog-->
+    <string name="ted_tweet">TWEET</string>
+    <string name="ted_change_twitter_account">CHANGE TWITTER ACCOUNT</string>
+    <string name="ted_include_app_link">Include app link at the end of this tweet.</string>
+
+    <string-array name="sort_type">
+        <item>Register Date Dec (Default)</item>
+        <item>Register Date Asc</item>
+        <item>Difficulty Score Dec</item>
+        <item>Difficulty Score Asc</item>
+        <item>Alphabetic Asc</item>
+        <item>Alphabetic Dsc</item>
+    </string-array>
+
+    <string-array name="ds_type">
+        <item>0.0</item>
+        <item>1.0</item>
+        <item>2.0</item>
+        <item>3.0</item>
+        <item>4.0</item>
+        <item>5.0</item>
+        <item>6.0</item>
+        <item>7.0</item>
+        <item>8.0</item>
+        <item>9.0</item>
+        <item>10.0</item>
+    </string-array>
+
+    <string-array name="floating_type">
+        <item>Top Right</item>
+        <item>Top Left</item>
+    </string-array>
+    <string name="ftw_twitter_text">TWEET ON TWITTER</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

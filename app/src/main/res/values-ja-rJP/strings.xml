@@ -1,0 +1,185 @@
+<resources>
+    <string name="app_name">コピペ英単語(英英)</string>
+    <string name="notification_content">00:00:00</string>
+    <!--overlay_view.xml-->
+    <string name="ov_firstGuidance">単語の登録がありません。\nSTARTボタンを押下後、\n単語をコピーすることで、\n新規登録が可能です。</string>
+    <string name="ov_rabbit_df">&#160;&#160;Let\'s Copy !&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
+    <!--base_settings.xml-->
+    <string name="bs_title">基本設定</string>
+    <string name="bsc_soundtitle">音声再生有無</string>
+    <string name="bsc_onselectword_sound">選択時単語読上</string>
+    <string name="bsc_onselectmeaning_sound">選択時意味読上</string>
+    <string name="bsc_ontapword_sound">マイクタップ単語読上</string>
+    <string name="bsc_ontapmeaning_sound">マイクタップ意味読上</string>
+    <string name="bsc_volume">音量</string>
+    <string name="bsc_floatingposition">うさぎ位置</string>
+    <string name="bsc_floatingposition_righttop">右上(デフォルト)</string>
+    <string name="bsc_reference_setting">出典</string>
+    <string name="bsc_csv_export">CSVファイル出力</string>
+    <string name="bsc_csv_export_save_dir">保存先(内部ストレージ)：</string>
+    <string name="bsc_csv_export_button">CSVとして保存する</string>
+    <string name="bsc_reference_setting_description">英単語の出典を登録できます。例えば、「BBC News」の英単語を登録したいという場合、「BBC News」を出典として登録しておきます。出典を登録すると、コピペの開始時に出典を指定できます。また、各単語カードから出典の変更も可能です。</string>
+    <string name="bsc_reference_register">出典を登録する</string>
+    <string name="bsc_reference_length">登録する出典を50文字以内で入力してください。</string>
+    <string name="bsc_reference_positive">登録する</string>
+    <string name="bsc_reference_done">を登録しました。</string>
+    <string name="bsc_reference_cancel">キャンセル</string>
+    <!--CSVExport.kt-->
+    <string name="csv_header">ID,単語,主な意味,動詞,名詞,形容詞,副詞,表現,接頭辞,接尾辞,その他,閲覧回数,最終閲覧日,おススメ復習タイミング,難易度スコア,覚えていない回数,覚えていた回数,同一単語登録回数,登録日,出典\n</string>
+    <string name="csv_non_word_registered">登録単語が存在しません</string>
+    <string name="csv_export_succeeded">内部ストレージに保存しました</string>
+    <string name="csv_export_failed">CSVエクスポートに失敗しました</string>
+    <!--sort_settings.xml-->
+    <string name="ss_title">並替設定</string>
+    <string name="ssc_sorttype">並替方法</string>
+    <string name="ssc_regdate_dsc">登録時期降順(デフォルト)</string>
+    <string name="ssc_filtercondition">絞込条件</string>
+    <string name="ssc_yellow">緑色カード</string>
+    <string name="ssc_dsscore_range">難易度スコア範囲</string>
+    <string name="ssc_dsrange_start_def">0.0</string>
+    <string name="ssc_dsrange_dash">―</string>
+    <string name="ssc_dsrange_end_def">10.0</string>
+    <string name="ssc_regdate">登録時期</string>
+    <string name="ssc_regdaterange_dash">―</string>
+    <string name="ssc_reference">出典</string>
+    <!--word_meaning_card.xml-->
+    <string name="wmc_opendetail">詳細を開く</string>
+    <string name="wmc_verb">動詞</string>
+    <string name="wmc_noun">名詞</string>
+    <string name="wmc_adjective">形容詞</string>
+    <string name="wmc_adverb">副詞</string>
+    <string name="wmc_prefix">接頭辞</string>
+    <string name="wmc_suffix">接尾辞</string>
+    <string name="wmc_expression">表現</string>
+    <string name="wmc_others">その他</string>
+    <!--word_progress_card.xml-->
+    <string name="wpc_notremembered">まだ覚えていない</string>
+    <string name="wpc_remembered">覚えていた</string>
+    <string name="wpc_notremembered_count">&#160;「まだ覚えていない」回数</string>
+    <string name="wpc_notremembered_count_def">0</string>
+    <string name="wpc_notremembered_count_tail">回</string>
+    <string name="wpc_remembered_count">&#160;「覚えていた」回数</string>
+    <string name="wpc_remembered_count_def">0</string>
+    <string name="wpc_remembered_count_tail">回</string>
+    <string name="wpc_rrt">&#160;&#160;おススメ復習タイミング</string>
+    <string name="wpc_rrt_head"></string>
+    <string name="wpc_rrt_dash">から</string>
+    <string name="wpc_rrt_def">1</string>
+    <string name="wpc_rrt_tail">日後</string>
+    <string name="wpc_ds">&#160;&#160;難易度スコア</string>
+    <string name="wpc_ds_def">7</string>
+    <string name="wpc_decimal">.</string>
+    <string name="wpc_ds_dec_def">0</string>
+    <string name="wpc_lookupcount">&#160;&#160;閲覧回数</string>
+    <string name="wpc_lookupcount_def">1</string>
+    <string name="wpc_lookupcount_tail">回</string>
+    <string name="wpc_durationfromlastlookupdate">&#160;&#160;前回閲覧から経過日数</string>
+    <string name="wpc_durationfromlastlookupdate_def">1</string>
+    <string name="wpc_durationfromlastlookupdate_tail">日以内</string>
+    <string name="wpc_tryaddsamewordcount">&#160;&#160;同一単語コピー回数</string>
+    <string name="wpc_tryaddsamewordcount_def">0</string>
+    <string name="wpc_tryaddsamewordcount_tail">回</string>
+    <string name="wpc_regdate">&#160;&#160;単語登録日</string>
+    <string name="wpc_reference">&#160;&#160;出典</string>
+    <string name="wpc_change_reference">出典を変更する</string>
+    <!--WordDetailAdapter.kt-->
+    <string name="wda_no_reference_title">登録無し</string>
+    <string name="wda_no_reference">登録がありません。基本設定画面から出典を登録してください。</string>
+    <string name="wda_select_reference_title">出典の選択</string>
+    <string name="wda_select_reference_message">以下からこの英単語の出典を選択できます。</string>
+    <string name="wda_reference_ok">OK</string>
+    <string name="wda_reference_cancel">キャンセル</string>
+
+    <!--ClipBoard.kt-->
+    <string name="cb_internet_connection">インターネット接続が無いか、省電力モードによりアプリが制限されています</string>
+    <string name="cb_word_not_found">単語が見つかりません</string>
+    <!--FirstTimeGuidance.kt-->
+    <string name="ftg_showmainfirsttime_1">ようこそコピペ英単語へ！\n\nこれから、本アプリを利用するうえでのガイダンスを開始します。</string>
+    <string name="ftg_showmainfirsttime_2">画面下部のSTARTボタンを押すと、英単語の記録モードになります。</string>
+    <string name="ftg_showmainfirsttime_3">記録モードになると、単語の意味をその場で表示するためのオーバーレイ画面が、画面上部に現れます。</string>
+    <string name="ftg_showmainfirsttime_4">記録モードの間は、アプリの制約上、キーボード操作ができなくなり、端末のバックボタンが効かなくなりますが、ご了承ください。</string>
+    <string name="ftg_showmainfirsttime_5">記録モード中に別アプリを開き英単語をコピーすると、本アプリに追加されます。</string>
+    <string name="ftg_showmainfirsttime_6">記録モードを終了するには、本アプリに戻りSTOPボタンを押します。</string>
+    <string name="ftg_showmainfirsttime_7">追加した単語はカードを右にスワイプすると削除できます。</string>
+    <string name="ftg_showmainfirsttime_8">カードをタップすると\n単語の意味を確認できます。</string>
+    <string name="ftg_showmainfirsttime_9">単語追加時はカードの色は白色ですが、おススメの復習タイミングが来ると緑色に変わります。</string>
+    <string name="ftg_showmainfirsttime_10">毎日決まった時間にアプリを見直し、緑色になっているものについてカードをタップし、意味を確認するのがおススメ学習方法です。</string>
+    <string name="ftg_showmainfirsttime_11">ここから並替設定を開き、単語の並び替えや絞り込みができます。\n単語が存在しない場合は\n使用できません。</string>
+    <string name="ftg_showmainfirsttime_12">ここから基本設定を開き、音声有無や音量を調整できます。デフォルトで音声はOFFになっています。また、英単語の出典も登録可能です。</string>
+    <string name="ftg_showmainfirsttime_13">ガイダンスは以上です。\n\n楽しい英単語ライフを\nお過ごしください！！</string>
+    <string name="ftg_ok_button">\n＜OK＞</string>
+    <!--JsonInterpreter.kt-->
+    <string name="ji_adjective_tag"><![CDATA[<a>]]></string>
+    <string name="ji_verb_tag"><![CDATA[<v>]]></string>
+    <string name="ji_noun_tag"><![CDATA[<n>]]></string>
+    <string name="ji_adverb_tag"><![CDATA[<r>]]></string>
+    <string name="ji_main_tag"><![CDATA[<main>]]></string>
+    <string name="ji_def_tag"><![CDATA[<def>]]></string>
+    <string name="ji_itemname_word">word</string>
+    <string name="ji_url_decorder">UTF-8</string>
+    <string name="ji_itemname_definition">definition</string>
+    <!--MainActivity.kt-->
+    <string name="ma_overlaypermission_title">権限の許可</string>
+    <string name="ma_overlaypermission_content">他のアプリに重ねて表示するために必要な権限を設定します。\n次の画面で「コピペ英単語(英英)」に権限を許可したら、バックキーでこの画面に戻ってください。</string>
+    <string name="ma_reference_designation_title">出典の指定</string>
+    <string name="ma_reference_designation_description">これからコピペする単語の出典を指定できます。</string>
+    <string name="ma_reference_ok">OK</string>
+    <string name="ma_reference_cancel">キャンセル</string>
+    <!--MyAccessibilityService.kt-->
+    <string name="mas_mypackage_name">com.cvrabbit.cvsentence</string>
+    <!--WordDetailAdapter-->
+    <string name="wda_opendetail">詳細を開く</string>
+    <string name="wda_closedetail">詳細を閉じる</string>
+    <!--fragment_tag.xml-->
+    <string name="ft_sort_settings">Sort Setting</string>
+    <string name="ft_floating_start">START</string>
+    <string name="ft_floating_stop">STOP</string>
+    <string name="ft_base_settings">Base Setting</string>
+    <!--unified_ad.xml-->
+    <string name="ua_ad">PR</string>
+    <!--Twitter.kt-->
+    <string name="tw_theme">こんな英単語を見つけたよ。</string>
+    <string name="tw_word">𝗪𝗢𝗥𝗗：</string>
+    <string name="tw_meaning">𝗠𝗘𝗔𝗡𝗜𝗡𝗚：</string>
+    <string name="tw_reference">𝗦𝗢𝗨𝗥𝗖𝗘：</string>
+    <string name="tw_error_common">エラーによりTWEETできませんでした。</string>
+    <string name="tw_error_64">あなたのアカウントは凍結されています。</string>
+    <string name="tw_error_89">アプリ連携が解除された可能性があります。</string>
+    <string name="tw_error_185">一日のTWEET回数制限をオーバーしました。</string>
+    <string name="tw_error_186">TWEETの文字数制限を超えています。</string>
+    <string name="tw_error_187">同じ内容の投稿を複数連続行うことはできません。</string>
+    <string name="tw_success">TWEETしました。</string>
+    <!--twitter_entry_dialog-->
+    <string name="ted_tweet">TWEETする</string>
+    <string name="ted_change_twitter_account">TWITTERアカウントを変更する</string>
+    <string name="ted_include_app_link">TWEETの最後にアプリリンクを含めます。</string>
+
+    <string-array name="sort_type">
+        <item>登録時期降順(デフォルト)</item>
+        <item>登録時期昇順</item>
+        <item>難易度スコア降順</item>
+        <item>難易度スコア昇順</item>
+        <item>アルファベット昇順</item>
+        <item>アルファベット降順</item>
+    </string-array>
+
+    <string-array name="ds_type">
+        <item>0.0</item>
+        <item>1.0</item>
+        <item>2.0</item>
+        <item>3.0</item>
+        <item>4.0</item>
+        <item>5.0</item>
+        <item>6.0</item>
+        <item>7.0</item>
+        <item>8.0</item>
+        <item>9.0</item>
+        <item>10.0</item>
+    </string-array>
+
+    <string-array name="floating_type">
+        <item>右上</item>
+        <item>左上</item>
+    </string-array>
+    <string name="ftw_twitter_text">TWITTERで単語をつぶやく</string>
+</resources>

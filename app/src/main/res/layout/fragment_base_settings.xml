@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="androidx.core.content.ContextCompat"/>
+        <variable
+            name="viewmodel"
+            type="com.cvrabbit.cvsentence.viewmodel.BaseSettingsViewModel"/>
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/baseSettingsCl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    tools:context=".view.BaseSettings">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/baseSettings"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/baseSettingsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/solid_lightgreen"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/vector_back" />
+
+            <TextView
+                android:id="@+id/baseSettingsTitleWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#00000000"
+                android:drawableStart="@drawable/vector_setting_big"
+                android:enabled="true"
+                android:focusable="true"
+                android:singleLine="true"
+                android:text="@string/bs_title"
+                android:textColor="@color/theme_color_text_white"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/base_ad_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/baseSettingsTitle">
+
+        </FrameLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/base_ad_frame">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/baseSettingsContents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="8dp"
+                        app:cardBackgroundColor="#ffffff"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="30dp"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/soundEnableSetting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:paddingBottom="10dp"
+                                android:text="@string/bsc_soundtitle"
+                                android:textColor="@color/theme_color"
+                                android:textSize="30sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/selectedWordSoundText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/bsc_onselectword_sound"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="20sp" />
+
+                                <Switch
+                                    android:id="@+id/selectedWordSound"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/switch_custom_background"
+                                    android:showText="false"
+                                    android:theme="@style/CustomSwitch"
+                                    android:thumb="@drawable/switch_custom_thumb"
+                                    android:track="@drawable/switch_custom_track" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/selectedMeaningSoundText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/bsc_onselectmeaning_sound"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="20sp" />
+
+                                <Switch
+                                    android:id="@+id/selectedMeaningSound"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/switch_custom_background"
+                                    android:showText="false"
+                                    android:theme="@style/CustomSwitch"
+                                    android:thumb="@drawable/switch_custom_thumb"
+                                    android:track="@drawable/switch_custom_track" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/onDemandWordSoundText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/bsc_ontapword_sound"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="20sp" />
+
+                                <Switch
+                                    android:id="@+id/onDemandWordSound"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/switch_custom_background"
+                                    android:showText="false"
+                                    android:theme="@style/CustomSwitch"
+                                    android:thumb="@drawable/switch_custom_thumb"
+                                    android:track="@drawable/switch_custom_track" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/onDemandMeaningSoundText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/bsc_ontapword_sound"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="20sp" />
+
+                                <Switch
+                                    android:id="@+id/onDemandMeaningSound"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/switch_custom_background"
+                                    android:showText="false"
+                                    android:theme="@style/CustomSwitch"
+                                    android:thumb="@drawable/switch_custom_thumb"
+                                    android:track="@drawable/switch_custom_track" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/soundVolumeSetting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="50dp"
+                                android:layout_marginBottom="40dp"
+                                android:text="@string/bsc_volume"
+                                android:textColor="@color/theme_color"
+                                android:textSize="30sp" />
+
+                            <SeekBar
+                                android:id="@+id/volumeSeekBar"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="30dp"
+                                android:indeterminate="false"
+                                android:progressDrawable="@drawable/seekbar_custom"
+                                android:thumb="@drawable/seekbar_custom_thumb" />
+
+                            <TextView
+                                android:id="@+id/floatingSetting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginBottom="40dp"
+                                android:text="@string/bsc_floatingposition"
+                                android:textColor="@color/theme_color"
+                                android:textSize="30sp" />
+
+                            <Spinner
+                                android:id="@+id/floatSpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@color/theme_color_textbox_background"
+                                android:entries="@array/floating_type"
+                                android:paddingEnd="10dp"
+                                android:spinnerMode="dialog" />
+
+                            <TextView
+                                android:id="@+id/referenceSetting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="50dp"
+                                android:text="@string/bsc_reference_setting"
+                                android:textColor="@color/theme_color"
+                                android:textSize="30sp" />
+
+                            <TextView
+                                android:id="@+id/referenceSettingDescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="40dp"
+                                android:text="@string/bsc_reference_setting_description"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="18sp" />
+
+                            <Button
+                                android:id="@+id/referenceRegister"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/solid_lightgreen_corners_rounded10dp"
+                                android:padding="5dp"
+                                android:text="@string/bsc_reference_register"
+                                android:textColor="@color/theme_color_text_white"
+                                android:textSize="24sp" />
+
+                            <TextView
+                                android:id="@+id/csvExportTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="50dp"
+                                android:layout_marginBottom="40dp"
+                                android:text="@string/bsc_csv_export"
+                                android:textColor="@color/theme_color"
+                                android:textSize="30sp" />
+
+                            <TextView
+                                android:id="@+id/csvExportSaveDir"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="20dp"
+                                android:text="@string/bsc_csv_export_save_dir"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="18sp" />
+
+                            <Button
+                                android:id="@+id/csvExport"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="60dp"
+                                android:background="@drawable/solid_lightgreen_corners_rounded10dp"
+                                android:padding="5dp"
+                                android:text="@string/bsc_csv_export_button"
+                                android:textColor="@color/theme_color_text_white"
+                                android:textSize="24sp" />
+
+                            <androidx.fragment.app.FragmentContainerView
+                                android:id="@+id/fragment_container_for_base"
+                                android:name="com.cvrabbit.cvsentence.view.AdMob"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

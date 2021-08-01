@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="androidx.core.content.ContextCompat"/>
+        <variable
+            name="viewmodel"
+            type="com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel"/>
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/mainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/solid_lightgray_corners_rounded10dp"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tabCl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tabCl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:context=".view.TabFragment">
+
+        <Button
+            android:id="@+id/sortButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/solid_lightgreen_corners_rounded10dp"
+            android:drawableStart="@drawable/vector_sort"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/ft_sort_settings"
+            android:textColor="@color/theme_color_text_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/barrier_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/barrier" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="recordButtonOff,recordButtonOn" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="left"
+            app:constraint_referenced_ids="recordButtonOff,recordButtonOn" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="right"
+            app:constraint_referenced_ids="recordButtonOff,recordButtonOn" />
+
+        <Button
+            android:id="@+id/recordButtonOff"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/solid_lightgreen_corners_rounded40dp"
+            android:drawableTop="@drawable/vector_record"
+            android:gravity="bottom|center_horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/vector_record"
+            android:text="@string/ft_floating_start"
+            android:textColor="@color/theme_color_text_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/recordButtonOn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/solid_lightred_corners_rounded40dp"
+            android:drawableTop="@drawable/vector_record"
+            android:gravity="bottom|center_horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/vector_record"
+            android:text="@string/ft_floating_stop"
+            android:textColor="@color/theme_color_text_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/baseButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/solid_lightgreen_corners_rounded10dp"
+            android:drawableStart="@drawable/vector_setting"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/ft_base_settings"
+            android:textColor="@color/theme_color_text_white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/barrier_right"
+            app:layout_constraintTop_toTopOf="@+id/barrier" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

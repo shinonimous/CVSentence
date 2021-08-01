@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="androidx.core.content.ContextCompat"/>
+        <variable
+            name="viewmodel"
+            type="com.cvrabbit.cvsentence.viewmodel.WordDetailViewModel"/>
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/wordDetailCl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.WordDetail">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wordDetail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/titleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/solid_lightgreen"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/backImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/vector_back" />
+
+            <TextView
+                android:id="@+id/focusedWord"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#00000000"
+                android:ems="10"
+                android:enabled="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingStart="50dp"
+                android:paddingEnd="20dp"
+                android:singleLine="true"
+                android:textColor="@color/theme_color_text_white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <ScrollView
+            android:id="@+id/wordDetailScroller"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/wordMeaningCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        app:cardBackgroundColor="#ffffff"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:id="@+id/micView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:scaleType="fitEnd"
+                                    android:src="@drawable/vector_mic" />
+
+                                <TextView
+                                    android:id="@+id/mainMeaning"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="20dp"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:id="@+id/openDetail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:text="@string/wmc_opendetail"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="#3F51B5"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/verbLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:background="@drawable/solid_lightgreen_corners_rounded5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/wmc_verb"
+                                    android:textColor="@color/theme_color_text_white"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/verbDetail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:padding="5dp"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:id="@+id/nounLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:background="@drawable/solid_lightgreen_corners_rounded5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/wmc_noun"
+                                    android:textColor="@color/theme_color_text_white"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/nounDetail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:padding="5dp"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:id="@+id/adjectiveLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:background="@drawable/solid_lightgreen_corners_rounded5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/wmc_adjective"
+                                    android:textColor="@color/theme_color_text_white"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/adjectiveDetail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:padding="5dp"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:id="@+id/adverbLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:background="@drawable/solid_lightgreen_corners_rounded5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/wmc_adverb"
+                                    android:textColor="@color/theme_color_text_white"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/adverbDetail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:padding="5dp"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:id="@+id/prefixLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:background="@drawable/solid_lightgreen_corners_rounded5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/wmc_prefix"
+                                    android:textColor="@color/theme_color_text_white"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/prefixDetail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:padding="5dp"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:id="@+id/suffixLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:background="@drawable/solid_lightgreen_corners_rounded5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/wmc_suffix"
+                                    android:textColor="@color/theme_color_text_white"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/suffixDetail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:padding="5dp"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:id="@+id/expLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:background="@drawable/solid_lightgreen_corners_rounded5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/wmc_expression"
+                                    android:textColor="@color/theme_color_text_white"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/expDetail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:padding="5dp"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:id="@+id/otherLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:background="@drawable/solid_lightgreen_corners_rounded5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/wmc_others"
+                                    android:textColor="@color/theme_color_text_white"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/otherDetail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:padding="5dp"
+                                    android:textColor="@color/theme_color_text"
+                                    android:textSize="24sp" />
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/wordProgressCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <RadioGroup
+                            android:id="@+id/radioGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="15dp">
+
+                            <RadioButton
+                                android:id="@+id/notRemembered"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="25dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/radio_selector"
+                                android:buttonTint="@android:color/transparent"
+                                android:elevation="1dp"
+                                android:paddingTop="15dp"
+                                android:paddingEnd="15dp"
+                                android:paddingBottom="15dp"
+                                android:text="@string/wpc_notremembered"
+                                android:textAlignment="center"
+                                android:textColor="@drawable/radio_text_color"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+
+                            <RadioButton
+                                android:id="@+id/remembered"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/radio_selector"
+                                android:buttonTint="@android:color/transparent"
+                                android:elevation="3dp"
+                                android:paddingTop="15dp"
+                                android:paddingEnd="15dp"
+                                android:paddingBottom="15dp"
+                                android:text="@string/wpc_remembered"
+                                android:textAlignment="center"
+                                android:textColor="@drawable/radio_text_color"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+
+                        </RadioGroup>
+
+                        <TextView
+                            android:id="@+id/notRememberedCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="5dp"
+                            android:drawableStart="@drawable/vector_widget"
+                            android:text="@string/wpc_notremembered_count"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/notRememberedCountNum"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/ewert"
+                                android:text="@string/wpc_notremembered_count_def"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="60sp" />
+
+                            <TextView
+                                android:id="@+id/notRememberedCountTail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="bottom"
+                                android:paddingBottom="10dp"
+                                android:text="@string/wpc_notremembered_count_tail"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="24sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/rememberedCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="5dp"
+                            android:drawableStart="@drawable/vector_widget"
+                            android:text="@string/wpc_remembered_count"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/rememberedCountNum"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/ewert"
+                                android:text="@string/wpc_remembered_count_def"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="60sp" />
+
+                            <TextView
+                                android:id="@+id/rememberedCountTail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="bottom"
+                                android:paddingBottom="10dp"
+                                android:text="@string/wpc_remembered_count_tail"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="24sp" />
+
+                        </LinearLayout>
+
+                        <androidx.fragment.app.FragmentContainerView
+                            android:id="@+id/fragment_container_for_word_detail"
+                            android:name="com.cvrabbit.cvsentence.view.AdMob"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/rrt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:drawableStart="@drawable/vector_widget"
+                            android:text="@string/wpc_rrt"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/wpc_rrt_head"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="24sp" />
+
+                            <TextView
+                                android:id="@+id/rrtFromDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="10dp"
+                                android:fontFamily="@font/ewert"
+                                android:gravity="bottom|end"
+                                android:paddingBottom="13dp"
+                                android:text="0000/00/00"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="24sp" />
+
+                            <TextView
+                                android:id="@+id/textFrom"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="15dp"
+                                android:text="@string/wpc_rrt_dash"
+                                android:textSize="24sp" />
+
+                            <TextView
+                                android:id="@+id/rrtDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:fontFamily="@font/ewert"
+                                android:text="@string/wpc_rrt_def"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="60sp" />
+
+                            <TextView
+                                android:id="@+id/rrtDateTail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="3dp"
+                                android:text="@string/wpc_rrt_tail"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="24sp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/ds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:drawableStart="@drawable/vector_widget"
+                            android:text="@string/wpc_ds"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/ratingLinearLayout"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/dsNum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ewert"
+                                android:text="@string/wpc_ds_def"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="60sp" />
+
+                            <TextView
+                                android:id="@+id/dsDecimal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ewert"
+                                android:text="@string/wpc_decimal"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="40sp" />
+
+                            <TextView
+                                android:id="@+id/dsDec"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ewert"
+                                android:text="@string/wpc_ds_dec_def"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="40sp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/lookupCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:drawableStart="@drawable/vector_widget"
+                            android:text="@string/wpc_lookupcount"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/lookupCountNum"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/ewert"
+                                android:text="@string/wpc_lookupcount_def"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="60sp" />
+
+                            <TextView
+                                android:id="@+id/lookupCountTail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="bottom"
+                                android:paddingBottom="10dp"
+                                android:text="@string/wpc_lookupcount_tail"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="24sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/durationFromLastLookupDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:drawableStart="@drawable/vector_widget"
+                            android:text="@string/wpc_durationfromlastlookupdate"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/durationFromLastLookupDateNum"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/ewert"
+                                android:text="@string/wpc_durationfromlastlookupdate_def"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="60sp" />
+
+                            <TextView
+                                android:id="@+id/durationFromLastLookupDateTail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="bottom"
+                                android:paddingBottom="10dp"
+                                android:text="@string/wpc_durationfromlastlookupdate_tail"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="24sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tryAddSameWordCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:drawableStart="@drawable/vector_widget"
+                            android:text="@string/wpc_tryaddsamewordcount"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tryAddSameWordCountNum"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/ewert"
+                                android:text="@string/wpc_tryaddsamewordcount_def"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="60sp" />
+
+                            <TextView
+                                android:id="@+id/tryAddSameWordCountTail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="bottom"
+                                android:paddingBottom="10dp"
+                                android:text="@string/wpc_tryaddsamewordcount_tail"
+                                android:textColor="@color/theme_color_text"
+                                android:textSize="24sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/registeredDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:drawableStart="@drawable/vector_widget"
+                            android:text="@string/wpc_regdate"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/registeredDateStr"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="20dp"
+                            android:fontFamily="@font/ewert"
+                            android:text="0000/00/00"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="30sp" />
+
+                        <TextView
+                            android:id="@+id/referenceTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:drawableStart="@drawable/vector_widget"
+                            android:text="@string/wpc_reference"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/referenceText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="sans-serif"
+                            android:singleLine="true"
+                            android:text="BBC News"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/theme_color_text"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/changeReference"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginBottom="30dp"
+                            android:text="@string/wpc_change_reference"
+                            android:textColor="#3F51B5"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/twitter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="30dp"
+                            android:background="@drawable/solid_lightred_corners_rounded40dp"
+                            android:padding="20dp"
+                            android:text="@string/ftw_twitter_text"
+                            android:textAlignment="center"
+                            android:textColor="@color/theme_color_text_white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
