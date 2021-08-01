@@ -124,7 +124,6 @@ class OverlayService : LifecycleService() {
         super.onDestroy()
         overlayView.value?.hide()
         overlayView.value = null
-        OverlayViewModelLikeObject.closeRealm()
     }
 
     // This service does not support binding.

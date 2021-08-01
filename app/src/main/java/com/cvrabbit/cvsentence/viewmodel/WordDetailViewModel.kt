@@ -8,17 +8,14 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
-import android.app.Application
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cvrabbit.cvsentence.model.db.DS
 import com.cvrabbit.cvsentence.model.db.RRT
 import com.cvrabbit.cvsentence.model.db.Reference
 import com.cvrabbit.cvsentence.model.db.Word
-import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import io.realm.Realm
 import io.realm.kotlin.where
@@ -26,9 +23,9 @@ import io.realm.kotlin.where
 private const val TAG = "WordDetailViewModel"
 
 class WordDetailViewModel @ViewModelInject constructor(
-    application: Application,
-    val mainRepository: MainRepository
-) : AndroidViewModel(application) {
+    private val mainRepository: MainRepository
+) : ViewModel() {
+
     private var realm = Realm.getDefaultInstance()
     private var backUpWordProperties = BackUpWordProperties()
     var liveWord: MutableLiveData<Word> = MutableLiveData()
@@ -197,7 +194,7 @@ class WordDetailViewModel @ViewModelInject constructor(
 
     // Check if Some of the On-Demand Settings are on
     fun ifSomeOfOnDemandSettingsOn():Boolean {
-        return PreferenceAccess(getApplication()).getOnDemandWordSoundSetting() || PreferenceAccess(getApplication()).getOnDemandMeaningSoundSetting()
+        return mainRepository.getOnDemandWordSoundSetting() || mainRepository.getOnDemandMeaningSoundSetting()
     }
 
     // release the realm
@@ -205,4 +202,5 @@ class WordDetailViewModel @ViewModelInject constructor(
         super.onCleared()
         realm.close()
     }
+
 }

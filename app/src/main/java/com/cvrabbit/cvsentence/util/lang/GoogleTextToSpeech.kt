@@ -13,36 +13,39 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import com.cvrabbit.cvsentence.model.db.Word
-import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
+import com.cvrabbit.cvsentence.model.repository.MainRepository
 import java.util.*
+import javax.inject.Inject
 
 private const val TAG = "TextToSpeech"
 
-class TextToSpeech(context: Context): TextToSpeech.OnInitListener {
-    private val appContext = context.applicationContext
-    private val tts: TextToSpeech
-        get() = TextToSpeech(appContext, this)
+class GoogleTextToSpeech @Inject constructor(
+    app: Context,
+    private val mainRepository: MainRepository
+    ): TextToSpeech.OnInitListener {
+
+    private val tts = TextToSpeech(app, this)
 
     fun shutDown() {
         tts.shutdown()
     }
 
     fun textToSpeechOnSelection(word: Word) {
-        if (PreferenceAccess(appContext).getOnSelectWordSoundSetting()) {
+        if (mainRepository.getOnSelectWordSoundSetting()) {
             setLocale(Locale.US)
             textToSpeech(word.word, "on_select_word")
             setTtsListener(word.mainMeaning)
-        } else if(PreferenceAccess(appContext).getOnSelectMeaningSoundSetting()) {
+        } else if(mainRepository.getOnSelectMeaningSoundSetting()) {
             setLocale(Locale.JAPAN)
             textToSpeech(word.mainMeaning, "on_select_meaning")
         }
     }
     fun textToSpeechOnDemand(word:Word) {
-        if (PreferenceAccess(appContext).getOnDemandWordSoundSetting()) {
+        if (mainRepository.getOnDemandWordSoundSetting()) {
             setLocale(Locale.US)
             textToSpeech(word.word, "on_demand_word")
             setTtsListener(word.mainMeaning)
-        } else if(PreferenceAccess(appContext).getOnDemandMeaningSoundSetting()) {
+        } else if(mainRepository.getOnDemandMeaningSoundSetting()) {
             setLocale(Locale.JAPAN)
             textToSpeech(word.mainMeaning, "on_demand_meaning")
         }
@@ -78,11 +81,11 @@ class TextToSpeech(context: Context): TextToSpeech.OnInitListener {
     private fun setTtsListener(meaning: String) {
         val listenerResult = tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onDone(utteranceId: String) {
-                if (PreferenceAccess(appContext).getOnSelectMeaningSoundSetting() && utteranceId == "on_select_word") {
+                if (mainRepository.getOnSelectMeaningSoundSetting() && utteranceId == "on_select_word") {
                     setLocale(Locale.JAPAN)
                     textToSpeech(meaning, "on_select_meaning")
                 }
-                if (PreferenceAccess(appContext).getOnDemandMeaningSoundSetting() && utteranceId == "on_demand_word") {
+                if (mainRepository.getOnDemandMeaningSoundSetting() && utteranceId == "on_demand_word") {
                     setLocale(Locale.JAPAN)
                     textToSpeech(meaning, "on_demand_meaning")
                 }

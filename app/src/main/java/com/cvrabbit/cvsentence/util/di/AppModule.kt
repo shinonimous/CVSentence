@@ -1,11 +1,14 @@
 package com.cvrabbit.cvsentence.util.di
 
 import android.content.Context
+import android.speech.tts.TextToSpeech
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.cvrabbit.cvsentence.model.db.WordDatabase
 import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
+import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.constant.Constants.RUNNING_DATABASE_NAME
+import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +40,16 @@ object AppModule {
         @ApplicationContext app: Context
     ) = PreferenceAccess(
         PreferenceManager.getDefaultSharedPreferences(app)
+    )
+
+    @Provides
+    @Singleton
+    fun provideTTS(
+        @ApplicationContext app: Context,
+        mainRepository: MainRepository
+    ) = GoogleTextToSpeech(
+        app,
+        mainRepository
     )
 
 }

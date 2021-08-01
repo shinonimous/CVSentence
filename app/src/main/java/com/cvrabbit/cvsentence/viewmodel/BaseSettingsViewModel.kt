@@ -8,9 +8,8 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
-import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvrabbit.cvsentence.model.db.Reference
 import com.cvrabbit.cvsentence.model.db.ReferenceEntity
@@ -28,9 +27,8 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class BaseSettingsViewModel @ViewModelInject constructor(
-    application: Application,
     private val mainRepository: MainRepository
-): AndroidViewModel(application) {
+): ViewModel() {
 
     /**
      * for room

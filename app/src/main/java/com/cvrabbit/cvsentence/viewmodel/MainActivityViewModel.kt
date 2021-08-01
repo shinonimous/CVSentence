@@ -8,16 +8,14 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
-import android.app.Application
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.cvrabbit.cvsentence.model.db.Reference
 import com.cvrabbit.cvsentence.model.db.Word
-import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.transition.Event
 import com.cvrabbit.cvsentence.view.*
@@ -27,9 +25,8 @@ import io.realm.kotlin.where
 private const val TAG = "MainActivityViewModel"
 
 class MainActivityViewModel @ViewModelInject constructor(
-    application: Application,
-    val mainRepository: MainRepository
-): AndroidViewModel(application) {
+    private val mainRepository: MainRepository
+): ViewModel() {
 
     var focusWord: Word? = null
     var focusReference: String? = null
@@ -96,6 +93,9 @@ class MainActivityViewModel @ViewModelInject constructor(
     fun openTwitterDialog() {
         showDialogFragment(Twitter.newInstance())
     }
+
+    fun getTwitterAccessToken() = mainRepository.getTwitterAccessToken()
+    fun saveTwitterAccessToken(token: String, tokenSecret: String) = mainRepository.saveTwitterAccessToken(token, tokenSecret)
 
     private fun showDialogFragment(fragment: DialogFragment, tag: String? = null) {
         _navigateToDialogFragment.value = Event(DialogFragmentNavigationRequest(fragment, tag))

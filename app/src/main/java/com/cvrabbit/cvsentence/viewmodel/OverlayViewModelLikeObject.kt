@@ -8,13 +8,14 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
-import android.content.Context
 import android.util.Log
 import com.cvrabbit.cvsentence.model.db.Word
-import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
+import com.cvrabbit.cvsentence.model.repository.MainRepository
+import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
+import javax.inject.Inject
 
 /**
  * I searched for a way to make a view model for a service,
@@ -30,9 +31,12 @@ import io.realm.kotlin.where
  * I think it's a bad practice to apply this in my situation, but at least it works.
  */
 
-object OverlayViewModelLikeObject {
+private const val TAG = "OverlayViewModel"
 
-    private const val TAG = "OverlayViewModel"
+class OverlayViewModelLikeObject @Inject constructor(
+    private val mainRepository: MainRepository
+) {
+
     var focusReference: String? = null
     private var realm = Realm.getDefaultInstance()
 
@@ -89,13 +93,7 @@ object OverlayViewModelLikeObject {
         return word
     }
 
-    fun getFloatingPosition(context: Context): FloatingPosition {
-        return if (PreferenceAccess(context).getFloatingPosition()) {
-            FloatingPosition.RIGHT
-        } else {
-            FloatingPosition.LEFT
-        }
-    }
+    fun getFloatingPosition() = mainRepository.getFloatingPosition()
 
     fun closeRealm() {
         realm.close()

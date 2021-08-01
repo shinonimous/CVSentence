@@ -28,10 +28,11 @@ import com.cvrabbit.cvsentence.model.db.Word
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.durationMillisToDurationDateString
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.millisToDate
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.plusMillisToDate
-import com.cvrabbit.cvsentence.util.lang.TextToSpeech
+import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import com.cvrabbit.cvsentence.viewmodel.WordDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val TAG = "WordDetail"
 
@@ -41,6 +42,9 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val wordDetailViewModel: WordDetailViewModel by viewModels()
     private var notUpdatedAfterOpenPage: Boolean = false
+
+    @Inject
+    lateinit var textToSpeech: GoogleTextToSpeech
 
     companion object {
         fun newInstance() = WordDetail()
@@ -63,7 +67,7 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
         initVisibility()
         updateUI(mainActivityViewModel.focusWord!!)
         setListeners(mainActivityViewModel.focusWord!!)
-        wordDetailViewModel.liveWord.observe(viewLifecycleOwner, Observer {
+        wordDetailViewModel.liveWord.observe(viewLifecycleOwner, {
             Log.d(TAG, "liveWord observer is Running")
             updateUI(it)
         })
@@ -267,8 +271,9 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
 
         // Set SoundSettings Listener
         binding.micView.setOnClickListener {
-            TextToSpeech(requireContext()).textToSpeechOnDemand(word)
+            textToSpeech.textToSpeechOnDemand(word)
         }
+
         // Set reference button Listener
         binding.changeReference.setOnClickListener {
             if(wordDetailViewModel.ifReferenceEmpty()) {

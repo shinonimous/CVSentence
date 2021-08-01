@@ -113,8 +113,11 @@ class MainRepository @Inject constructor(
     fun saveOnDemandWordSoundSetting(isChecked: Boolean) = pref.saveOnDemandWordSoundSetting(isChecked)
     fun saveOnDemandMeaningSoundSetting(isChecked: Boolean) = pref.saveOnDemandMeaningSoundSetting(isChecked)
 
-    fun setIfShowMainFirstTime() = pref.setIfShowMainFirstTime()
     fun getIfShowMainFirstTime() = pref.getIfShowMainFirstTime()
+    fun setIfShowMainFirstTime() = pref.setIfShowMainFirstTime()
+
+    fun getTwitterAccessToken() = pref.getTwitterAccessToken()
+    fun saveTwitterAccessToken(token: String, tokenSecret: String) = pref.saveTwitterAccessToken(token, tokenSecret)
 
 }
 

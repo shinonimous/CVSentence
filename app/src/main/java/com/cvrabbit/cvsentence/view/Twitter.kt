@@ -18,13 +18,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -32,12 +30,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentTweetEntryDialogBinding
-import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
 import com.cvrabbit.cvsentence.util.constant.Constants.CALLBACK_URL
 import com.cvrabbit.cvsentence.util.constant.Constants.CONSUMER_KEY
 import com.cvrabbit.cvsentence.util.constant.Constants.CONSUMER_SECRET
 import com.cvrabbit.cvsentence.util.constant.Constants.GOOGLE_PLAY_LINK
-import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -99,7 +95,7 @@ class Twitter : DialogFragment() {
             dismiss()
         }
         binding.doTweet.setOnClickListener {
-            if (PreferenceAccess(requireContext()).getTwitterAccessToken().first == "") {
+            if (mainActivityViewModel.getTwitterAccessToken().first == "") {
                 getRequestToken()
             } else {
                 val tweetContent =
@@ -147,7 +143,7 @@ class Twitter : DialogFragment() {
     private fun tweetIfAccessTokenValid(tweetContent: String) {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             try {
-                tweet(PreferenceAccess(requireContext()).getTwitterAccessToken(), tweetContent)
+                tweet(mainActivityViewModel.getTwitterAccessToken(), tweetContent)
                 val content = requireContext().getText(R.string.tw_success).toString()
                 makeToastUsingMainCoroutine(content)
             } catch (te: TwitterException) {
@@ -275,7 +271,7 @@ class Twitter : DialogFragment() {
                 val accToken = withContext(Dispatchers.IO) {
                     twitter.getOAuthAccessToken(oauthVerifier)
                 }
-                PreferenceAccess(requireContext()).saveTwitterAccessToken(accToken.token, accToken.tokenSecret)
+                mainActivityViewModel.saveTwitterAccessToken(accToken.token, accToken.tokenSecret)
                 Log.i("token----------", accToken.token)
                 Log.i("token secret---", accToken.tokenSecret)
                 getUserProfile()
