@@ -144,7 +144,7 @@ class FirstTimeGuidance : DialogFragment() {
         }
         cvp13.ifNextExists = false
         cvp1.show()
-        PreferenceAccess(requireContext()).setIfShowMainFirstTime()
+        mainActivityViewModel.setIfShowMainFirstTime()
     }
 
     fun onRemoveGuidance() {

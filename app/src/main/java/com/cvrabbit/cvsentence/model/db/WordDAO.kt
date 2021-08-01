@@ -23,6 +23,11 @@ interface WordDAO {
     suspend fun deleteWord(wordEntity: WordEntity)
 
     @Query(
+        "SELECT * FROM word_table"
+    )
+    suspend fun getAllWords(): List<WordEntity>
+
+    @Query(
         "SELECT * FROM word_table WHERE green in (:greens) AND difficultyScore BETWEEN :minDS and :maxDS AND registeredDate BETWEEN :minDate and :maxDate AND reference IN (:references) ORDER BY registeredDate DESC"
     )
     fun getAllWordsSortedByDateDesc(greens: List<Boolean> = listOf(true, false),

@@ -8,14 +8,9 @@
 
 package com.cvrabbit.cvsentence.model.preferences
 
-import android.content.Context
 import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
 
-class PreferenceAccess(context: Context) {
-    private val appContext = context.applicationContext
-    private val pref
-    get() = PreferenceManager.getDefaultSharedPreferences(appContext)
+class PreferenceAccess(private val pref: SharedPreferences) {
 
     fun saveOnSelectWordSoundSetting(onSelectWordSound:Boolean){
         val editor = pref.edit()

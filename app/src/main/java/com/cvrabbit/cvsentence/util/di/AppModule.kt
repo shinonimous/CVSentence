@@ -1,8 +1,10 @@
 package com.cvrabbit.cvsentence.util.di
 
 import android.content.Context
+import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.cvrabbit.cvsentence.model.db.WordDatabase
+import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
 import com.cvrabbit.cvsentence.util.constant.Constants.RUNNING_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -28,5 +30,13 @@ object AppModule {
     @Provides
     @Singleton
     fun provideWordDAO(db: WordDatabase) = db.getWordDAO()
+
+    @Provides
+    @Singleton
+    fun providePref(
+        @ApplicationContext app: Context
+    ) = PreferenceAccess(
+        PreferenceManager.getDefaultSharedPreferences(app)
+    )
 
 }

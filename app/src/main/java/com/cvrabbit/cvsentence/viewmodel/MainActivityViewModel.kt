@@ -84,11 +84,13 @@ class MainActivityViewModel @ViewModelInject constructor(
      */
     // When first time of showing main
     fun openFirstTimeGuidance() {
-        if(!PreferenceAccess(getApplication()).getIfShowMainFirstTime()) {
+        if(mainRepository.getIfShowMainFirstTime()) {
             backToList()
             return } // When testing FirstTimeGuidance, comment out this.
         showDialogFragment(FirstTimeGuidance.newInstance())
     }
+
+    fun setIfShowMainFirstTime() = mainRepository.setIfShowMainFirstTime()
 
     // When Twitter Button clicked
     fun openTwitterDialog() {

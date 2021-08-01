@@ -22,12 +22,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentBaseSettingsBinding
-import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
+import com.cvrabbit.cvsentence.model.repository.FloatingPosition
 import com.cvrabbit.cvsentence.util.device.CSVExport
 import com.cvrabbit.cvsentence.viewmodel.BaseSettingsViewModel
-import com.cvrabbit.cvsentence.viewmodel.FloatingPosition
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
+private const val TAG = "BaseSettings"
 
 @AndroidEntryPoint
 class BaseSettings : Fragment(R.layout.fragment_base_settings) {
@@ -58,10 +59,10 @@ class BaseSettings : Fragment(R.layout.fragment_base_settings) {
     }
 
     private fun initVisibility() {
-        binding.selectedWordSound.isChecked = PreferenceAccess(requireContext()).getOnSelectWordSoundSetting()
-        binding.selectedMeaningSound.isChecked = PreferenceAccess(requireContext()).getOnSelectMeaningSoundSetting()
-        binding.onDemandWordSound.isChecked = PreferenceAccess(requireContext()).getOnDemandWordSoundSetting()
-        binding.onDemandMeaningSound.isChecked = PreferenceAccess(requireContext()).getOnDemandMeaningSoundSetting()
+        binding.selectedWordSound.isChecked = baseSettingsViewModel.getOnSelectWordSoundSetting()
+        binding.selectedMeaningSound.isChecked = baseSettingsViewModel.getOnSelectMeaningSoundSetting()
+        binding.onDemandWordSound.isChecked = baseSettingsViewModel.getOnDemandWordSoundSetting()
+        binding.onDemandMeaningSound.isChecked = baseSettingsViewModel.getOnDemandMeaningSoundSetting()
         binding.floatSpinner.setSelection(
             if(baseSettingsViewModel.getFloatingPosition() == FloatingPosition.RIGHT){0} else {1}
         )
@@ -116,16 +117,16 @@ class BaseSettings : Fragment(R.layout.fragment_base_settings) {
 
         // SoundSettings
         binding.selectedWordSound.setOnCheckedChangeListener { _, isChecked ->
-            PreferenceAccess(requireContext()).saveOnSelectWordSoundSetting(isChecked)
+            baseSettingsViewModel.saveOnSelectWordSoundSetting(isChecked)
         }
         binding.selectedMeaningSound.setOnCheckedChangeListener { _, isChecked ->
-            PreferenceAccess(requireContext()).saveOnSelectMeaningSoundSetting(isChecked)
+            baseSettingsViewModel.saveOnSelectMeaningSoundSetting(isChecked)
         }
         binding.onDemandWordSound.setOnCheckedChangeListener { _, isChecked ->
-            PreferenceAccess(requireContext()).saveOnDemandWordSoundSetting(isChecked)
+            baseSettingsViewModel.saveOnDemandWordSoundSetting(isChecked)
         }
         binding.onDemandMeaningSound.setOnCheckedChangeListener { _, isChecked ->
-            PreferenceAccess(requireContext()).saveOnDemandMeaningSoundSetting(isChecked)
+            baseSettingsViewModel.saveOnDemandMeaningSoundSetting(isChecked)
         }
 
         // AudioVolume Listener
