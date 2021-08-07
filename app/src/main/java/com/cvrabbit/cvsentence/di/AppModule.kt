@@ -1,7 +1,6 @@
-package com.cvrabbit.cvsentence.util.di
+package com.cvrabbit.cvsentence.di
 
 import android.content.Context
-import android.speech.tts.TextToSpeech
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.cvrabbit.cvsentence.model.db.WordDatabase

@@ -23,7 +23,7 @@ object CalendarOperation {
         return intVal.toString()
     }
 
-    fun millisToDate(registeredDate: Date): String {
+    fun dateToStringFormat(registeredDate: Date): String {
         val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.JAPAN)
         return sdf.format(registeredDate)
     }

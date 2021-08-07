@@ -22,60 +22,68 @@ interface WordDAO {
     @Delete
     suspend fun deleteWord(wordEntity: WordEntity)
 
+    @Update
+    suspend fun updateWord(wordEntity: WordEntity)
+
     @Query(
         "SELECT * FROM word_table"
     )
     suspend fun getAllWords(): List<WordEntity>
 
     @Query(
+        "SELECT * FROM word_table WHERE word = :word"
+    )
+    suspend fun getCertainWord(word: String): List<WordEntity>
+
+    @Query(
         "SELECT * FROM word_table WHERE green in (:greens) AND difficultyScore BETWEEN :minDS and :maxDS AND registeredDate BETWEEN :minDate and :maxDate AND reference IN (:references) ORDER BY registeredDate DESC"
     )
-    fun getAllWordsSortedByDateDesc(greens: List<Boolean> = listOf(true, false),
-                                    minDS: Float = getMinDS(),
-                                    maxDS: Float = getMaxDS(),
-                                    minDate: Long = getMinDate(),
-                                    maxDate: Long = getMaxDate(),
-                                    references: List<String> = getAllReferences()): LiveData<List<WordEntity>>
+    fun getAllWordsSortedByDateDesc(greens: List<Boolean>,
+                                    minDS: Float,
+                                    maxDS: Float,
+                                    minDate: Long,
+                                    maxDate: Long,
+                                    references: List<String>): LiveData<List<WordEntity>>
 
     @Query("SELECT * FROM word_table WHERE green in (:greens) AND difficultyScore BETWEEN :minDS and :maxDS AND registeredDate BETWEEN :minDate and :maxDate AND reference IN (:references) ORDER BY registeredDate ASC")
-    fun getAllWordsSortedByDateAsc(greens: List<Boolean> = listOf(true, false),
-                                   minDS: Float = getMinDS(),
-                                   maxDS: Float = getMaxDS(),
-                                   minDate: Long = getMinDate(),
-                                   maxDate: Long = getMaxDate(),
-                                   references: List<String> = getAllReferences()): LiveData<List<WordEntity>>
+    fun getAllWordsSortedByDateAsc(greens: List<Boolean>,
+                                   minDS: Float,
+                                   maxDS: Float,
+                                   minDate: Long,
+                                   maxDate: Long,
+                                   references: List<String>): LiveData<List<WordEntity>>
 
     @Query("SELECT * FROM word_table WHERE green in (:greens) AND difficultyScore BETWEEN :minDS and :maxDS AND registeredDate BETWEEN :minDate and :maxDate AND reference IN (:references) ORDER BY difficultyScore DESC")
-    fun getAllWordsSortedByDSDesc(greens: List<Boolean> = listOf(true, false),
-                                  minDS: Float = getMinDS(),
-                                  maxDS: Float = getMaxDS(),
-                                  minDate: Long = getMinDate(),
-                                  maxDate: Long = getMaxDate(),
-                                  references: List<String> = getAllReferences()): LiveData<List<WordEntity>>
+    fun getAllWordsSortedByDSDesc(greens: List<Boolean>,
+                                  minDS: Float,
+                                  maxDS: Float,
+                                  minDate: Long,
+                                  maxDate: Long,
+                                  references: List<String>): LiveData<List<WordEntity>>
 
     @Query("SELECT * FROM word_table WHERE green in (:greens) AND difficultyScore BETWEEN :minDS and :maxDS AND registeredDate BETWEEN :minDate and :maxDate AND reference IN (:references) ORDER BY difficultyScore ASC")
-    fun getAllWordsSortedByDSAsc(greens: List<Boolean> = listOf(true, false),
-                                 minDS: Float = getMinDS(),
-                                 maxDS: Float = getMaxDS(),
-                                 minDate: Long = getMinDate(),
-                                 maxDate: Long = getMaxDate(),
-                                 references: List<String> = getAllReferences()): LiveData<List<WordEntity>>
+    fun getAllWordsSortedByDSAsc(greens: List<Boolean>,
+                                 minDS: Float,
+                                 maxDS: Float,
+                                 minDate: Long,
+                                 maxDate: Long,
+                                 references: List<String>): LiveData<List<WordEntity>>
 
     @Query("SELECT * FROM word_table WHERE green in (:greens) AND difficultyScore BETWEEN :minDS and :maxDS AND registeredDate BETWEEN :minDate and :maxDate AND reference IN (:references) ORDER BY word DESC")
-    fun getAllWordsSortedByWordDesc(greens: List<Boolean> = listOf(true, false),
-                                    minDS: Float = getMinDS(),
-                                    maxDS: Float = getMaxDS(),
-                                    minDate: Long = getMinDate(),
-                                    maxDate: Long = getMaxDate(),
-                                    references: List<String> = getAllReferences()): LiveData<List<WordEntity>>
+    fun getAllWordsSortedByWordDesc(greens: List<Boolean>,
+                                    minDS: Float,
+                                    maxDS: Float,
+                                    minDate: Long,
+                                    maxDate: Long,
+                                    references: List<String>): LiveData<List<WordEntity>>
 
     @Query("SELECT * FROM word_table WHERE green in (:greens) AND difficultyScore BETWEEN :minDS and :maxDS AND registeredDate BETWEEN :minDate and :maxDate AND reference IN (:references) ORDER BY word ASC")
-    fun getAllWordsSortedByWordAsc(greens: List<Boolean> = listOf(true, false),
-                                   minDS: Float = getMinDS(),
-                                   maxDS: Float = getMaxDS(),
-                                   minDate: Long = getMinDate(),
-                                   maxDate: Long = getMaxDate(),
-                                   references: List<String> = getAllReferences()): LiveData<List<WordEntity>>
+    fun getAllWordsSortedByWordAsc(greens: List<Boolean>,
+                                   minDS: Float,
+                                   maxDS: Float,
+                                   minDate: Long,
+                                   maxDate: Long,
+                                   references: List<String>): LiveData<List<WordEntity>>
 
     @Query("SELECT MIN(difficultyScore) FROM word_table")
     fun getMinDS(): Float

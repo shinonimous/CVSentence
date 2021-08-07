@@ -12,7 +12,10 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.cvrabbit.cvsentence.model.db.Reference
 import com.cvrabbit.cvsentence.model.db.Word
+import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
+import com.cvrabbit.cvsentence.model.repository.SortPattern
+import com.cvrabbit.cvsentence.model.repository.WordFilter
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
 import io.realm.RealmResults
@@ -22,8 +25,96 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class SortSettingsViewModel @ViewModelInject constructor(
-    val mainRepository: MainRepository
+    private val mainRepository: MainRepository
 ): ViewModel() {
+
+    /**
+     * for room
+     */
+    private fun getStartEndRegDate(): Pair<Date, Date> {
+        val startDate = Date(mainRepository.getMinDate())
+        val endDate = Date(mainRepository.getMaxDate())
+        return Pair(startDate, endDate)
+    }
+
+    private fun sortAndFilterWord(sortPattern: SortPattern, wordFilter: WordFilter): List<WordEntity> {
+        when(sortPattern) {
+            SortPattern.DATE_ASC -> {
+                mainRepository.getAllWordsSortedBySortedByDateAsc(
+                    greens = if(wordFilter.green) {listOf(true)} else {listOf(true, false)},
+                    minDS = wordFilter.minDS,
+                    maxDS = wordFilter.maxDS,
+                    minDate = wordFilter.startDate,
+                    maxDate = wordFilter.endDate,
+                    references = wordFilter.reference
+                )
+            }
+            SortPattern.DATE_DESC -> {
+                mainRepository.getAllWordsSortedBySortedByDateDesc(
+                    greens = if(wordFilter.green) {listOf(true)} else {listOf(true, false)},
+                    minDS = wordFilter.minDS,
+                    maxDS = wordFilter.maxDS,
+                    minDate = wordFilter.startDate,
+                    maxDate = wordFilter.endDate,
+                    references = wordFilter.reference
+                )
+            }
+            SortPattern.DS_ASC -> {
+                mainRepository.getAllWordsSortedBySortedByDSAsc(
+                    greens = if(wordFilter.green) {listOf(true)} else {listOf(true, false)},
+                    minDS = wordFilter.minDS,
+                    maxDS = wordFilter.maxDS,
+                    minDate = wordFilter.startDate,
+                    maxDate = wordFilter.endDate,
+                    references = wordFilter.reference
+                )
+            }
+            SortPattern.DS_DESC -> {
+                mainRepository.getAllWordsSortedBySortedByDSDesc(
+                    greens = if(wordFilter.green) {listOf(true)} else {listOf(true, false)},
+                    minDS = wordFilter.minDS,
+                    maxDS = wordFilter.maxDS,
+                    minDate = wordFilter.startDate,
+                    maxDate = wordFilter.endDate,
+                    references = wordFilter.reference
+                )
+            }
+            SortPattern.WORD_ASC -> {
+                mainRepository.getAllWordsSortedBySortedByWordAsc(
+                    greens = if(wordFilter.green) {listOf(true)} else {listOf(true, false)},
+                    minDS = wordFilter.minDS,
+                    maxDS = wordFilter.maxDS,
+                    minDate = wordFilter.startDate,
+                    maxDate = wordFilter.endDate,
+                    references = wordFilter.reference
+                )
+            }
+            SortPattern.WORD_DESC -> {
+                mainRepository.getAllWordsSortedBySortedByWordDesc(
+                    greens = if(wordFilter.green) {listOf(true)} else {listOf(true, false)},
+                    minDS = wordFilter.minDS,
+                    maxDS = wordFilter.maxDS,
+                    minDate = wordFilter.startDate,
+                    maxDate = wordFilter.endDate,
+                    references = wordFilter.reference
+                )
+            }
+        }
+    }
+
+    // use when showing reference spinner
+    fun getAllReferencesAsArray(): Array<String> {
+        val reference = mutableListOf<String>()
+        val referencesFromDB = mainRepository.getAllReferences()
+        reference.add("")
+        reference.addAll(referencesFromDB)
+        return reference.toTypedArray()
+    }
+
+
+    /**
+     * for realm
+     */
     private var realm = Realm.getDefaultInstance()
 
     // get the range of registered date
@@ -84,6 +175,7 @@ class SortSettingsViewModel @ViewModelInject constructor(
         realm.close()
     }
 
+    // use when showing reg date spinner
     fun getRegArray():Array<String> {
         val startEndDate = getStartEndDate()
         val mStrList = mutableListOf<String>()
@@ -105,6 +197,7 @@ class SortSettingsViewModel @ViewModelInject constructor(
 
 }
 
+/**
 enum class SortPattern() {
     REG_DATE_DES {
         override val arrayPosition = 0
@@ -239,3 +332,4 @@ enum class FilterPattern() {
     abstract var regDateRangeFilter: Pair<Date, Date>
     abstract var reference: String
 }
+*/

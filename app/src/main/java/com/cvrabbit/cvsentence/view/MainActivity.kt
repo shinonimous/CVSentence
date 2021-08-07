@@ -131,13 +131,13 @@ class MainActivity : AppCompatActivity(){
             .setPositiveButton(R.string.ma_reference_ok)
             { _, _ ->
                 mainActivityViewModel.focusReference = spinner.selectedItem.toString()
-                OverlayViewModelLikeObject.focusReference = spinner.selectedItem.toString()
+                OverlayService.focusReference = spinner.selectedItem.toString()
                 OverlayService.start(this)
             }
             .setNegativeButton(R.string.ma_reference_cancel)
             { _, _ ->
                 mainActivityViewModel.focusReference = ""
-                OverlayViewModelLikeObject.focusReference = ""
+                OverlayService.focusReference = ""
                 OverlayService.start(this)
             }
             .show()

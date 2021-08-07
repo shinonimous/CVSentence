@@ -19,14 +19,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentWordDetailBinding
 import com.cvrabbit.cvsentence.model.db.DS
 import com.cvrabbit.cvsentence.model.db.RRT
 import com.cvrabbit.cvsentence.model.db.Word
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.durationMillisToDurationDateString
-import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.millisToDate
+import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.dateToStringFormat
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.plusMillisToDate
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
@@ -108,9 +107,9 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
         binding.notRememberedCountNum.text = word.notRememberedCount.toString()
         binding.rememberedCountNum.text = word.rememberedCount.toString()
         binding.rrtFromDate.text = if (notUpdatedAfterOpenPage) {
-            millisToDate(plusMillisToDate(word.lastLookupDate, - word.durationFromLastLookupTime.toInt()))
+            dateToStringFormat(plusMillisToDate(word.lastLookupDate, - word.durationFromLastLookupTime.toInt()))
         } else {
-            millisToDate(word.lastLookupDate)
+            dateToStringFormat(word.lastLookupDate)
         }
         binding.rrtDate.text = RRT.getRRTValue(word.recommendedRecurTiming).value
         val dsValue = DS.getDSValue(word.difficultyScore).value
@@ -119,7 +118,7 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
         binding.lookupCountNum.text = word.lookupCount.toString()
         binding.durationFromLastLookupDateNum.text = durationMillisToDurationDateString(word.durationFromLastLookupTime)
         binding.tryAddSameWordCountNum.text = word.tryAddSameWordCount.toString()
-        binding.registeredDateStr.text = millisToDate(word.registeredDate)
+        binding.registeredDateStr.text = dateToStringFormat(word.registeredDate)
         binding.referenceText.text = if (word.reference == "") {
             context?.getString(R.string.wda_no_reference_title)} else {word.reference}
 

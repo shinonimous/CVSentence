@@ -6,7 +6,7 @@
  *
  */
 
-package com.cvrabbit.cvsentence
+package com.cvrabbit.cvsentence.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -49,7 +49,7 @@ class WordInListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordInListViewHolder {
-        setOnItemClickListener(listener)
+        setOnItemClickListener(listener) // setOnItemClickListener is run in WordsList class. So it's maybe useless.
         val inflater = LayoutInflater.from(parent.context)
         val binding = FragmentWordInListBinding.inflate(inflater, parent, false)
         return WordInListViewHolder(binding, listener)

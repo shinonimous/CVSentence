@@ -9,6 +9,8 @@
 package com.cvrabbit.cvsentence.model.preferences
 
 import android.content.SharedPreferences
+import com.cvrabbit.cvsentence.model.repository.SortPattern
+import com.cvrabbit.cvsentence.model.repository.WordFilter
 
 class PreferenceAccess(private val pref: SharedPreferences) {
 
@@ -70,5 +72,17 @@ class PreferenceAccess(private val pref: SharedPreferences) {
     }
     fun setIfShowMainFirstTime() {
         pref.edit().putBoolean("SHOW_OVERLAY_FIRST_TIME", false).apply()
+    }
+    fun saveSortSetting(sortPattern: SortPattern) {
+
+    }
+    fun getSortPattern(): SortPattern {
+
+    }
+    fun saveFilter(filter: WordFilter) {
+
+    }
+    fun getFilter(): WordFilter {
+
     }
 }

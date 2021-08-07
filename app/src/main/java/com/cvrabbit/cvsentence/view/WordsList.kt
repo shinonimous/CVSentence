@@ -9,7 +9,6 @@
 package com.cvrabbit.cvsentence.view
 
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -23,14 +22,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.cvrabbit.cvsentence.R
-import com.cvrabbit.cvsentence.WordInListAdapter
+import com.cvrabbit.cvsentence.adapter.WordInListAdapter
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import com.cvrabbit.cvsentence.viewmodel.WordsListViewModel
 import com.cvrabbit.cvsentence.databinding.FragmentWordsListBinding
 import com.cvrabbit.cvsentence.model.db.Word
 import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import dagger.hilt.android.AndroidEntryPoint
-import io.realm.OrderedRealmCollection
 
 private const val TAG = "WordsList"
 

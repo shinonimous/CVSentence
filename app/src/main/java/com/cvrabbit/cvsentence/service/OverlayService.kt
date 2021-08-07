@@ -27,14 +27,18 @@ import com.cvrabbit.cvsentence.util.constant.Constants.NOTIFICATION_CHANEL_NAME
 import com.cvrabbit.cvsentence.util.constant.Constants.NOTIFICATION_CHANNEL_ID
 import com.cvrabbit.cvsentence.util.constant.Constants.NOTIFICATION_ID
 import com.cvrabbit.cvsentence.viewmodel.OverlayViewModelLikeObject
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val TAG = "OverlayService"
 
+@AndroidEntryPoint
 class OverlayService : LifecycleService() {
 
     companion object {
         val overlayView = MutableLiveData<OverlayView?>(null)
         val newWord = MutableLiveData<WordEntity>()
+        var focusReference: String? = null
 
         fun start(context: Context) {
             val intent = Intent(context, OverlayService::class.java).apply {
@@ -52,6 +56,8 @@ class OverlayService : LifecycleService() {
     }
 
     private var ifFirstRun = true
+    @Inject
+    private lateinit var notificationBuilder: NotificationCompat.Builder
 
     override fun onCreate() {
         super.onCreate()
@@ -97,13 +103,6 @@ class OverlayService : LifecycleService() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(notificationManager)
         }
-
-        val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setAutoCancel(false)
-            .setOngoing(true)
-            .setSmallIcon(R.drawable.vector_swipe_to_right)
-            .setContentTitle(getString(R.string.app_name))
-            .setContentText(getString(R.string.notification_content))
 
         startForeground(NOTIFICATION_ID,  notificationBuilder.build())
     }

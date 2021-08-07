@@ -213,7 +213,7 @@ class OverlayView @JvmOverloads constructor(
                             wir.prefix,
                             wir.suffix,
                             wir.others,
-                            overlayViewModelLikeObject.focusReference?:""
+                            OverlayService.focusReference?:""
                         )
                         showText(word.mainMeaning)
                         textToSpeech.textToSpeechOnSelection(word)

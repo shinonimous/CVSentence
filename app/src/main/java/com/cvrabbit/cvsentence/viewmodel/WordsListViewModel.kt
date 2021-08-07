@@ -10,8 +10,10 @@ package com.cvrabbit.cvsentence.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cvrabbit.cvsentence.model.db.RRT
 import com.cvrabbit.cvsentence.model.db.Word
+import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation
 import io.realm.OrderedRealmCollection
@@ -19,11 +21,26 @@ import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.where
+import kotlinx.coroutines.launch
 import java.util.*
 
 class WordsListViewModel @ViewModelInject constructor(
     val mainRepository: MainRepository
 ): ViewModel() {
+
+    /**
+     * for room
+     */
+    fun deleteWordEntity(wordEntity: WordEntity) {
+        viewModelScope.launch {
+            mainRepository.deleteWord(wordEntity)
+        }
+    }
+
+
+    /**
+     * for realm
+     */
     private lateinit var realm: Realm
     private lateinit var words: MutableList<Word>
     lateinit var data: OrderedRealmCollection<Word> // It is used in WordInListAdapter

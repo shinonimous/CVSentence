@@ -14,6 +14,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cvrabbit.cvsentence.model.db.Reference
 import com.cvrabbit.cvsentence.model.db.Word
 import com.cvrabbit.cvsentence.model.repository.MainRepository
@@ -21,6 +22,8 @@ import com.cvrabbit.cvsentence.util.transition.Event
 import com.cvrabbit.cvsentence.view.*
 import io.realm.Realm
 import io.realm.kotlin.where
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 private const val TAG = "MainActivityViewModel"
 
@@ -38,8 +41,6 @@ class MainActivityViewModel @ViewModelInject constructor(
     val navigateToDialogFragment: LiveData<Event<DialogFragmentNavigationRequest>>
         get() = _navigateToDialogFragment
     private val _navigateToDialogFragment = MutableLiveData<Event<DialogFragmentNavigationRequest>>()
-
-    private var realm = Realm.getDefaultInstance()
 
     /*******
      * Fragment Transition Functions
@@ -61,6 +62,16 @@ class MainActivityViewModel @ViewModelInject constructor(
             showFragment(SortSettings.newInstance())
         }
     }
+
+    private var realm = Realm.getDefaultInstance()
+
+    private fun ifAllWordEntityDeleted(): Boolean =
+        runBlocking {
+            withContext(viewModelScope.coroutineContext) {
+                val words = mainRepository.getAllWords()
+                words.isEmpty()
+            }
+        }
 
     private fun ifAllWordsDeleted(): Boolean {
         val words = realm.where<Word>().findAll()
@@ -104,10 +115,26 @@ class MainActivityViewModel @ViewModelInject constructor(
     /*******
      * Showing Reference Spinner Functions
      */
+
+    // check before showing reference spinner
+    fun ifReferenceEntityEmpty(): Boolean {
+        val references = mainRepository.getAllReferences()
+        return references.isEmpty()
+    }
+
     // check before showing reference spinner
     fun ifReferenceEmpty(): Boolean {
         val references = realm.where<Reference>().findAll()
         return references.isEmpty()
+    }
+
+    // use when showing reference spinner
+    fun getAllReferencesAsArray(): Array<String> {
+        val reference = mutableListOf<String>()
+        val referencesFromDB = mainRepository.getAllReferences()
+        reference.add("")
+        reference.addAll(referencesFromDB)
+        return reference.toTypedArray()
     }
 
     // use when showing reference spinner

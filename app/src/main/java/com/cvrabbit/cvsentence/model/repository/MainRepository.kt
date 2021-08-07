@@ -22,6 +22,10 @@ class MainRepository @Inject constructor(
 
     suspend fun getAllWords() = wordDAO.getAllWords()
 
+    suspend fun updateWord(wordEntity: WordEntity) = wordDAO.updateWord(wordEntity)
+
+    suspend fun getCertainWord(word: String) = wordDAO.getCertainWord(word)
+
     fun getAllWordsSortedBySortedByDateDesc(
         greens: List<Boolean>,
         minDS: Float,
@@ -88,6 +92,16 @@ class MainRepository @Inject constructor(
         greens, minDS, maxDS, minDate, maxDate, references
     )
 
+    fun getMinDate() = wordDAO.getMinDate()
+
+    fun getMaxDate() = wordDAO.getMaxDate()
+
+    fun getMinDS() = wordDAO.getMinDS()
+
+    fun getMaxDS() = wordDAO.getMaxDS()
+
+    fun getAllReferences() = wordDAO.getAllReferences()
+
     /**
      * Preference Related Operation
      */
@@ -105,18 +119,27 @@ class MainRepository @Inject constructor(
     }
 
     fun getOnSelectWordSoundSetting() = pref.getOnSelectWordSoundSetting()
+
     fun getOnSelectMeaningSoundSetting() = pref.getOnSelectMeaningSoundSetting()
+
     fun getOnDemandWordSoundSetting() = pref.getOnDemandWordSoundSetting()
+
     fun getOnDemandMeaningSoundSetting() = pref.getOnDemandMeaningSoundSetting()
+
     fun saveOnSelectWordSoundSetting(isChecked: Boolean) = pref.saveOnSelectWordSoundSetting(isChecked)
+
     fun saveOnSelectMeaningSoundSetting(isChecked: Boolean) = pref.saveOnSelectMeaningSoundSetting(isChecked)
+
     fun saveOnDemandWordSoundSetting(isChecked: Boolean) = pref.saveOnDemandWordSoundSetting(isChecked)
+
     fun saveOnDemandMeaningSoundSetting(isChecked: Boolean) = pref.saveOnDemandMeaningSoundSetting(isChecked)
 
     fun getIfShowMainFirstTime() = pref.getIfShowMainFirstTime()
+
     fun setIfShowMainFirstTime() = pref.setIfShowMainFirstTime()
 
     fun getTwitterAccessToken() = pref.getTwitterAccessToken()
+
     fun saveTwitterAccessToken(token: String, tokenSecret: String) = pref.saveTwitterAccessToken(token, tokenSecret)
 
 }
@@ -124,3 +147,47 @@ class MainRepository @Inject constructor(
 enum class FloatingPosition {
     LEFT, RIGHT
 }
+
+enum class SortPattern {
+    DATE_DESC { override var strValue = ""},
+    DATE_ASC {override var strValue = ""},
+    DS_DESC {override var strValue = ""},
+    DS_ASC {override var strValue = ""},
+    WORD_DESC {override var strValue = ""},
+    WORD_ASC {override var strValue = ""};
+
+    abstract var strValue: String
+
+    companion object {
+        fun setSortTypeStrArray(sortTypeStrArray: Array<String>) {
+            DATE_DESC.strValue = sortTypeStrArray[0]
+            DATE_ASC.strValue = sortTypeStrArray[1]
+            DS_DESC.strValue = sortTypeStrArray[2]
+            DS_ASC.strValue = sortTypeStrArray[3]
+            WORD_ASC.strValue = sortTypeStrArray[4]
+            WORD_DESC.strValue = sortTypeStrArray[5]
+        }
+
+        fun getSortPatternByStrValue(strValue: String): SortPattern {
+            var returnPattern = DATE_DESC
+            when (strValue) {
+                DATE_DESC.strValue -> {returnPattern = DATE_DESC}
+                DATE_ASC.strValue -> {returnPattern = DATE_ASC}
+                DS_DESC.strValue -> {returnPattern = DS_DESC}
+                DS_ASC.strValue -> {returnPattern = DS_ASC}
+                WORD_ASC.strValue -> {returnPattern = WORD_ASC}
+                WORD_DESC.strValue -> {returnPattern = WORD_DESC}
+            }
+            return returnPattern
+        }
+    }
+}
+
+data class WordFilter(
+    var green: Boolean = false,
+    var minDS: Float,
+    var maxDS: Float,
+    var startDate: Long,
+    var endDate: Long,
+    var reference: List<String>
+)

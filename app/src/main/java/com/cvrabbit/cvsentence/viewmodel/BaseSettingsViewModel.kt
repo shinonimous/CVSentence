@@ -37,7 +37,9 @@ class BaseSettingsViewModel @ViewModelInject constructor(
     // When user creates new reference in BaseSettings Page, use this method.
     fun createNewReference(reference: ReferenceEntity) {
         viewModelScope.launch {
-            mainRepository.insertReference(reference)
+            if (reference.reference != "") {
+                mainRepository.insertReference(reference)
+            }
         }
     }
 
