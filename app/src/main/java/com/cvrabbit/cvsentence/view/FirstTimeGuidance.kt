@@ -16,7 +16,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -27,7 +26,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentFirstTimeGuidanceBinding
-import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
 import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 

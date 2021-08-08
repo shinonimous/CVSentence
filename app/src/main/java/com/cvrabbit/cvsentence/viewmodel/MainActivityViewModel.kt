@@ -15,13 +15,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cvrabbit.cvsentence.model.db.Reference
-import com.cvrabbit.cvsentence.model.db.Word
+import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.transition.Event
 import com.cvrabbit.cvsentence.view.*
-import io.realm.Realm
-import io.realm.kotlin.where
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
@@ -31,7 +28,6 @@ class MainActivityViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository
 ): ViewModel() {
 
-    var focusWord: Word? = null
     var focusReference: String? = null
 
     val navigateToFragment: LiveData<Event<FragmentNavigationRequest>>
@@ -46,9 +42,9 @@ class MainActivityViewModel @ViewModelInject constructor(
      * Fragment Transition Functions
      */
     // When word card is clicked
-    fun wordCardClicked(word: Word) {
-        focusWord = word
-        showFragment(WordDetail.newInstance())
+    fun wordCardClicked(word: WordEntity) {
+        val wordDetail = WordDetail.newInstance(mainRepository.getLiveWordEntity(word.id!!))
+        showFragment(wordDetail)
     }
 
     // When back button is clicked
@@ -58,12 +54,10 @@ class MainActivityViewModel @ViewModelInject constructor(
 
     // When Sort Settings button is clicked
     fun openSortSetting() {
-        if(!ifAllWordsDeleted()) {
+        if(!ifAllWordEntityDeleted()) {
             showFragment(SortSettings.newInstance())
         }
     }
-
-    private var realm = Realm.getDefaultInstance()
 
     private fun ifAllWordEntityDeleted(): Boolean =
         runBlocking {
@@ -72,11 +66,6 @@ class MainActivityViewModel @ViewModelInject constructor(
                 words.isEmpty()
             }
         }
-
-    private fun ifAllWordsDeleted(): Boolean {
-        val words = realm.where<Word>().findAll()
-        return words.isEmpty()
-    }
 
     // When base Settings button is clicked
     fun openBaseSetting() {
@@ -122,12 +111,6 @@ class MainActivityViewModel @ViewModelInject constructor(
         return references.isEmpty()
     }
 
-    // check before showing reference spinner
-    fun ifReferenceEmpty(): Boolean {
-        val references = realm.where<Reference>().findAll()
-        return references.isEmpty()
-    }
-
     // use when showing reference spinner
     fun getAllReferencesAsArray(): Array<String> {
         val reference = mutableListOf<String>()
@@ -135,24 +118,6 @@ class MainActivityViewModel @ViewModelInject constructor(
         reference.add("")
         reference.addAll(referencesFromDB)
         return reference.toTypedArray()
-    }
-
-    // use when showing reference spinner
-    fun getAllReferencesAsArrayString(): Array<String> {
-        val reference = mutableListOf<String>()
-        val refs = realm.where<Reference>().findAll()
-        reference.add("")
-        if (refs.isNotEmpty()) {
-            for (i in refs) {
-                reference.add(i.reference)
-            }
-        }
-        return reference.toTypedArray()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        realm.close()
     }
 }
 

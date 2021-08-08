@@ -1,15 +1,30 @@
+/*
+ * Copyright (c) 2020 shinonistone
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/mit-license.php
+ *
+ */
+
 package com.cvrabbit.cvsentence.model.repository
 
 import com.cvrabbit.cvsentence.model.db.ReferenceEntity
 import com.cvrabbit.cvsentence.model.db.WordDAO
 import com.cvrabbit.cvsentence.model.db.WordEntity
+import com.cvrabbit.cvsentence.model.internet.WordSearch
 import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
+    private val wordSearch: WordSearch,
     private val wordDAO: WordDAO,
     private val pref: PreferenceAccess
 ) {
+
+    /**
+     * Internet Related Operation
+     */
+    fun searchWord(requestWord: String) = wordSearch.searchWord(requestWord)
 
     /**
      * Room Related Operation
@@ -25,6 +40,8 @@ class MainRepository @Inject constructor(
     suspend fun updateWord(wordEntity: WordEntity) = wordDAO.updateWord(wordEntity)
 
     suspend fun getCertainWord(word: String) = wordDAO.getCertainWord(word)
+
+    fun getLiveWordEntity(id: Int) = wordDAO.getLiveWordEntity(id)
 
     fun getAllWordsSortedBySortedByDateDesc(
         greens: List<Boolean>,
@@ -142,6 +159,14 @@ class MainRepository @Inject constructor(
 
     fun saveTwitterAccessToken(token: String, tokenSecret: String) = pref.saveTwitterAccessToken(token, tokenSecret)
 
+    fun saveSortPattern(sortPattern: SortPattern) = pref.saveSortPattern(sortPattern)
+
+    fun getSortPattern() = pref.getSortPattern()
+
+    fun saveFilter(filter: WordFilter) = pref.saveFilter(filter)
+
+    fun getFilter() = pref.getFilter()
+
 }
 
 enum class FloatingPosition {
@@ -189,5 +214,5 @@ data class WordFilter(
     var maxDS: Float,
     var startDate: Long,
     var endDate: Long,
-    var reference: List<String>
+    var reference: String = ""
 )

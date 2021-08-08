@@ -22,6 +22,9 @@ package com.cvrabbit.cvsentence.util.transition
  * For more information, see:
  * https://medium.com/google-developers/livedata-with-events-ac2622673150
  */
+
+private const val TAG = "Event"
+
 class Event<out T>(private val content: T) {
 
     var hasBeenHandled = false

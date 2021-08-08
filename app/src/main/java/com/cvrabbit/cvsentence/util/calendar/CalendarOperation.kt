@@ -13,8 +13,8 @@ import java.util.*
 
 object CalendarOperation {
 
-    fun minusDate(dateA: Date, dateB: Date):Long {
-        return (dateA.time - dateB.time)
+    fun minusDateLong(dateA: Long, dateB: Long):Long {
+        return (dateA - dateB)
     }
 
     fun durationMillisToDurationDateString(durationMillis: Long): String {
@@ -23,29 +23,23 @@ object CalendarOperation {
         return intVal.toString()
     }
 
-    fun dateToStringFormat(registeredDate: Date): String {
+    fun longDateToStringFormat(regDateLong: Long): String {
+        val regDate = Date(regDateLong)
         val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.JAPAN)
-        return sdf.format(registeredDate)
+        return sdf.format(regDate)
     }
 
-    fun plusMillisToDate(targetDate: Date, addMillis: Int): Date {
-        val calendar = Calendar.getInstance()
-        calendar.time = targetDate
-        calendar.add(Calendar.MILLISECOND, addMillis)
-        return calendar.time
-    }
-
-    fun getFirstMillisOfMonth(startDateStr: String):Date {
+    fun getFirstMillisOfMonth(startDateStr: String):Long {
         val sdf = SimpleDateFormat("yyyy/MM", Locale.JAPAN)
-        return sdf.parse(startDateStr)!!
+        return sdf.parse(startDateStr)!!.time
     }
 
-    fun getLastMillisOfMonth(endDateStr: String):Date {
+    fun getLastMillisOfMonth(endDateStr: String):Long {
         val firstMillisOfMonth = getFirstMillisOfMonth(endDateStr)
         val calendar = Calendar.getInstance()
-        calendar.time = firstMillisOfMonth
+        calendar.time = Date(firstMillisOfMonth)
         calendar.add(Calendar.MONTH, 1)
         calendar.add(Calendar.MILLISECOND, -1)
-        return calendar.time
+        return calendar.time.time
     }
 }

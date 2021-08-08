@@ -27,6 +27,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentTweetEntryDialogBinding
@@ -35,6 +36,7 @@ import com.cvrabbit.cvsentence.util.constant.Constants.CONSUMER_KEY
 import com.cvrabbit.cvsentence.util.constant.Constants.CONSUMER_SECRET
 import com.cvrabbit.cvsentence.util.constant.Constants.GOOGLE_PLAY_LINK
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
+import com.cvrabbit.cvsentence.viewmodel.WordDetailViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
@@ -53,6 +55,7 @@ class Twitter : DialogFragment() {
     private val binding
         get() = _binding!!
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
+    private val wordDetailViewModel: WordDetailViewModel by viewModels()
 
     companion object {
         fun newInstance() = Twitter()
@@ -132,11 +135,11 @@ class Twitter : DialogFragment() {
     }
 
     private fun makeTweetSentence(): String {
-        val wordObject = mainActivityViewModel.focusWord
+        val wordObject = wordDetailViewModel.focusWord.value!!
         val theme = requireContext().getString(R.string.tw_theme)
-        val word = requireContext().getString(R.string.tw_word) + wordObject?.word
-        val meaning = requireContext().getString(R.string.tw_meaning) + wordObject?.mainMeaning
-        val reference = requireContext().getString(R.string.tw_reference) + wordObject?.reference
+        val word = requireContext().getString(R.string.tw_word) + wordObject.word
+        val meaning = requireContext().getString(R.string.tw_meaning) + wordObject.mainMeaning
+        val reference = requireContext().getString(R.string.tw_reference) + wordObject.reference
         return theme + "\n" + word + "\n" + meaning + "\n" + reference
     }
 

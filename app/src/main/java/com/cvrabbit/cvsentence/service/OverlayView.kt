@@ -21,7 +21,6 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager.LayoutParams.*
 import android.widget.*
 import com.cvrabbit.cvsentence.R
-import com.cvrabbit.cvsentence.model.internet.wordnik.WordNikAccess
 import com.cvrabbit.cvsentence.model.repository.FloatingPosition
 import com.cvrabbit.cvsentence.util.constant.Constants.CLIPBOARD_COROUTINE_DELAY_INTERVAL
 import com.cvrabbit.cvsentence.util.constant.Constants.OVERLAY_MEANING_SHOWING_INTERVAL
@@ -192,29 +191,16 @@ class OverlayView @JvmOverloads constructor(
     }
 
     private fun pasteClipboardData() {
-        Log.d(TAG, "pasteClipboardData IS RUNNING")
+        Log.d(TAG, "pasteClipboardData is Running")
         if(clipboardService.isEnable()) {
             val item = clipboardService.primaryClip?.getItemAt(0)
             val pasteData = item?.text.toString()
             if (prevData != pasteData) {
-
-                val wordNikSearch = WordNikAccess(context)
                 if (Internet(context).checkInternetConnection()) {
-                    val wir = wordNikSearch.getAPIResponse(pasteData)
-                    if (wir.responseExist) {
-                        val word = overlayViewModelLikeObject.createNewWord(
-                            wir.requestedWord,
-                            wir.mainMeaning,
-                            wir.verb,
-                            wir.noun,
-                            wir.adjective,
-                            wir.adverb,
-                            wir.expression,
-                            wir.prefix,
-                            wir.suffix,
-                            wir.others,
-                            OverlayService.focusReference?:""
-                        )
+                    val word = overlayViewModelLikeObject.searchWord(pasteData)
+                    if (word != null) {
+                        word.reference = OverlayService.focusReference?:""
+                        overlayViewModelLikeObject.createNewWordEntity(word)
                         showText(word.mainMeaning)
                         textToSpeech.textToSpeechOnSelection(word)
                     } else {

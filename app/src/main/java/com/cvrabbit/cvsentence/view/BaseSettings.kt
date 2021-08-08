@@ -12,9 +12,7 @@ import android.content.Context
 import android.media.AudioManager
 import android.os.Bundle
 import android.text.InputFilter
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -22,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentBaseSettingsBinding
+import com.cvrabbit.cvsentence.model.db.ReferenceEntity
 import com.cvrabbit.cvsentence.model.repository.FloatingPosition
 import com.cvrabbit.cvsentence.util.device.CSVExport
 import com.cvrabbit.cvsentence.viewmodel.BaseSettingsViewModel
@@ -40,20 +39,12 @@ class BaseSettings : Fragment(R.layout.fragment_base_settings) {
         fun newInstance() = BaseSettings()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_base_settings, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentBaseSettingsBinding.bind(view).apply {
             viewmodel = baseSettingsViewModel
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initVisibility()
         initListeners()
     }
@@ -100,7 +91,7 @@ class BaseSettings : Fragment(R.layout.fragment_base_settings) {
                 .setView(reference)
                 .setPositiveButton(R.string.bsc_reference_positive)
                 { _, _ ->
-                    baseSettingsViewModel.createNewReference(reference.text.toString())
+                    baseSettingsViewModel.createNewReference(ReferenceEntity(reference.text.toString()))
                     Toast.makeText(activity, reference.text.toString() + requireContext().resources.getString(
                         R.string.bsc_reference_done
                     ), Toast.LENGTH_SHORT).show()
@@ -111,7 +102,7 @@ class BaseSettings : Fragment(R.layout.fragment_base_settings) {
 
         // CSV Export Button
         binding.csvExport.setOnClickListener {
-            val savedWord = CSVExport(requireContext()).saveWordsAsCSV(baseSettingsViewModel.getAllWordsSync())
+            val savedWord = CSVExport(requireContext()).saveWordsAsCSV(baseSettingsViewModel.getAllWords())
             binding.csvExportSaveDir.text = savedWord
         }
 

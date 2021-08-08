@@ -10,7 +10,11 @@ package com.cvrabbit.cvsentence.model.internet.wordnik
 
 import android.content.Context
 import android.util.Log
+import com.cvrabbit.cvsentence.R
+import com.cvrabbit.cvsentence.model.db.WordEntity
+import com.cvrabbit.cvsentence.model.internet.WordSearch
 import com.cvrabbit.cvsentence.model.internet.lang.OriginalWordGenerator
+import com.cvrabbit.cvsentence.service.OverlayService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,14 +23,34 @@ import java.lang.Exception
 import java.net.URL
 import java.util.*
 
-class WordNikAccess(context: Context) {
+class WordNikSearch(context: Context): WordSearch {
 
     private val appContext = context.applicationContext
     private val accessURL = "https://api.wordnik.com/v4/word.json/"
     private val parameters = "/definitions?limit=200&includeRelated=false&sourceDictionaries=wiktionary&useCanonical=true&includeTags=false&api_key="
     private val apiKey = "3jen77gz0mls6ksarkco8rzd9u1rhrxb8pu9f7k5309wrr28n"
 
-    fun getAPIResponse(requestStr: String): WordNikInterpretedResponse {
+    override fun searchWord(requestWord: String): WordEntity? {
+        val wordEntity = WordEntity()
+        val wir = getAPIResponse(requestWord)
+        if (wir.responseExist) {
+            wordEntity.word = wir.requestedWord
+            wordEntity.mainMeaning = wir.mainMeaning
+            wordEntity.verb = wir.verb
+            wordEntity.noun = wir.noun
+            wordEntity.adjective = wir.adjective
+            wordEntity.adverb = wir.adverb
+            wordEntity.expression = wir.expression
+            wordEntity.prefix = wir.prefix
+            wordEntity.suffix = wir.suffix
+            wordEntity.others = wir.others
+            return wordEntity
+        } else {
+            return null
+        }
+    }
+
+    private fun getAPIResponse(requestStr: String): WordNikInterpretedResponse {
         val lowerRequestStr = requestStr.toLowerCase(Locale.ENGLISH)
         var eir = WordNikInterpretedResponse()
         if (!checkIfRequestValid(lowerRequestStr)) {

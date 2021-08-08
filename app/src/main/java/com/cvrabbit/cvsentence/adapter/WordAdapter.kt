@@ -1,14 +1,16 @@
 package com.cvrabbit.cvsentence.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentWordInListBinding
 import com.cvrabbit.cvsentence.model.db.WordEntity
 
-class WordAdapter(): RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
+class WordAdapter: RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
 
     /**
      * ** How to implement the registering listener to the adapter mechanism **
@@ -62,6 +64,13 @@ class WordAdapter(): RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
             mBinding.root.setOnClickListener {
                 listener.onItemClickListener(word, position)
             }
+            mBinding.addedCard.setCardBackgroundColor(
+                if (word.green) {
+                    mBinding.root.context.resources.getColor(R.color.theme_color, mBinding.root.context.theme)
+                } else {
+                    mBinding.root.context.resources.getColor(R.color.theme_color_white, mBinding.root.context.theme)
+                }
+            )
             mBinding.executePendingBindings()
         }
     }
@@ -96,5 +105,13 @@ class WordAdapter(): RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
 
     override fun getItemCount(): Int {
         return differ.currentList.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return differ.currentList[position]?.id?.toLong() ?: 0
+    }
+
+    fun getItem(position: Int) : WordEntity {
+        return differ.currentList[position]
     }
 }

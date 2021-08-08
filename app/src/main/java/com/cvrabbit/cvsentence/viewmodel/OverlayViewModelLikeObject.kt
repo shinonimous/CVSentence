@@ -8,14 +8,8 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
-import android.util.Log
-import com.cvrabbit.cvsentence.model.db.Word
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
-import io.realm.Realm
-import io.realm.kotlin.createObject
-import io.realm.kotlin.where
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -39,7 +33,7 @@ class OverlayViewModelLikeObject @Inject constructor(
     private val mainRepository: MainRepository
 ) {
 
-    private var realm = Realm.getDefaultInstance()
+    fun searchWord(requestWord: String) = mainRepository.searchWord(requestWord)
 
     fun createNewWordEntity(wordEntity: WordEntity) =
         runBlocking {
@@ -66,60 +60,4 @@ class OverlayViewModelLikeObject @Inject constructor(
 
     fun getFloatingPosition() = mainRepository.getFloatingPosition()
 
-    fun createNewWord(
-        newWord: String,
-        mainMeaning: String,
-        verb: String,
-        noun: String,
-        adjective: String,
-        adverb: String,
-        expression: String,
-        prefix: String,
-        suffix: String,
-        others: String,
-        reference: String
-    ): Word {
-
-        Log.d(TAG, "createNewWord is Running! reference: $reference")
-
-        val sameWord = getIfSameWordExist(newWord)
-        if(sameWord != null){
-            return sameWord
-        }
-
-        var word = Word()
-
-        realm.executeTransaction { db: Realm ->
-            val maxId = db.where<Word>().max("id")
-            val nextId = (maxId?.toLong() ?: 0L) + 1L
-            word = db.createObject<Word>(nextId)
-            word.word = newWord
-            word.mainMeaning = mainMeaning
-            word.verb = verb
-            word.noun = noun
-            word.adjective = adjective
-            word.adverb = adverb
-            word.expression = expression
-            word.prefix = prefix
-            word.suffix = suffix
-            word.others = others
-            word.reference = reference
-        }
-        return word
-    }
-
-    private fun getIfSameWordExist(checkWord: String): Word? {
-        var word: Word? = null
-        realm.executeTransaction { db: Realm ->
-            word = db.where<Word>().equalTo("word", checkWord).findFirst()
-            word?.let {
-                it.tryAddSameWordCount += 1
-            }
-        }
-        return word
-    }
-
-    fun closeRealm() {
-        realm.close()
-    }
 }

@@ -2,6 +2,7 @@
 <resources>
     <color name="theme_color">#3D7FDC</color>
     <color name="theme_color_complement">#DC3D95</color>
+    <color name="theme_color_white">#FFFFFF</color>
     <color name="theme_color_textbox_background">#E4EBF4</color>
     <color name="theme_color_text">#4D4D4D</color>
     <color name="theme_color_text_white">#FFFFFF</color>

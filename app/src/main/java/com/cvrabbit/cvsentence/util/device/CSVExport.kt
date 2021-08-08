@@ -10,10 +10,9 @@ package com.cvrabbit.cvsentence.util.device
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.view.View
 import android.widget.Toast
 import com.cvrabbit.cvsentence.R
-import com.cvrabbit.cvsentence.model.db.Word
+import com.cvrabbit.cvsentence.model.db.WordEntity
 import java.io.File
 import java.io.FileWriter
 import java.lang.Exception
@@ -30,7 +29,7 @@ class CSVExport(context: Context) {
 
     private val csvHeader = context.getString(R.string.csv_header)
 
-    private fun getAppendWord(i: Word): String {
+    private fun getAppendWord(i: WordEntity): String {
         return i.id.toString() + "," + i.word + "," + i.mainMeaning + "," +
                 i.verb + "," + i.noun + "," + i.adjective + "," + i.adverb + "," +
                 i.expression + "," + i.prefix + "," + i.suffix + "," + i.others + "," +
@@ -39,7 +38,7 @@ class CSVExport(context: Context) {
                 i.tryAddSameWordCount + "," + i.registeredDate + "," + i.reference + "\n"
     }
 
-    fun saveWordsAsCSV(words: List<Word>): String {
+    fun saveWordsAsCSV(words: List<WordEntity>): String {
         var savedDirText: String = ""
         if (words.isEmpty()) {
             Toast.makeText(appContext, appContext.getText(R.string.csv_non_word_registered), Toast.LENGTH_SHORT).show()

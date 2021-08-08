@@ -12,12 +12,12 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
-import com.cvrabbit.cvsentence.model.db.Word
+import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import java.util.*
 import javax.inject.Inject
 
-private const val TAG = "TextToSpeech"
+private const val TAG = "GoogleTextToSpeech"
 
 class GoogleTextToSpeech @Inject constructor(
     app: Context,
@@ -30,7 +30,7 @@ class GoogleTextToSpeech @Inject constructor(
         tts.shutdown()
     }
 
-    fun textToSpeechOnSelection(word: Word) {
+    fun textToSpeechOnSelection(word: WordEntity) {
         if (mainRepository.getOnSelectWordSoundSetting()) {
             setLocale(Locale.US)
             textToSpeech(word.word, "on_select_word")
@@ -40,7 +40,7 @@ class GoogleTextToSpeech @Inject constructor(
             textToSpeech(word.mainMeaning, "on_select_meaning")
         }
     }
-    fun textToSpeechOnDemand(word:Word) {
+    fun textToSpeechOnDemand(word:WordEntity) {
         if (mainRepository.getOnDemandWordSoundSetting()) {
             setLocale(Locale.US)
             textToSpeech(word.word, "on_demand_word")

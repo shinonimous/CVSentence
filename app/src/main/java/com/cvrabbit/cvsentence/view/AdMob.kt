@@ -20,11 +20,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentAdFrameBinding
+import com.cvrabbit.cvsentence.util.constant.Constants.ADMOB_AD_UNIT_ID
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 
-const val ADMOB_AD_UNIT_ID = "ca-app-pub-1302766634885116/6683148954"
+private const val TAG = "AdMob"
+
 var currentNativeAd: NativeAd? = null
 
 class AdMob : Fragment() {

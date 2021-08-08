@@ -19,14 +19,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentWordDetailBinding
 import com.cvrabbit.cvsentence.model.db.DS
 import com.cvrabbit.cvsentence.model.db.RRT
-import com.cvrabbit.cvsentence.model.db.Word
+import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.durationMillisToDurationDateString
-import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.dateToStringFormat
-import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.plusMillisToDate
+import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.longDateToStringFormat
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import com.cvrabbit.cvsentence.viewmodel.WordDetailViewModel
@@ -36,7 +36,7 @@ import javax.inject.Inject
 private const val TAG = "WordDetail"
 
 @AndroidEntryPoint
-class WordDetail : Fragment(R.layout.fragment_word_detail) {
+class WordDetail(private val focusWord: MutableLiveData<WordEntity>) : Fragment(R.layout.fragment_word_detail) {
     private lateinit var binding: FragmentWordDetailBinding
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val wordDetailViewModel: WordDetailViewModel by viewModels()
@@ -46,7 +46,7 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
     lateinit var textToSpeech: GoogleTextToSpeech
 
     companion object {
-        fun newInstance() = WordDetail()
+        fun newInstance(focusWord: MutableLiveData<WordEntity>) = WordDetail(focusWord)
     }
 
     override fun onCreateView(
@@ -64,10 +64,11 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initVisibility()
-        updateUI(mainActivityViewModel.focusWord!!)
-        setListeners(mainActivityViewModel.focusWord!!)
-        wordDetailViewModel.liveWord.observe(viewLifecycleOwner, {
-            Log.d(TAG, "liveWord observer is Running")
+        wordDetailViewModel.updateLookup(focusWord)
+        updateUI(focusWord.value!!)
+        setListeners(focusWord.value!!)
+        wordDetailViewModel.focusWord.observe(viewLifecycleOwner, {
+            Log.d(TAG, "MutableLiveData<WordEntity> observer is Running")
             updateUI(it)
         })
     }
@@ -101,15 +102,15 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
     }
 
     // Set data for Word Detail Page
-    private fun updateUI(word: Word) {
+    private fun updateUI(word: WordEntity) {
         changeTextSizeDueToTextLength(binding.focusedWord, word.word)
         binding.mainMeaning.text = word.mainMeaning
         binding.notRememberedCountNum.text = word.notRememberedCount.toString()
         binding.rememberedCountNum.text = word.rememberedCount.toString()
         binding.rrtFromDate.text = if (notUpdatedAfterOpenPage) {
-            dateToStringFormat(plusMillisToDate(word.lastLookupDate, - word.durationFromLastLookupTime.toInt()))
+            longDateToStringFormat(word.lastLookupDate + word.durationFromLastLookupTime)
         } else {
-            dateToStringFormat(word.lastLookupDate)
+            longDateToStringFormat(word.lastLookupDate)
         }
         binding.rrtDate.text = RRT.getRRTValue(word.recommendedRecurTiming).value
         val dsValue = DS.getDSValue(word.difficultyScore).value
@@ -118,7 +119,7 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
         binding.lookupCountNum.text = word.lookupCount.toString()
         binding.durationFromLastLookupDateNum.text = durationMillisToDurationDateString(word.durationFromLastLookupTime)
         binding.tryAddSameWordCountNum.text = word.tryAddSameWordCount.toString()
-        binding.registeredDateStr.text = dateToStringFormat(word.registeredDate)
+        binding.registeredDateStr.text = longDateToStringFormat(word.registeredDate)
         binding.referenceText.text = if (word.reference == "") {
             context?.getString(R.string.wda_no_reference_title)} else {word.reference}
 
@@ -150,7 +151,7 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
     /**
      * This method set listeners relating to visibility change.
      */
-    private fun setListeners(word: Word) {
+    private fun setListeners(word: WordEntity) {
         // Back Button Listener
         binding.titleLayout.setOnClickListener {
             mainActivityViewModel.backToList()
@@ -255,16 +256,16 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
         binding.radioGroup.clearCheck()
         binding.notRemembered.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                wordDetailViewModel.updateWhenNotRememberedChecked(word.word)
+                wordDetailViewModel.updateWhenNotRememberedChecked()
             } else {
-                wordDetailViewModel.updateWhenNotRememberedUnChecked(word.word)
+                wordDetailViewModel.updateWhenNotRememberedUnChecked()
             }
         }
         binding.remembered.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                wordDetailViewModel.updateWhenRememberedChecked(word.word)
+                wordDetailViewModel.updateWhenRememberedChecked()
             } else {
-                wordDetailViewModel.updateWhenRememberedUnChecked(word.word)
+                wordDetailViewModel.updateWhenRememberedUnChecked()
             }
         }
 
@@ -275,13 +276,13 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
 
         // Set reference button Listener
         binding.changeReference.setOnClickListener {
-            if(wordDetailViewModel.ifReferenceEmpty()) {
+            if(mainActivityViewModel.ifReferenceEntityEmpty()) {
                 Toast.makeText(activity,R.string.wda_no_reference, Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             val title = context?.getString(R.string.wda_select_reference_title)
             val message = context?.getString(R.string.wda_select_reference_message)
-            val refArray = wordDetailViewModel.getAllReferencesAsArrayString()
+            val refArray = mainActivityViewModel.getAllReferencesAsArray()
             val refAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, refArray)
             val spinner = Spinner(context)
             spinner.adapter = refAdapter
@@ -291,7 +292,7 @@ class WordDetail : Fragment(R.layout.fragment_word_detail) {
                 .setView(spinner)
                 .setPositiveButton(R.string.wda_reference_ok)
                 { _,_ ->
-                    wordDetailViewModel.setReference(word.word, spinner.selectedItem.toString())
+                    wordDetailViewModel.setReference(spinner.selectedItem.toString())
                 }
                 .setNegativeButton(R.string.wda_reference_cancel,null)
                 .show()

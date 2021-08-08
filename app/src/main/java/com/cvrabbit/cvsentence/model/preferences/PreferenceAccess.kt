@@ -9,10 +9,15 @@
 package com.cvrabbit.cvsentence.model.preferences
 
 import android.content.SharedPreferences
+import com.cvrabbit.cvsentence.model.db.WordDAO
 import com.cvrabbit.cvsentence.model.repository.SortPattern
 import com.cvrabbit.cvsentence.model.repository.WordFilter
+import javax.inject.Inject
 
 class PreferenceAccess(private val pref: SharedPreferences) {
+
+    @Inject
+    lateinit var wordDAO: WordDAO
 
     fun saveOnSelectWordSoundSetting(onSelectWordSound:Boolean){
         val editor = pref.edit()
@@ -73,16 +78,32 @@ class PreferenceAccess(private val pref: SharedPreferences) {
     fun setIfShowMainFirstTime() {
         pref.edit().putBoolean("SHOW_OVERLAY_FIRST_TIME", false).apply()
     }
-    fun saveSortSetting(sortPattern: SortPattern) {
-
+    fun saveSortPattern(sortPattern: SortPattern) {
+        val editor = pref.edit()
+        editor.putString("SORT_SETTING", sortPattern.strValue).apply()
     }
     fun getSortPattern(): SortPattern {
-
+        return SortPattern.getSortPatternByStrValue(
+            pref.getString("SORT_SETTING", SortPattern.DATE_DESC.strValue)!!
+        )
     }
     fun saveFilter(filter: WordFilter) {
-
+        val editor = pref.edit()
+        editor.putBoolean("GREEN", filter.green)
+        editor.putFloat("MIN_DS", filter.minDS)
+        editor.putFloat("MAX_DS", filter.maxDS)
+        editor.putLong("START_DATE", filter.startDate)
+        editor.putLong("END_DATE", filter.endDate)
+        editor.putString("REFERENCE", filter.reference).apply()
     }
     fun getFilter(): WordFilter {
-
+        return WordFilter(
+            green = pref.getBoolean("GREEN", false),
+            minDS = pref.getFloat("MIN_DS", wordDAO.getMinDS()),
+            maxDS = pref.getFloat("MAX_DS", wordDAO.getMaxDS()),
+            startDate = pref.getLong("START_DATE", wordDAO.getMinDate()),
+            endDate = pref.getLong("END_DATE", wordDAO.getMaxDate()),
+            reference = pref.getString("REFERENCE", "")!!
+        )
     }
 }

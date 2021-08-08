@@ -23,4 +23,7 @@ object Constants {
     const val NOTIFICATION_ID = 1
     const val OVERLAY_MEANING_SHOWING_INTERVAL = 6000L
     const val CLIPBOARD_COROUTINE_DELAY_INTERVAL = 500L
+
+    // AdMob
+    const val ADMOB_AD_UNIT_ID = "ca-app-pub-1302766634885116/6683148954"
 }

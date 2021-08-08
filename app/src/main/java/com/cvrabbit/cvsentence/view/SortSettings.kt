@@ -10,9 +10,7 @@ package com.cvrabbit.cvsentence.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
@@ -20,16 +18,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentSortSettingsBinding
-import com.cvrabbit.cvsentence.model.db.Word
+import com.cvrabbit.cvsentence.model.repository.SortPattern
+import com.cvrabbit.cvsentence.model.repository.WordFilter
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.getFirstMillisOfMonth
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.getLastMillisOfMonth
-import com.cvrabbit.cvsentence.viewmodel.FilterPattern
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
-import com.cvrabbit.cvsentence.viewmodel.SortPattern
 import com.cvrabbit.cvsentence.viewmodel.SortSettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import io.realm.OrderedRealmCollection
 import java.text.SimpleDateFormat
+
+private const val TAG = "SortSettings"
 
 @AndroidEntryPoint
 class SortSettings : Fragment(R.layout.fragment_sort_settings) {
@@ -41,20 +39,12 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
         fun newInstance() = SortSettings()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_sort_settings, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentSortSettingsBinding.bind(view).apply {
             viewmodel = sortSettingsViewModel
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initVisibility()
         initListeners()
     }
@@ -69,7 +59,7 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
 
         // When back button is clicked
         binding.sortSettingsTitle.setOnClickListener {
-            //TODO applySortFilter()
+            saveSortPatternAndFilter()
             mainActivityViewModel.backToList()
         }
 
@@ -201,43 +191,55 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
         }
 
         //referenceSpinner
-        val refArray = sortSettingsViewModel.getAllReferencesAsArrayString()
+        val refArray = mainActivityViewModel.getAllReferencesAsArray()
         val refAdapter = ArrayAdapter(requireContext(), R.layout.spinner_layout, refArray)
         refAdapter.setDropDownViewResource(R.layout.spinner_layout_item)
         binding.referenceSortSpinner.adapter = refAdapter
 
     }
 
-    private fun applySortFilter(): OrderedRealmCollection<Word> {
-        val filterList = mutableListOf<FilterPattern>()
-        if(binding.green.isChecked) {
-            val filter = FilterPattern.GREEN
-            filter.greenFilter = true
-            filterList.add(filter)
-        }
-        if(binding.dsRange.isChecked) {
-            val filter = FilterPattern.DS_RANGE
-            filter.dsRangeFilter =
-                Pair(binding.dsRangeStartSpinner.selectedItem.toString().toFloat(),
-                    binding.dsRangeEndSpinner.selectedItem.toString().toFloat())
-            filterList.add(filter)
-        }
-        if(binding.registeredDateRange.isChecked) {
-            if(binding.regDateStartSpinner.selectedItem.toString() != "") {
-                val filter = FilterPattern.REG_DATE_RANGE
-                filter.regDateRangeFilter = Pair(getFirstMillisOfMonth(binding.regDateStartSpinner.selectedItem.toString()),
-                    getLastMillisOfMonth(binding.regDateEndSpinner.selectedItem.toString()))
-                filterList.add(filter)
-            }
-        }
-        if(binding.referenceSort.isChecked) {
-            val filter = FilterPattern.REFERENCE
-            filter.reference = binding.referenceSortSpinner.selectedItem.toString()
-            filterList.add(filter)
-        }
-        val filteredWords = sortSettingsViewModel.filterByFilterPattern(filterList)
-        return sortSettingsViewModel.sortBySortPattern(
-            SortPattern.getSortPatternByStrValue(binding.sortSpinner.selectedItem.toString()),filteredWords
+    private fun saveSortPatternAndFilter() {
+        val sortPattern = SortPattern.getSortPatternByStrValue(
+            binding.sortSpinner.selectedItem.toString()
         )
+        sortSettingsViewModel.saveSortPattern(sortPattern)
+
+        val filter = WordFilter(
+            green = binding.green.isChecked,
+            minDS = if(binding.dsRange.isChecked) {
+                binding.dsRangeStartSpinner.selectedItem.toString().toFloat()
+            } else {
+                sortSettingsViewModel.getMinDS()
+            },
+            maxDS = if(binding.dsRange.isChecked) {
+                binding.dsRangeEndSpinner.selectedItem.toString().toFloat()
+            } else {
+                sortSettingsViewModel.getMaxDS()
+            },
+            startDate = if(binding.registeredDateRange.isChecked) {
+                if (binding.regDateStartSpinner.selectedItem.toString() != "") {
+                    getFirstMillisOfMonth(binding.regDateStartSpinner.selectedItem.toString())
+                } else {
+                    sortSettingsViewModel.getMinDate()
+                }
+            } else {
+                    sortSettingsViewModel.getMinDate()
+            },
+            endDate = if(binding.registeredDateRange.isChecked) {
+                if (binding.regDateStartSpinner.selectedItem.toString() != "") {
+                    getLastMillisOfMonth(binding.regDateEndSpinner.selectedItem.toString())
+                } else {
+                    sortSettingsViewModel.getMaxDate()
+                }
+            } else {
+                sortSettingsViewModel.getMaxDate()
+            },
+            reference = if(binding.referenceSort.isChecked) {
+                binding.referenceSortSpinner.selectedItem.toString()
+            } else {
+                ""
+            }
+        )
+        sortSettingsViewModel.saveFilter(filter)
     }
 }

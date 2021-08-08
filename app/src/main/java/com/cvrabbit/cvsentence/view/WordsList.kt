@@ -12,9 +12,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -22,11 +20,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.cvrabbit.cvsentence.R
-import com.cvrabbit.cvsentence.adapter.WordInListAdapter
+import com.cvrabbit.cvsentence.adapter.WordAdapter
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import com.cvrabbit.cvsentence.viewmodel.WordsListViewModel
 import com.cvrabbit.cvsentence.databinding.FragmentWordsListBinding
-import com.cvrabbit.cvsentence.model.db.Word
+import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,35 +42,26 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
     }
 
     /**
-     * Show fragment and initialize data binding
-     */
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_words_list, container, false)
-        binding = FragmentWordsListBinding.bind(view).apply {
-            viewmodel = wordsListViewModel // "viewmodel" is defined in layout xml.
-        }
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        return view
-    }
-
-    /**
      * Settings of binding and listeners
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding = FragmentWordsListBinding.bind(view).apply {
+            viewmodel = wordsListViewModel // "viewmodel" is defined in layout xml.
+        }
+        binding.lifecycleOwner = this.viewLifecycleOwner
+
         // set firstGuidance visibility
         binding.firstGuidance.isVisible = wordsListViewModel.ifAllWordsDeleted()
 
         // recycler view adapter binding
-        val adapter = WordInListAdapter(wordsListViewModel)
+        val adapter = WordAdapter()
         binding.wordsList.adapter = adapter
 
         // set card click listener
-        adapter.setOnItemClickListener(object: WordInListAdapter.OnItemClickListener {
-            override fun onItemClickListener(word: Word, position: Int) {
-                wordsListViewModel.updateLookUp(word.id)
+        adapter.setOnItemClickListener(object: WordAdapter.OnItemClickListener {
+            override fun onItemClickListener(word: WordEntity, position: Int) {
                 mainActivityViewModel.wordCardClicked(word)
             }
         })
@@ -80,11 +69,17 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
         // set listener for delete
         getSwipeToDismissTouchHelper(adapter, view).attachToRecyclerView(binding.wordsList)
 
-        // sort list
-        wordsListViewModel.updateUI()
+        // update the green status
+        wordsListViewModel.setGreen()
+
+        // update the recycler view
+        wordsListViewModel.words.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
+        })
+
     }
 
-    private fun getSwipeToDismissTouchHelper(adapter: WordInListAdapter, listView: View) =
+    private fun getSwipeToDismissTouchHelper(adapter: WordAdapter, listView: View) =
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.ACTION_STATE_IDLE,
             ItemTouchHelper.RIGHT
@@ -99,7 +94,7 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val word = adapter.getItem(viewHolder.adapterPosition)
-                wordsListViewModel.deleteSpecificWord(word!!.id)
+                wordsListViewModel.deleteWordEntity(word)
                 binding.firstGuidance.isVisible = wordsListViewModel.ifAllWordsDeleted()
             }
 

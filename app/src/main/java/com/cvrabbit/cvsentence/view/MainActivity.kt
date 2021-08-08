@@ -23,20 +23,14 @@ import androidx.databinding.DataBindingUtil
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.ActivityMainBinding
 import com.cvrabbit.cvsentence.service.OverlayService
-import com.cvrabbit.cvsentence.service.OverlayView
 import com.cvrabbit.cvsentence.util.constant.Constants.OVERLAY_PERMISSION_REQUEST_CODE
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
-import com.cvrabbit.cvsentence.viewmodel.OverlayViewModelLikeObject
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
-
-    companion object {
-        lateinit var activity: MainActivity
-    }
 
     lateinit var binding: ActivityMainBinding
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
@@ -45,7 +39,6 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewmodel = mainActivityViewModel
-        activity = this
 
         // Observe FragmentNavigationRequest data
         mainActivityViewModel.navigateToFragment.observe(this, {
@@ -117,7 +110,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun showReferenceSelectionDialog() {
-        if(mainActivityViewModel.ifReferenceEmpty()) {
+        if(mainActivityViewModel.ifReferenceEntityEmpty()) {
             OverlayService.start(this)
             return
         }
@@ -145,7 +138,7 @@ class MainActivity : AppCompatActivity(){
 
     private fun initSpinner(spinner: Spinner): Spinner {
         // referenceSpinner
-        val refArray = mainActivityViewModel.getAllReferencesAsArrayString()
+        val refArray = mainActivityViewModel.getAllReferencesAsArray()
         val refAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, refArray)
         spinner.adapter = refAdapter
         return spinner
