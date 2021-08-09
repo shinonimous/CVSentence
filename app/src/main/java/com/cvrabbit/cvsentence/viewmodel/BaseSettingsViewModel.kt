@@ -13,9 +13,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvrabbit.cvsentence.model.db.ReferenceEntity
 import com.cvrabbit.cvsentence.model.db.WordEntity
-import com.cvrabbit.cvsentence.model.repository.FloatingPosition
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.service.OverlayView
+import com.cvrabbit.cvsentence.util.constant.FloatingPosition
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext

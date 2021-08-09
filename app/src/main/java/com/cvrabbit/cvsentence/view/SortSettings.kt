@@ -18,10 +18,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentSortSettingsBinding
-import com.cvrabbit.cvsentence.model.repository.SortPattern
-import com.cvrabbit.cvsentence.model.repository.WordFilter
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.getFirstMillisOfMonth
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.getLastMillisOfMonth
+import com.cvrabbit.cvsentence.util.constant.SortPattern
+import com.cvrabbit.cvsentence.util.data.WordFilter
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import com.cvrabbit.cvsentence.viewmodel.SortSettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint

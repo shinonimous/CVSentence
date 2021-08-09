@@ -11,8 +11,8 @@ package com.cvrabbit.cvsentence.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.cvrabbit.cvsentence.model.repository.MainRepository
-import com.cvrabbit.cvsentence.model.repository.SortPattern
-import com.cvrabbit.cvsentence.model.repository.WordFilter
+import com.cvrabbit.cvsentence.util.constant.SortPattern
+import com.cvrabbit.cvsentence.util.data.WordFilter
 import java.text.SimpleDateFormat
 import java.util.*
 

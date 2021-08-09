@@ -10,6 +10,7 @@ import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.constant.Constants.RUNNING_DATABASE_NAME
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
+import com.cvrabbit.cvsentence.viewmodel.OverlayViewModelLikeObject
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,5 +59,4 @@ object AppModule {
         app,
         mainRepository
     )
-
 }

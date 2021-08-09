@@ -21,9 +21,9 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager.LayoutParams.*
 import android.widget.*
 import com.cvrabbit.cvsentence.R
-import com.cvrabbit.cvsentence.model.repository.FloatingPosition
 import com.cvrabbit.cvsentence.util.constant.Constants.CLIPBOARD_COROUTINE_DELAY_INTERVAL
 import com.cvrabbit.cvsentence.util.constant.Constants.OVERLAY_MEANING_SHOWING_INTERVAL
+import com.cvrabbit.cvsentence.util.constant.FloatingPosition
 import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import com.cvrabbit.cvsentence.util.internet.Internet
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech

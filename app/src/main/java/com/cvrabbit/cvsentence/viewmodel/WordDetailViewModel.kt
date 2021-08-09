@@ -13,6 +13,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cvrabbit.cvsentence.model.db.*
 import com.cvrabbit.cvsentence.model.repository.MainRepository
+import com.cvrabbit.cvsentence.util.constant.DS
+import com.cvrabbit.cvsentence.util.constant.RRT
 import java.util.*
 
 private const val TAG = "WordDetailViewModel"

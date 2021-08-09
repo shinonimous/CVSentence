@@ -18,7 +18,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
-import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.db.initializeWordEntity
 import com.cvrabbit.cvsentence.util.constant.Constants.ACTION_HIDE
@@ -26,7 +25,6 @@ import com.cvrabbit.cvsentence.util.constant.Constants.ACTION_SHOW
 import com.cvrabbit.cvsentence.util.constant.Constants.NOTIFICATION_CHANEL_NAME
 import com.cvrabbit.cvsentence.util.constant.Constants.NOTIFICATION_CHANNEL_ID
 import com.cvrabbit.cvsentence.util.constant.Constants.NOTIFICATION_ID
-import com.cvrabbit.cvsentence.viewmodel.OverlayViewModelLikeObject
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -57,7 +55,7 @@ class OverlayService : LifecycleService() {
 
     private var ifFirstRun = true
     @Inject
-    private lateinit var notificationBuilder: NotificationCompat.Builder
+    lateinit var notificationBuilder: NotificationCompat.Builder
 
     override fun onCreate() {
         super.onCreate()

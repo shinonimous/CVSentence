@@ -10,8 +10,8 @@ package com.cvrabbit.cvsentence.model.preferences
 
 import android.content.SharedPreferences
 import com.cvrabbit.cvsentence.model.db.WordDAO
-import com.cvrabbit.cvsentence.model.repository.SortPattern
-import com.cvrabbit.cvsentence.model.repository.WordFilter
+import com.cvrabbit.cvsentence.util.constant.SortPattern
+import com.cvrabbit.cvsentence.util.data.WordFilter
 import javax.inject.Inject
 
 class PreferenceAccess(private val pref: SharedPreferences) {

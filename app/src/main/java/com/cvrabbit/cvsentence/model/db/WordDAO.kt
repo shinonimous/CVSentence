@@ -9,7 +9,6 @@
 package com.cvrabbit.cvsentence.model.db
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 
 @Dao
@@ -39,7 +38,7 @@ interface WordDAO {
     @Query(
         "SELECT * FROM word_table WHERE id = :id"
     )
-    fun getLiveWordEntity(id: Int): MutableLiveData<WordEntity>
+    fun getLiveWordEntity(id: Int): LiveData<WordEntity>
 
     @Query(
         "SELECT * FROM word_table WHERE green in (:greens) AND difficultyScore BETWEEN :minDS and :maxDS AND registeredDate BETWEEN :minDate and :maxDate AND reference IN (:references) ORDER BY registeredDate DESC"

@@ -12,11 +12,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cvrabbit.cvsentence.model.db.RRT
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
-import com.cvrabbit.cvsentence.model.repository.SortPattern
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation
+import com.cvrabbit.cvsentence.util.constant.RRT
+import com.cvrabbit.cvsentence.util.constant.SortPattern
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext

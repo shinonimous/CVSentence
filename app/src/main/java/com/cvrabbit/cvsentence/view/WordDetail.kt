@@ -22,11 +22,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentWordDetailBinding
-import com.cvrabbit.cvsentence.model.db.DS
-import com.cvrabbit.cvsentence.model.db.RRT
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.durationMillisToDurationDateString
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.longDateToStringFormat
+import com.cvrabbit.cvsentence.util.constant.DS
+import com.cvrabbit.cvsentence.util.constant.RRT
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import com.cvrabbit.cvsentence.viewmodel.WordDetailViewModel

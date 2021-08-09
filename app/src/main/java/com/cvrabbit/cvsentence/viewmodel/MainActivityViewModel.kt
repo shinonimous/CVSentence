@@ -43,7 +43,7 @@ class MainActivityViewModel @ViewModelInject constructor(
      */
     // When word card is clicked
     fun wordCardClicked(word: WordEntity) {
-        val wordDetail = WordDetail.newInstance(mainRepository.getLiveWordEntity(word.id!!))
+        val wordDetail = WordDetail.newInstance(mainRepository.getLiveWordEntity(word.id!!) as MutableLiveData<WordEntity>)
         showFragment(wordDetail)
     }
 

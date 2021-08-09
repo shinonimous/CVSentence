@@ -11,7 +11,7 @@
             type="com.cvrabbit.cvsentence.viewmodel.WordsListViewModel" />
         <variable
             name="word"
-            type="com.cvrabbit.cvsentence.model.db.Word" />
+            type="com.cvrabbit.cvsentence.model.db.WordEntity" />
     </data>
 
 <FrameLayout
