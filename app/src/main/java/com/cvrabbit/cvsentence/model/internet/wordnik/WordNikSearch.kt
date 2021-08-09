@@ -10,11 +10,13 @@ package com.cvrabbit.cvsentence.model.internet.wordnik
 
 import android.content.Context
 import android.util.Log
-import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.internet.WordSearch
 import com.cvrabbit.cvsentence.model.internet.lang.OriginalWordGenerator
-import com.cvrabbit.cvsentence.service.OverlayService
+import com.cvrabbit.cvsentence.util.constant.Constants.ENGLISH_CHECK_REGEX_SPACE_ALLOWED
+import com.cvrabbit.cvsentence.util.constant.Constants.WORDNIK_ACCESS_URL
+import com.cvrabbit.cvsentence.util.constant.Constants.WORDNIK_API_KEY
+import com.cvrabbit.cvsentence.util.constant.Constants.WORDNIK_FIXED_PARAMETERS
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,17 +25,16 @@ import java.lang.Exception
 import java.net.URL
 import java.util.*
 
+private const val TAG = "WordNikSearch"
+
 class WordNikSearch(context: Context): WordSearch {
 
     private val appContext = context.applicationContext
-    private val accessURL = "https://api.wordnik.com/v4/word.json/"
-    private val parameters = "/definitions?limit=200&includeRelated=false&sourceDictionaries=wiktionary&useCanonical=true&includeTags=false&api_key="
-    private val apiKey = "3jen77gz0mls6ksarkco8rzd9u1rhrxb8pu9f7k5309wrr28n"
 
     override fun searchWord(requestWord: String): WordEntity? {
         val wordEntity = WordEntity()
         val wir = getAPIResponse(requestWord)
-        if (wir.responseExist) {
+        return if (wir.responseExist) {
             wordEntity.word = wir.requestedWord
             wordEntity.mainMeaning = wir.mainMeaning
             wordEntity.verb = wir.verb
@@ -44,9 +45,9 @@ class WordNikSearch(context: Context): WordSearch {
             wordEntity.prefix = wir.prefix
             wordEntity.suffix = wir.suffix
             wordEntity.others = wir.others
-            return wordEntity
+            wordEntity
         } else {
-            return null
+            null
         }
     }
 
@@ -61,8 +62,7 @@ class WordNikSearch(context: Context): WordSearch {
     }
 
     private fun requestToWordNik(requestStr: String): String {
-        val url = URL(accessURL + requestStr + parameters + apiKey)
-        Log.d("MyURL", accessURL + requestStr + parameters + apiKey)
+        val url = URL(WORDNIK_ACCESS_URL + requestStr + WORDNIK_FIXED_PARAMETERS + WORDNIK_API_KEY)
         var response = ""
         runBlocking {
             val job = CoroutineScope(Dispatchers.IO).launch {
@@ -74,7 +74,7 @@ class WordNikSearch(context: Context): WordSearch {
             }
             job.join()
         }
-        Log.d("MyResponse",response)
+        Log.d(TAG, "row response:${response}")
         return response
     }
 
@@ -127,10 +127,11 @@ class WordNikSearch(context: Context): WordSearch {
         val returnBool = true
 
         if (!checkLengthOfWord(requestStr)) {
+            Log.d(TAG, "checkIfRequestValid is Running: Too Long")
             return false
         }
         if (!checkIfEnglish(requestStr)) {
-            Log.d("checkIfEnglish", "Not English")
+            Log.d(TAG, "checkIfRequestValid is Running: Not English")
             return false
         }
 
@@ -143,9 +144,7 @@ class WordNikSearch(context: Context): WordSearch {
     }
 
     private fun checkIfEnglish(requestStr: String): Boolean {
-        //return requestStr.matches(Regex("""^[a-zA-Z0-9'*./?_-]*${'$'}"""))
-        return requestStr.matches(Regex("""^[a-zA-Z0-9'\u0020\u00a0-]*${'$'}""")) //When allow space
-        //return requestStr.matches(Regex("""^[a-zA-Z0-9'-]*${'$'}""")) //When don't allow space
+        return requestStr.matches(Regex(ENGLISH_CHECK_REGEX_SPACE_ALLOWED))
     }
 
 }

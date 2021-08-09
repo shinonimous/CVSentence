@@ -5,6 +5,17 @@ object Constants {
     // Overlay Permission Constants
     const val OVERLAY_PERMISSION_REQUEST_CODE = 1
 
+    // Internet WordSearch Constants
+    const val WORDNIK_ACCESS_URL = "https://api.wordnik.com/v4/word.json/"
+    const val WORDNIK_FIXED_PARAMETERS = "/definitions?limit=200&includeRelated=false&sourceDictionaries=wiktionary&useCanonical=true&includeTags=false&api_key="
+    const val WORDNIK_API_KEY = "3jen77gz0mls6ksarkco8rzd9u1rhrxb8pu9f7k5309wrr28n"
+
+    const val EDICT_ACCESS_URL = "https://www.edrdg.org/cgi-bin/wwwjdic/"
+
+    const val ENGLISH_CHECK_REGEX_ETCETERA_ALLOWED = """^[a-zA-Z0-9'*./?_-]*${'$'}"""
+    const val ENGLISH_CHECK_REGEX_SPACE_ALLOWED = """^[a-zA-Z0-9'\u0020\u00a0-]*${'$'}"""
+    const val ENGLISH_CHECK_REGEX_SPACE_NOT_ALLOWED = """^[a-zA-Z0-9'-]*${'$'}"""
+
     // Database Constants
     const val RUNNING_DATABASE_NAME = "word_db"
 

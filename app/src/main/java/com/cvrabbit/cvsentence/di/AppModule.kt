@@ -5,10 +5,12 @@ import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.cvrabbit.cvsentence.model.db.WordDatabase
 import com.cvrabbit.cvsentence.model.internet.WordSearch
+import com.cvrabbit.cvsentence.model.internet.edict.EdictSearch
 import com.cvrabbit.cvsentence.model.internet.wordnik.WordNikSearch
 import com.cvrabbit.cvsentence.model.preferences.PreferenceAccess
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.constant.Constants.RUNNING_DATABASE_NAME
+import com.cvrabbit.cvsentence.util.constant.WordSearchType
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
 import com.cvrabbit.cvsentence.viewmodel.OverlayViewModelLikeObject
 import dagger.Module
@@ -26,7 +28,14 @@ object AppModule {
     @Singleton
     fun provideWordSearch(
         @ApplicationContext app: Context
-    ): WordSearch = WordNikSearch(app)
+    ): WordSearch = when(WordSearchType.current) {
+        WordSearchType.EN_EN -> {
+            WordNikSearch(app)
+        }
+        WordSearchType.EN_JP -> {
+            EdictSearch(app)
+        }
+    }
 
     @Provides
     @Singleton

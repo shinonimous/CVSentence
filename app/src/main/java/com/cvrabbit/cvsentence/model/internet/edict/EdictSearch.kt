@@ -10,17 +10,43 @@ package com.cvrabbit.cvsentence.model.internet.edict
 
 import android.content.Context
 import android.util.Log
+import com.cvrabbit.cvsentence.model.db.WordEntity
+import com.cvrabbit.cvsentence.model.internet.WordSearch
 import com.cvrabbit.cvsentence.model.internet.lang.OriginalWordGenerator
+import com.cvrabbit.cvsentence.util.constant.Constants.EDICT_ACCESS_URL
+import com.cvrabbit.cvsentence.util.constant.Constants.ENGLISH_CHECK_REGEX_SPACE_NOT_ALLOWED
 import retrofit2.Retrofit
 
-class EdictSearch(context: Context) {
+private const val TAG = "EdictSearch"
+
+class EdictSearch(context: Context): WordSearch {
     private val appContext = context.applicationContext
     private val retrofit = Retrofit.Builder().apply {
-        baseUrl("https://www.edrdg.org/cgi-bin/wwwjdic/")
+        baseUrl(EDICT_ACCESS_URL)
     }.build()
     private val service = retrofit.create(EdictSearchService::class.java)
 
-    fun getAPIResponse(requestStr: String): EdictInterpretedResponse {
+    override fun searchWord(requestWord: String): WordEntity? {
+        val wordEntity = WordEntity()
+        val eir = getAPIResponse(requestWord)
+        return if (eir.responseExist) {
+            wordEntity.word = eir.requestedWord
+            wordEntity.mainMeaning = eir.mainMeaning
+            wordEntity.verb = eir.verb
+            wordEntity.noun = eir.noun
+            wordEntity.adjective = eir.adjective
+            wordEntity.adverb = eir.adverb
+            wordEntity.expression = eir.expression
+            wordEntity.prefix = eir.prefix
+            wordEntity.suffix = eir.suffix
+            wordEntity.others = eir.others
+            wordEntity
+        } else {
+            null
+        }
+    }
+
+    private fun getAPIResponse(requestStr: String): EdictInterpretedResponse {
         val requestStr = requestStr.toLowerCase()
         var eir = EdictInterpretedResponse()
         if (!checkIfRequestValid(requestStr)) {
@@ -91,10 +117,11 @@ class EdictSearch(context: Context) {
         val returnBool = true
 
         if (!checkLengthOfWord(requestStr)) {
+            Log.d(TAG, "checkIfRequestValid is Running: Too Long")
             return false
         }
         if (!checkIfEnglish(requestStr)) {
-            Log.d("checkIfEnglish", "Not English")
+            Log.d(TAG, "checkIfRequestValid is Running: Not English")
             return false
         }
 
@@ -107,9 +134,7 @@ class EdictSearch(context: Context) {
     }
 
     private fun checkIfEnglish(requestStr: String): Boolean {
-        //return requestStr.matches(Regex("""^[a-zA-Z0-9'*./?_-]*${'$'}"""))
-        //return requestStr.matches(Regex("""^[a-zA-Z0-9'\u0020\u00a0-]*${'$'}"""))
-        return requestStr.matches(Regex("""^[a-zA-Z0-9'-]*${'$'}"""))
+        return requestStr.matches(Regex(ENGLISH_CHECK_REGEX_SPACE_NOT_ALLOWED))
     }
 }
 
