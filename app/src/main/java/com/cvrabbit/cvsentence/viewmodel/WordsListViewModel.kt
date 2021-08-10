@@ -8,18 +8,18 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation
+import com.cvrabbit.cvsentence.util.constant.Constants.NOT_INITIALIZED_DS
 import com.cvrabbit.cvsentence.util.constant.RRT
 import com.cvrabbit.cvsentence.util.constant.SortPattern
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.util.*
 
 private const val TAG = "WordsListViewModel"
@@ -28,86 +28,139 @@ class WordsListViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository
 ): ViewModel() {
 
-    lateinit var words: LiveData<List<WordEntity>>
+    private val filter = mainRepository.getFilter()
+
+    private val sortPattern = mainRepository.getSortPattern()
+
+    private val allReferences = mainRepository.getAllReferences()
+
+    private val allWordsSortedByDateDesc = mainRepository.getAllWordsSortedByDateDesc()
+
+    private val wordsSortedByDateDesc = mainRepository.getWordsSortedByDateDesc(
+        if (filter.green) { listOf(true)} else {listOf(true, false)},
+        filter.minDS,
+        filter.maxDS,
+        filter.startDate,
+        filter.endDate,
+        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+    )
+
+    private val wordsSortedByDateAsc = mainRepository.getWordsSortedByDateAsc(
+        if (filter.green) { listOf(true)} else {listOf(true, false)},
+        filter.minDS,
+        filter.maxDS,
+        filter.startDate,
+        filter.endDate,
+        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+    )
+
+    private val wordsSortedByDSDesc = mainRepository.getWordsSortedByDSDesc(
+        if (filter.green) { listOf(true)} else {listOf(true, false)},
+        filter.minDS,
+        filter.maxDS,
+        filter.startDate,
+        filter.endDate,
+        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+    )
+
+    private val wordsSortedByDSAsc = mainRepository.getWordsSortedByDSAsc(
+        if (filter.green) { listOf(true)} else {listOf(true, false)},
+        filter.minDS,
+        filter.maxDS,
+        filter.startDate,
+        filter.endDate,
+        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+    )
+
+    private val wordsSortedByWordDesc = mainRepository.getWordsSortedByWordDesc(
+        if (filter.green) { listOf(true)} else {listOf(true, false)},
+        filter.minDS,
+        filter.maxDS,
+        filter.startDate,
+        filter.endDate,
+        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+    )
+
+    private val wordsSortedByWordAsc = mainRepository.getWordsSortedByWordAsc(
+        if (filter.green) { listOf(true)} else {listOf(true, false)},
+        filter.minDS,
+        filter.maxDS,
+        filter.startDate,
+        filter.endDate,
+        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+    )
+
+    val words = MediatorLiveData<List<WordEntity>>()
 
     init {
-        if(!ifAllWordsDeleted()) {
-            updateLiveData()
+        words.addSource(allWordsSortedByDateDesc) {
+            if (sortPattern == SortPattern.DATE_DESC && filter.minDS == NOT_INITIALIZED_DS) {
+                it?.let {
+                    words.value = it
+                }
+            }
         }
-    }
-
-    private fun updateLiveData() {
-        val filter = mainRepository.getFilter()
-        when(mainRepository.getSortPattern()) {
-            SortPattern.DATE_DESC -> {
-                words = mainRepository.getAllWordsSortedBySortedByDateDesc(
-                    if (filter.green) { listOf(true)} else {listOf(true, false)},
-                    filter.minDS,
-                    filter.maxDS,
-                    filter.startDate,
-                    filter.endDate,
-                    if (filter.reference == "") {mainRepository.getAllReferences()} else { listOf(filter.reference) }
-                )
+        words.addSource(wordsSortedByDateDesc) {
+            if (sortPattern == SortPattern.DATE_DESC && filter.minDS != NOT_INITIALIZED_DS) {
+                it?.let {
+                    words.value = it
+                }
             }
-            SortPattern.DATE_ASC -> {
-                words = mainRepository.getAllWordsSortedBySortedByDateAsc(
-                    if (filter.green) { listOf(true)} else {listOf(true, false)},
-                    filter.minDS,
-                    filter.maxDS,
-                    filter.startDate,
-                    filter.endDate,
-                    if (filter.reference == "") {mainRepository.getAllReferences()} else { listOf(filter.reference) }
-                )
+        }
+        words.addSource(wordsSortedByDateAsc) {
+            if (sortPattern == SortPattern.DATE_ASC) {
+                it?.let {
+                    words.value = it
+                }
             }
-            SortPattern.DS_DESC -> {
-                words = mainRepository.getAllWordsSortedBySortedByDSDesc(
-                    if (filter.green) { listOf(true)} else {listOf(true, false)},
-                    filter.minDS,
-                    filter.maxDS,
-                    filter.startDate,
-                    filter.endDate,
-                    if (filter.reference == "") {mainRepository.getAllReferences()} else { listOf(filter.reference) }
-                )
+        }
+        words.addSource(wordsSortedByDSDesc) {
+            if (sortPattern == SortPattern.DS_DESC) {
+                it?.let {
+                    words.value = it
+                }
             }
-            SortPattern.DS_ASC -> {
-                words = mainRepository.getAllWordsSortedBySortedByDSAsc(
-                    if (filter.green) { listOf(true)} else {listOf(true, false)},
-                    filter.minDS,
-                    filter.maxDS,
-                    filter.startDate,
-                    filter.endDate,
-                    if (filter.reference == "") {mainRepository.getAllReferences()} else { listOf(filter.reference) }
-                )
+        }
+        words.addSource(wordsSortedByDSAsc) {
+            if (sortPattern == SortPattern.DS_ASC) {
+                it?.let {
+                    words.value = it
+                }
             }
-            SortPattern.WORD_DESC -> {
-                words = mainRepository.getAllWordsSortedBySortedByWordDesc(
-                    if (filter.green) { listOf(true)} else {listOf(true, false)},
-                    filter.minDS,
-                    filter.maxDS,
-                    filter.startDate,
-                    filter.endDate,
-                    if (filter.reference == "") {mainRepository.getAllReferences()} else { listOf(filter.reference) }
-                )
+        }
+        words.addSource(wordsSortedByWordDesc) {
+            if (sortPattern == SortPattern.WORD_DESC) {
+                it?.let {
+                    words.value = it
+                }
             }
-            SortPattern.WORD_ASC -> {
-                words = mainRepository.getAllWordsSortedBySortedByWordAsc(
-                    if (filter.green) { listOf(true)} else {listOf(true, false)},
-                    filter.minDS,
-                    filter.maxDS,
-                    filter.startDate,
-                    filter.endDate,
-                    if (filter.reference == "") {mainRepository.getAllReferences()} else { listOf(filter.reference) }
-                )
+        }
+        words.addSource(wordsSortedByWordAsc) {
+            if (sortPattern == SortPattern.WORD_ASC) {
+                it?.let {
+                    words.value = it
+                }
             }
         }
     }
 
-    fun ifAllWordsDeleted(): Boolean = runBlocking {
-        withContext(viewModelScope.coroutineContext) {
-            val words = mainRepository.getAllWords()
-            words.isEmpty()
+    // This might be needless if sort performed only once in init() is enough.
+    fun sortWords() = when(sortPattern) {
+        SortPattern.DATE_DESC -> {
+            if (filter.minDS == NOT_INITIALIZED_DS) {
+                allWordsSortedByDateDesc.value?.let { words.value = it }
+            } else {
+                wordsSortedByDateDesc.value?.let { words.value = it }
+            }
         }
+        SortPattern.DATE_ASC -> wordsSortedByDateAsc.value?.let { words.value = it }
+        SortPattern.DS_DESC -> wordsSortedByDSDesc.value?.let { words.value = it }
+        SortPattern.DS_ASC -> wordsSortedByDSAsc.value?.let { words.value = it }
+        SortPattern.WORD_DESC -> wordsSortedByWordDesc.value?.let { words.value = it }
+        SortPattern.WORD_ASC -> wordsSortedByWordAsc.value?.let { words.value = it }
     }
+
+    fun ifAllWordsDeleted(): Boolean = words.value?.isEmpty() ?: true
 
     fun deleteWordEntity(wordEntity: WordEntity) {
         viewModelScope.launch {

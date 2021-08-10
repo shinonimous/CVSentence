@@ -37,7 +37,6 @@ import javax.inject.Inject
 
 private const val TAG = "OverlayView"
 
-@AndroidEntryPoint
 class OverlayView @JvmOverloads constructor(
         ctx: Context,
         attrs: AttributeSet? = null,

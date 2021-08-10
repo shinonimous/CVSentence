@@ -10,14 +10,14 @@ package com.cvrabbit.cvsentence.model.preferences
 
 import android.content.SharedPreferences
 import com.cvrabbit.cvsentence.model.db.WordDAO
+import com.cvrabbit.cvsentence.util.constant.Constants.NOT_INITIALIZED_DATE
+import com.cvrabbit.cvsentence.util.constant.Constants.NOT_INITIALIZED_DS
 import com.cvrabbit.cvsentence.util.constant.SortPattern
 import com.cvrabbit.cvsentence.util.data.WordFilter
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 class PreferenceAccess(private val pref: SharedPreferences) {
-
-    @Inject
-    lateinit var wordDAO: WordDAO
 
     fun saveOnSelectWordSoundSetting(onSelectWordSound:Boolean){
         val editor = pref.edit()
@@ -99,10 +99,10 @@ class PreferenceAccess(private val pref: SharedPreferences) {
     fun getFilter(): WordFilter {
         return WordFilter(
             green = pref.getBoolean("GREEN", false),
-            minDS = pref.getFloat("MIN_DS", wordDAO.getMinDS()),
-            maxDS = pref.getFloat("MAX_DS", wordDAO.getMaxDS()),
-            startDate = pref.getLong("START_DATE", wordDAO.getMinDate()),
-            endDate = pref.getLong("END_DATE", wordDAO.getMaxDate()),
+            minDS = pref.getFloat("MIN_DS", NOT_INITIALIZED_DS),
+            maxDS = pref.getFloat("MAX_DS", NOT_INITIALIZED_DS),
+            startDate = pref.getLong("START_DATE", NOT_INITIALIZED_DATE),
+            endDate = pref.getLong("END_DATE", NOT_INITIALIZED_DATE),
             reference = pref.getString("REFERENCE", "")!!
         )
     }

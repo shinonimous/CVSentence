@@ -11,6 +11,7 @@ package com.cvrabbit.cvsentence.view
 import android.graphics.Canvas
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
@@ -45,15 +46,15 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
      * Settings of binding and listeners
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        Log.d(TAG, "onViewCreated Started")
+
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentWordsListBinding.bind(view).apply {
             viewmodel = wordsListViewModel // "viewmodel" is defined in layout xml.
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
-
-        // set firstGuidance visibility
-        binding.firstGuidance.isVisible = wordsListViewModel.ifAllWordsDeleted()
 
         // recycler view adapter binding
         val adapter = WordAdapter()
@@ -75,6 +76,7 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
         // update the recycler view
         wordsListViewModel.words.observe(viewLifecycleOwner, {
             adapter.submitList(it)
+            binding.firstGuidance.isVisible = it.isEmpty()
         })
 
     }
@@ -95,7 +97,6 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val word = adapter.getItem(viewHolder.adapterPosition)
                 wordsListViewModel.deleteWordEntity(word)
-                binding.firstGuidance.isVisible = wordsListViewModel.ifAllWordsDeleted()
             }
 
             override fun onChildDraw(

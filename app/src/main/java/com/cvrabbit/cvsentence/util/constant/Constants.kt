@@ -19,6 +19,10 @@ object Constants {
     // Database Constants
     const val RUNNING_DATABASE_NAME = "word_db"
 
+    // Preference
+    const val NOT_INITIALIZED_DS = -1f
+    const val NOT_INITIALIZED_DATE = -1L
+
     // Twitter Constants
     const val CONSUMER_KEY = "vFiYVloPBnnwnV2YnhZ1rfxKi"
     const val CONSUMER_SECRET = "Ez8cOrs3iCYK5MIyuprEEZTG7ulFp4mvT6BpbvQD61vVagBSb9"

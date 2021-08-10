@@ -8,6 +8,7 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
+import android.util.Log
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.hilt.lifecycle.ViewModelInject
@@ -49,6 +50,7 @@ class MainActivityViewModel @ViewModelInject constructor(
 
     // When back button is clicked
     fun backToList() {
+        Log.d(TAG, "backToList is Running")
         showFragment(WordsList.newInstance())
     }
 
@@ -108,7 +110,7 @@ class MainActivityViewModel @ViewModelInject constructor(
     // check before showing reference spinner
     fun ifReferenceEntityEmpty(): Boolean {
         val references = mainRepository.getAllReferences()
-        return references.isEmpty()
+        return references.value?.isEmpty() ?: true
     }
 
     // use when showing reference spinner
@@ -116,7 +118,7 @@ class MainActivityViewModel @ViewModelInject constructor(
         val reference = mutableListOf<String>()
         val referencesFromDB = mainRepository.getAllReferences()
         reference.add("")
-        reference.addAll(referencesFromDB)
+        reference.addAll(referencesFromDB.value!!)
         return reference.toTypedArray()
     }
 }

@@ -56,6 +56,10 @@ dependencies {
     // Google Play Service Advertise
     implementation 'com.google.android.gms:play-services-ads:20.0.0'
 
+    // Lifecycle extension (Without this, "Unresolved reference: value" will occur)
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "androidx.fragment:fragment-ktx:1.1.0"
+
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:27.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'

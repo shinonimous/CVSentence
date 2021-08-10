@@ -21,7 +21,7 @@ import androidx.fragment.app.viewModels
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentBaseSettingsBinding
 import com.cvrabbit.cvsentence.model.db.ReferenceEntity
-import com.cvrabbit.cvsentence.model.repository.FloatingPosition
+import com.cvrabbit.cvsentence.util.constant.FloatingPosition
 import com.cvrabbit.cvsentence.util.device.CSVExport
 import com.cvrabbit.cvsentence.viewmodel.BaseSettingsViewModel
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel

@@ -46,69 +46,71 @@ class MainRepository @Inject constructor(
 
     fun getLiveWordEntity(id: Int) = wordDAO.getLiveWordEntity(id)
 
-    fun getAllWordsSortedBySortedByDateDesc(
+    fun getAllWordsSortedByDateDesc() = wordDAO.getAllWordsSortedByDateDesc()
+
+    fun getWordsSortedByDateDesc(
         greens: List<Boolean>,
         minDS: Float,
         maxDS: Float,
         minDate: Long,
         maxDate: Long,
         references: List<String>
-    ) = wordDAO.getAllWordsSortedByDateDesc(
+    ) = wordDAO.getWordsSortedByDateDesc(
         greens, minDS, maxDS, minDate, maxDate, references
     )
 
-    fun getAllWordsSortedBySortedByDateAsc(
+    fun getWordsSortedByDateAsc(
         greens: List<Boolean>,
         minDS: Float,
         maxDS: Float,
         minDate: Long,
         maxDate: Long,
         references: List<String>
-    ) = wordDAO.getAllWordsSortedByDateAsc(
+    ) = wordDAO.getWordsSortedByDateAsc(
         greens, minDS, maxDS, minDate, maxDate, references
     )
 
-    fun getAllWordsSortedBySortedByDSDesc(
+    fun getWordsSortedByDSDesc(
         greens: List<Boolean>,
         minDS: Float,
         maxDS: Float,
         minDate: Long,
         maxDate: Long,
         references: List<String>
-    ) = wordDAO.getAllWordsSortedByDSDesc(
+    ) = wordDAO.getWordsSortedByDSDesc(
         greens, minDS, maxDS, minDate, maxDate, references
     )
 
-    fun getAllWordsSortedBySortedByDSAsc(
+    fun getWordsSortedByDSAsc(
         greens: List<Boolean>,
         minDS: Float,
         maxDS: Float,
         minDate: Long,
         maxDate: Long,
         references: List<String>
-    ) = wordDAO.getAllWordsSortedByDSAsc(
+    ) = wordDAO.getWordsSortedByDSAsc(
         greens, minDS, maxDS, minDate, maxDate, references
     )
 
-    fun getAllWordsSortedBySortedByWordDesc(
+    fun getWordsSortedByWordDesc(
         greens: List<Boolean>,
         minDS: Float,
         maxDS: Float,
         minDate: Long,
         maxDate: Long,
         references: List<String>
-    ) = wordDAO.getAllWordsSortedByWordDesc(
+    ) = wordDAO.getWordsSortedByWordDesc(
         greens, minDS, maxDS, minDate, maxDate, references
     )
 
-    fun getAllWordsSortedBySortedByWordAsc(
+    fun getWordsSortedByWordAsc(
         greens: List<Boolean>,
         minDS: Float,
         maxDS: Float,
         minDate: Long,
         maxDate: Long,
         references: List<String>
-    ) = wordDAO.getAllWordsSortedByWordAsc(
+    ) = wordDAO.getWordsSortedByWordAsc(
         greens, minDS, maxDS, minDate, maxDate, references
     )
 

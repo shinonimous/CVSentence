@@ -135,7 +135,7 @@ class AdMob : Fragment() {
             toAddFrameLayout.addView(mAdView)
         } catch (e: Exception) {
             AdState.current = AdState.HIDE
-            Log.d("AdLoadFail",e.printStackTrace().toString())
+            Log.d(TAG,"Ad Load Failed: ${e.printStackTrace()}")
         }
     }
 }

@@ -28,6 +28,9 @@ object EdictResponseInterpreter {
 }
 
 class EdictInterpretedResponse {
+
+    private val TAG = "EdictInterpretedResponse"
+
     var requestedWord = ""
     var fullResponse = ""
     var responseExist = false
@@ -47,7 +50,7 @@ class EdictInterpretedResponse {
 
     fun setProperties() {
         if (!fullResponse.contains(preTagPattern.toRegex())) {
-            Log.d("EdictResponse","Doesn't contain pre tag")
+            Log.d(TAG,"Doesn't contain pre tag")
             responseExist = false
         } else {
             responseExist = true
@@ -104,15 +107,15 @@ class EdictInterpretedResponse {
                 else { mainMeaning = allMeaningsKanji }
             }
 
-            Log.d("mainMeaning", mainMeaning)
-            Log.d("verb", verb)
-            Log.d("noun",noun)
-            Log.d("adjective", adjective)
-            Log.d("adverb", adverb)
-            Log.d("prefix", prefix)
-            Log.d("suffix", suffix)
-            Log.d("expression", expression)
-            Log.d("others", others)
+            Log.d(TAG, "mainMeaning: $mainMeaning")
+            Log.d(TAG, "verb: $verb")
+            Log.d(TAG,"noun: $noun")
+            Log.d(TAG, "adjective: $adjective")
+            Log.d(TAG, "adverb: $adverb")
+            Log.d(TAG, "prefix: $prefix")
+            Log.d(TAG, "suffix: $suffix")
+            Log.d(TAG, "expression: $expression")
+            Log.d(TAG, "others: $others")
         }
     }
 
@@ -146,6 +149,9 @@ class EdictInterpretedResponse {
 }
 
 class EdictChunk {
+
+    private val TAG = "EdictChunk"
+
     var fullChunk = ""
     lateinit var pos: BracketMarker
     var commonMeanings = listOf<String>()
@@ -168,7 +174,7 @@ class EdictChunk {
      */
     private fun setPos() {
         val startWithPosStr = (fullChunk.substring(fullChunk.indexOf("/"), fullChunk.length)).drop(2)
-        Log.d("startWithPos", startWithPosStr)
+        Log.d(TAG, startWithPosStr)
         pos = when {
             startWithPosStr.startsWith(BracketMarker.NOUN.bracket, 0) -> {
                 BracketMarker.NOUN
