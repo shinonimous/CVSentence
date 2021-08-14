@@ -44,8 +44,6 @@ class MainRepository @Inject constructor(
 
     suspend fun getCertainWord(word: String) = wordDAO.getCertainWord(word)
 
-    fun getLiveWordEntity(id: Int) = wordDAO.getLiveWordEntity(id)
-
     fun getAllWordsSortedByDateDesc() = wordDAO.getAllWordsSortedByDateDesc()
 
     fun getWordsSortedByDateDesc(

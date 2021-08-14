@@ -34,6 +34,7 @@ private const val TAG = "OverlayService"
 class OverlayService : LifecycleService() {
 
     companion object {
+        lateinit var overlayServiceViewModelLikeObject: OverlayViewModelLikeObject
         val overlayView = MutableLiveData<OverlayView?>(null)
         val newWord = MutableLiveData<WordEntity>()
         var focusReference: String? = null
@@ -56,10 +57,13 @@ class OverlayService : LifecycleService() {
     private var ifFirstRun = true
     @Inject
     lateinit var notificationBuilder: NotificationCompat.Builder
+    @Inject
+    lateinit var overlayServiceViewModelLikeObject: OverlayViewModelLikeObject
 
     override fun onCreate() {
         super.onCreate()
         overlayView.value = OverlayView.create(this)
+        OverlayService.overlayServiceViewModelLikeObject = this.overlayServiceViewModelLikeObject
     }
 
     // Start or Stop the Service according to intent

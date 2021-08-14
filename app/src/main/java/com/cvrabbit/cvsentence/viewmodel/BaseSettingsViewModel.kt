@@ -8,7 +8,6 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvrabbit.cvsentence.model.db.ReferenceEntity
@@ -16,13 +15,16 @@ import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.service.OverlayView
 import com.cvrabbit.cvsentence.util.constant.FloatingPosition
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 private const val TAG = "BaseSettingsViewModel"
 
-class BaseSettingsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class BaseSettingsViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ): ViewModel() {
 

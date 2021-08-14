@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.ActivityMainBinding
 import com.cvrabbit.cvsentence.service.OverlayService
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity(){
         binding.viewmodel = mainActivityViewModel
 
         // Observe FragmentNavigationRequest data
-        mainActivityViewModel.navigateToFragment.observe(this, {
+        mainActivityViewModel.navigateToFragment.observe(this, Observer {
             it?.getContentIfNotHandled()?.let { fragmentRequest ->
                 Log.d(TAG, "Fragment Replacing Method is Running")
                 val transaction = supportFragmentManager.beginTransaction()
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity(){
         })
 
         // Observe DialogFragmentNavigationRequest data
-        mainActivityViewModel.navigateToDialogFragment.observe(this, {
+        mainActivityViewModel.navigateToDialogFragment.observe(this, Observer {
             it?.getContentIfNotHandled()?.let { dialogFragmentRequest ->
                 dialogFragmentRequest.fragment.show(
                     supportFragmentManager,
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity(){
         })
 
         // Observe the OverlayView
-        OverlayService.overlayView.observe(this,{
+        OverlayService.overlayView.observe(this, Observer{
             Log.d(TAG, "overlayView observer is running")
             binding.recordButtonOn.isVisible = (it != null)
             binding.recordButtonOff.isVisible = (it == null)

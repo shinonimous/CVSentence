@@ -36,11 +36,6 @@ interface WordDAO {
     suspend fun getCertainWord(word: String): List<WordEntity>
 
     @Query(
-        "SELECT * FROM word_table WHERE id = :id"
-    )
-    fun getLiveWordEntity(id: Int): LiveData<WordEntity>
-
-    @Query(
         "SELECT * FROM word_table ORDER BY registeredDate DESC"
     )
     fun getAllWordsSortedByDateDesc(): LiveData<List<WordEntity>>

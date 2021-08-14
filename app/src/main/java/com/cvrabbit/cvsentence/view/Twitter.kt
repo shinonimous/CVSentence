@@ -135,7 +135,7 @@ class Twitter : DialogFragment() {
     }
 
     private fun makeTweetSentence(): String {
-        val wordObject = wordDetailViewModel.focusWord.value!!
+        val wordObject = wordDetailViewModel.observableFocusWord.value!!
         val theme = requireContext().getString(R.string.tw_theme)
         val word = requireContext().getString(R.string.tw_word) + wordObject.word
         val meaning = requireContext().getString(R.string.tw_meaning) + wordObject.mainMeaning

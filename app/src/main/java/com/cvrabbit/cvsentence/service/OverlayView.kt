@@ -26,22 +26,17 @@ import com.cvrabbit.cvsentence.util.constant.Constants.OVERLAY_MEANING_SHOWING_I
 import com.cvrabbit.cvsentence.util.constant.FloatingPosition
 import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import com.cvrabbit.cvsentence.util.internet.Internet
-import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
-import com.cvrabbit.cvsentence.viewmodel.OverlayViewModelLikeObject
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 private const val TAG = "OverlayView"
 
-class OverlayView @JvmOverloads constructor(
-        ctx: Context,
-        attrs: AttributeSet? = null,
-        defStyle: Int = 0
-) : FrameLayout(ctx, attrs, defStyle){
+class OverlayView : FrameLayout {
+    constructor(context: Context) : super(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     companion object {
         const val layoutXdpLarge = 50
@@ -55,12 +50,8 @@ class OverlayView @JvmOverloads constructor(
         }
     }
 
-    @Inject
-    lateinit var overlayViewModelLikeObject: OverlayViewModelLikeObject
-
-    @Inject
-    lateinit var textToSpeech: GoogleTextToSpeech
-
+    private val overlayServiceViewModelLikeObject
+        get() = OverlayService.overlayServiceViewModelLikeObject
     private val pixelWindowWidth
         get() = SizeMetrics(context).getPxWindowSize().first
     private val pixelWindowHeight
@@ -104,7 +95,7 @@ class OverlayView @JvmOverloads constructor(
     @Synchronized
     fun show() {
         if (!this.isShown) {
-            if(overlayViewModelLikeObject.getFloatingPosition() == FloatingPosition.RIGHT) {
+            if(overlayServiceViewModelLikeObject.getFloatingPosition() == FloatingPosition.RIGHT) {
                 windowManager.addView(this, layoutParams)
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
                     setClipboardListener()
@@ -131,7 +122,7 @@ class OverlayView @JvmOverloads constructor(
 
     @Synchronized
     fun updateLayout() {
-        if (overlayViewModelLikeObject.getFloatingPosition() == FloatingPosition.RIGHT) {
+        if (overlayServiceViewModelLikeObject.getFloatingPosition() == FloatingPosition.RIGHT) {
             windowManager.updateViewLayout(this, layoutParams)
         } else {
             windowManager.updateViewLayout(this, layoutParamsLeft)
@@ -143,14 +134,14 @@ class OverlayView @JvmOverloads constructor(
         if (this.isShown) {
             if(flag) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                    when(overlayViewModelLikeObject.getFloatingPosition()) {
+                    when(overlayServiceViewModelLikeObject.getFloatingPosition()) {
                         FloatingPosition.RIGHT -> { layoutParams.flags = FOCUSABLE; windowManager.updateViewLayout(this, layoutParams) }
                         FloatingPosition.LEFT -> { layoutParamsLeft.flags = FOCUSABLE; windowManager.updateViewLayout(this, layoutParamsLeft) }
                     }
                 }
             } else {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                    when(overlayViewModelLikeObject.getFloatingPosition()) {
+                    when(overlayServiceViewModelLikeObject.getFloatingPosition()) {
                         FloatingPosition.RIGHT -> { layoutParams.flags = FOCUSABLE_AUTO; windowManager.updateViewLayout(this, layoutParams) }
                         FloatingPosition.LEFT -> { layoutParamsLeft.flags = FOCUSABLE_AUTO; windowManager.updateViewLayout(this, layoutParamsLeft) }
                     }
@@ -196,12 +187,12 @@ class OverlayView @JvmOverloads constructor(
             val pasteData = item?.text.toString()
             if (prevData != pasteData) {
                 if (Internet(context).checkInternetConnection()) {
-                    val word = overlayViewModelLikeObject.searchWord(pasteData)
+                    val word = overlayServiceViewModelLikeObject.searchWord(pasteData)
                     if (word != null) {
                         word.reference = OverlayService.focusReference?:""
-                        overlayViewModelLikeObject.createNewWordEntity(word)
+                        overlayServiceViewModelLikeObject.createNewWordEntity(word)
                         showText(word.mainMeaning)
-                        textToSpeech.textToSpeechOnSelection(word)
+                        overlayServiceViewModelLikeObject.textToSpeech.textToSpeechOnSelection(word)
                     } else {
                         showText(context.resources.getString(R.string.cb_word_not_found))
                     }

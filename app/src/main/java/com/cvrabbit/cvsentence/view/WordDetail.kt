@@ -19,7 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentWordDetailBinding
 import com.cvrabbit.cvsentence.model.db.WordEntity
@@ -36,7 +36,7 @@ import javax.inject.Inject
 private const val TAG = "WordDetail"
 
 @AndroidEntryPoint
-class WordDetail(private val focusWord: MutableLiveData<WordEntity>) : Fragment(R.layout.fragment_word_detail) {
+class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment_word_detail) {
     private lateinit var binding: FragmentWordDetailBinding
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val wordDetailViewModel: WordDetailViewModel by viewModels()
@@ -46,7 +46,7 @@ class WordDetail(private val focusWord: MutableLiveData<WordEntity>) : Fragment(
     lateinit var textToSpeech: GoogleTextToSpeech
 
     companion object {
-        fun newInstance(focusWord: MutableLiveData<WordEntity>) = WordDetail(focusWord)
+        fun newInstance(focusWord: WordEntity) = WordDetail(focusWord)
     }
 
     override fun onCreateView(
@@ -65,10 +65,11 @@ class WordDetail(private val focusWord: MutableLiveData<WordEntity>) : Fragment(
         super.onViewCreated(view, savedInstanceState)
         initVisibility()
         wordDetailViewModel.updateLookup(focusWord)
-        updateUI(focusWord.value!!)
-        setListeners(focusWord.value!!)
-        wordDetailViewModel.focusWord.observe(viewLifecycleOwner, {
-            Log.d(TAG, "MutableLiveData<WordEntity> observer is Running")
+        updateUI(focusWord)
+        setListeners(focusWord)
+        wordDetailViewModel.observableFocusWord.observe(viewLifecycleOwner, Observer{
+            Log.d(TAG, "LiveData<WordEntity> observer is Running")
+            wordDetailViewModel.updateWord(it)
             updateUI(it)
         })
     }

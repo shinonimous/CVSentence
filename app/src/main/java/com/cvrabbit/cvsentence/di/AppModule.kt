@@ -12,16 +12,15 @@ import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.constant.Constants.RUNNING_DATABASE_NAME
 import com.cvrabbit.cvsentence.util.constant.WordSearchType
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
-import com.cvrabbit.cvsentence.viewmodel.OverlayViewModelLikeObject
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
@@ -68,4 +67,5 @@ object AppModule {
         app,
         mainRepository
     )
+
 }

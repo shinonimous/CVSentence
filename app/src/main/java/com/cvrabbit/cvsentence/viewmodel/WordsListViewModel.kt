@@ -9,7 +9,6 @@
 package com.cvrabbit.cvsentence.viewmodel
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,12 +18,15 @@ import com.cvrabbit.cvsentence.util.calendar.CalendarOperation
 import com.cvrabbit.cvsentence.util.constant.Constants.NOT_INITIALIZED_DS
 import com.cvrabbit.cvsentence.util.constant.RRT
 import com.cvrabbit.cvsentence.util.constant.SortPattern
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
 private const val TAG = "WordsListViewModel"
 
-class WordsListViewModel @ViewModelInject constructor(
+@HiltViewModel
+class WordsListViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ): ViewModel() {
 

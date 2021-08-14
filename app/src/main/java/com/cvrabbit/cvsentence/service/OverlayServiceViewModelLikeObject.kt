@@ -6,11 +6,14 @@
  *
  */
 
-package com.cvrabbit.cvsentence.viewmodel
+package com.cvrabbit.cvsentence.service
 
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
+import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -20,26 +23,22 @@ import javax.inject.Inject
  * but there are some descriptions that it's not a good practice to make a view model for a service.
  * https://github.com/android/architecture-components-samples/issues/137
  *
- * Also, sharing a view model between activities is not recommended,
- * therefore I thought I shouldn't reuse mainActivityViewModel within a service class.
- * https://stackoverflow.com/questions/62845238/how-can-i-share-viewmodel-between-activities#:~:text=You%20can't%20share%20a,per%20the%20Single%20Activity%20talk.
- *
- * Therefore, I decided to make this class to hold methods that are otherwise implemented in a view model class.
+ * Therefore, although this class holds methods that are usually implemented in a view model class,
+ * it's not an actual view model class.
  */
 
-private const val TAG = "OverlayViewModel"
+private const val TAG = "OverlayServiceViewModel"
 
 class OverlayViewModelLikeObject @Inject constructor(
-    private val mainRepository: MainRepository
+    private val mainRepository: MainRepository,
+    val textToSpeech: GoogleTextToSpeech
 ) {
 
     fun searchWord(requestWord: String) = mainRepository.searchWord(requestWord)
 
     fun createNewWordEntity(wordEntity: WordEntity) =
-        runBlocking {
-            withContext(IO){
-                mainRepository.insertWord(wordEntity)
-            }
+        CoroutineScope(IO).launch {
+            mainRepository.insertWord(wordEntity)
         }
 
     fun ifSameWordExist(wordEntity: WordEntity):Boolean =

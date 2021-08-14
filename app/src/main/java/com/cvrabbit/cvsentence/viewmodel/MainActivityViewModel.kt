@@ -11,7 +11,6 @@ package com.cvrabbit.cvsentence.viewmodel
 import android.util.Log
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,12 +19,15 @@ import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.transition.Event
 import com.cvrabbit.cvsentence.view.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 private const val TAG = "MainActivityViewModel"
 
-class MainActivityViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ): ViewModel() {
 
@@ -44,7 +46,8 @@ class MainActivityViewModel @ViewModelInject constructor(
      */
     // When word card is clicked
     fun wordCardClicked(word: WordEntity) {
-        val wordDetail = WordDetail.newInstance(mainRepository.getLiveWordEntity(word.id!!) as MutableLiveData<WordEntity>)
+        Log.d(TAG, "wordCardClicked is Running: WordEntity's id: ${word.id}")
+        val wordDetail = WordDetail.newInstance(word)
         showFragment(wordDetail)
     }
 
@@ -83,9 +86,11 @@ class MainActivityViewModel @ViewModelInject constructor(
      */
     // When first time of showing main
     fun openFirstTimeGuidance() {
-        if(mainRepository.getIfShowMainFirstTime()) {
+        // When testing FirstTimeGuidance, comment out this.
+        if(!mainRepository.getIfShowMainFirstTime()) {
             backToList()
-            return } // When testing FirstTimeGuidance, comment out this.
+            return
+        }
         showDialogFragment(FirstTimeGuidance.newInstance())
     }
 

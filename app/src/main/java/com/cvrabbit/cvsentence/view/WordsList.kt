@@ -18,6 +18,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.cvrabbit.cvsentence.R
@@ -74,7 +75,7 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
         wordsListViewModel.setGreen()
 
         // update the recycler view
-        wordsListViewModel.words.observe(viewLifecycleOwner, {
+        wordsListViewModel.words.observe(viewLifecycleOwner, Observer{
             adapter.submitList(it)
             binding.firstGuidance.isVisible = it.isEmpty()
         })
