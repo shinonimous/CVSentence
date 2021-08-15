@@ -8,17 +8,19 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
+import android.content.Context
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvrabbit.cvsentence.model.db.ReferenceEntity
-import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.service.OverlayView
 import com.cvrabbit.cvsentence.util.constant.FloatingPosition
+import com.cvrabbit.cvsentence.util.device.CSVExport
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 private const val TAG = "BaseSettingsViewModel"
@@ -28,8 +30,12 @@ class BaseSettingsViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ): ViewModel() {
 
+    private val csvSavedDir: MutableLiveData<String> = MutableLiveData("")
+    val observableCsvSavedDir: LiveData<String> = csvSavedDir
+
     // When user creates new reference in BaseSettings Page, use this method.
     fun createNewReference(reference: ReferenceEntity) {
+        Log.d(TAG, "createNewReference is Running")
         viewModelScope.launch {
             if (reference.reference != "") {
                 mainRepository.insertReference(reference)
@@ -38,10 +44,9 @@ class BaseSettingsViewModel @Inject constructor(
     }
 
     // When user clicks on "CSV Export", use this method.
-    fun getAllWords(): List<WordEntity> = runBlocking{
-        withContext(viewModelScope.coroutineContext) {
-            mainRepository.getAllWords()
-        }
+    fun csvExport(context: Context) = viewModelScope.launch {
+        val savedDir: String = CSVExport(context).saveWordsAsCSV(mainRepository.getAllWords())
+        csvSavedDir.postValue(savedDir)
     }
 
     fun getFloatingPosition(): FloatingPosition = mainRepository.getFloatingPosition()

@@ -8,6 +8,8 @@
 
 package com.cvrabbit.cvsentence.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.constant.SortPattern
@@ -28,17 +30,8 @@ class SortSettingsViewModel @Inject constructor(
 
     fun saveFilter(wordFilter: WordFilter) = mainRepository.saveFilter(wordFilter)
 
-    fun getMinDS() = mainRepository.getMinDS()
-
-    fun getMaxDS() = mainRepository.getMaxDS()
-
-    fun getMinDate() = mainRepository.getMinDate()
-
-    fun getMaxDate() = mainRepository.getMaxDate()
-
     // use when showing reg date spinner
-    fun getRegArray():Array<String> {
-        val startEndDate = getStartEndRegDate()
+    fun getRegArray(startEndDate: Pair<Date, Date>):Array<String> {
         val mStrList = mutableListOf<String>()
         mStrList.add(0, "")
         var x = startEndDate.first
@@ -52,11 +45,5 @@ class SortSettingsViewModel @Inject constructor(
             x = calendar.time
         }
         return mStrList.toTypedArray()
-    }
-
-    private fun getStartEndRegDate(): Pair<Date, Date> {
-        val startDate = Date(mainRepository.getMinDate())
-        val endDate = Date(mainRepository.getMaxDate())
-        return Pair(startDate, endDate)
     }
 }

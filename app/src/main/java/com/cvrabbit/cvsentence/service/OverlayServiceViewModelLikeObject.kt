@@ -38,21 +38,13 @@ class OverlayViewModelLikeObject @Inject constructor(
 
     fun createNewWordEntity(wordEntity: WordEntity) =
         CoroutineScope(IO).launch {
-            mainRepository.insertWord(wordEntity)
-        }
-
-    fun ifSameWordExist(wordEntity: WordEntity):Boolean =
-        runBlocking {
-            withContext(IO){
-                val words = mainRepository.getCertainWord(wordEntity.word)
-                if (words.isNotEmpty()) {
-                    for(i in words) {
-                        i.tryAddSameWordCount += 1
-                        mainRepository.updateWord(i)
-                    }
-                    true
-                } else {
-                    false
+            val sameWords = mainRepository.getCertainWord(wordEntity.word)
+            if(sameWords.isEmpty()) {
+                mainRepository.insertWord(wordEntity)
+            } else {
+                for(i in sameWords) {
+                    i.tryAddSameWordCount += 1
+                    mainRepository.updateWord(i)
                 }
             }
         }

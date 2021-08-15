@@ -33,6 +33,11 @@ private const val TAG = "MainActivity"
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
 
+    companion object {
+        var ifReferenceEmpty = true
+        var allReferences = listOf("")
+    }
+
     lateinit var binding: ActivityMainBinding
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
@@ -64,6 +69,12 @@ class MainActivity : AppCompatActivity(){
             }
         })
 
+        // Observe the reference
+        mainActivityViewModel.observableReferences.observe(this, Observer {
+            allReferences = it
+            ifReferenceEmpty = it.isEmpty()
+        })
+
         // Observe the OverlayView
         OverlayService.overlayView.observe(this, Observer{
             Log.d(TAG, "overlayView observer is running")
@@ -81,7 +92,7 @@ class MainActivity : AppCompatActivity(){
 
     private fun setListeners() {
         binding.sortButton.setOnClickListener {
-            mainActivityViewModel.openSortSetting()
+            mainActivityViewModel.openSortSetting(WordsList.ifAllWordsDeleted)
         }
         binding.baseButton.setOnClickListener {
             mainActivityViewModel.openBaseSetting()
@@ -111,7 +122,8 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun showReferenceSelectionDialog() {
-        if(mainActivityViewModel.ifReferenceEntityEmpty()) {
+        Log.d(TAG, "showReferenceSelectionDialog is Running: ifReferenceEmpty: $ifReferenceEmpty")
+        if(ifReferenceEmpty) {
             OverlayService.start(this)
             return
         }
@@ -139,7 +151,7 @@ class MainActivity : AppCompatActivity(){
 
     private fun initSpinner(spinner: Spinner): Spinner {
         // referenceSpinner
-        val refArray = mainActivityViewModel.getAllReferencesAsArray()
+        val refArray = mainActivityViewModel.getAllReferencesAsArray(allReferences)
         val refAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, refArray)
         spinner.adapter = refAdapter
         return spinner

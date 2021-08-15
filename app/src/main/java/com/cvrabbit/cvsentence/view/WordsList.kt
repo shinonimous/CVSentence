@@ -29,6 +29,7 @@ import com.cvrabbit.cvsentence.databinding.FragmentWordsListBinding
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 private const val TAG = "WordsList"
 
@@ -40,6 +41,11 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
     private val wordsListViewModel: WordsListViewModel by viewModels()
 
     companion object {
+        var ifAllWordsDeleted = true
+        var minDS: Float = 7f
+        var maxDS: Float = 7f
+        var minDate: Long = Date().time
+        var maxDate: Long = Date().time
         fun newInstance() = WordsList()
     }
 
@@ -75,11 +81,19 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
         wordsListViewModel.setGreen()
 
         // update the recycler view
-        wordsListViewModel.words.observe(viewLifecycleOwner, Observer{
-            adapter.submitList(it)
-            binding.firstGuidance.isVisible = it.isEmpty()
+        wordsListViewModel.words.observe(viewLifecycleOwner, Observer{ listOfWordEntity ->
+            adapter.submitList(listOfWordEntity)
         })
 
+        // get parameters for sort settings
+        wordsListViewModel.allWordsSortedByDateDesc.observe(viewLifecycleOwner, Observer { listOfWordEntity ->
+            ifAllWordsDeleted = listOfWordEntity.isEmpty()
+            binding.firstGuidance.isVisible = ifAllWordsDeleted
+            minDS = listOfWordEntity.minByOrNull { it.difficultyScore }?.difficultyScore ?: 7f
+            maxDS = listOfWordEntity.maxByOrNull { it.difficultyScore }?.difficultyScore ?: 7f
+            minDate = listOfWordEntity.minByOrNull { it.registeredDate }?.registeredDate ?: Date().time
+            maxDate = listOfWordEntity.maxByOrNull { it.registeredDate }?.registeredDate ?: Date().time
+        })
     }
 
     private fun getSwipeToDismissTouchHelper(adapter: WordAdapter, listView: View) =

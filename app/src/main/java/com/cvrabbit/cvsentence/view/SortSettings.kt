@@ -26,11 +26,13 @@ import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import com.cvrabbit.cvsentence.viewmodel.SortSettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import java.util.*
 
 private const val TAG = "SortSettings"
 
 @AndroidEntryPoint
 class SortSettings : Fragment(R.layout.fragment_sort_settings) {
+
     private lateinit var binding: FragmentSortSettingsBinding
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val sortSettingsViewModel: SortSettingsViewModel by viewModels()
@@ -45,6 +47,7 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
             viewmodel = sortSettingsViewModel
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
+
         initVisibility()
         initListeners()
     }
@@ -140,7 +143,7 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
         }
 
         // regSpinner
-        val regArray = sortSettingsViewModel.getRegArray()
+        val regArray = sortSettingsViewModel.getRegArray(Pair(Date(WordsList.minDate), Date(WordsList.maxDate)))
         val regAdapter = ArrayAdapter(requireContext(), R.layout.spinner_layout, regArray)
         regAdapter.setDropDownViewResource(R.layout.spinner_layout_item)
         binding.regDateStartSpinner.adapter = regAdapter
@@ -191,7 +194,7 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
         }
 
         //referenceSpinner
-        val refArray = mainActivityViewModel.getAllReferencesAsArray()
+        val refArray = mainActivityViewModel.getAllReferencesAsArray(MainActivity.allReferences)
         val refAdapter = ArrayAdapter(requireContext(), R.layout.spinner_layout, refArray)
         refAdapter.setDropDownViewResource(R.layout.spinner_layout_item)
         binding.referenceSortSpinner.adapter = refAdapter
@@ -209,30 +212,30 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
             minDS = if(binding.dsRange.isChecked) {
                 binding.dsRangeStartSpinner.selectedItem.toString().toFloat()
             } else {
-                sortSettingsViewModel.getMinDS()
+                WordsList.minDS
             },
             maxDS = if(binding.dsRange.isChecked) {
                 binding.dsRangeEndSpinner.selectedItem.toString().toFloat()
             } else {
-                sortSettingsViewModel.getMaxDS()
+                WordsList.maxDS
             },
             startDate = if(binding.registeredDateRange.isChecked) {
                 if (binding.regDateStartSpinner.selectedItem.toString() != "") {
                     getFirstMillisOfMonth(binding.regDateStartSpinner.selectedItem.toString())
                 } else {
-                    sortSettingsViewModel.getMinDate()
+                    WordsList.minDate
                 }
             } else {
-                    sortSettingsViewModel.getMinDate()
+                    WordsList.minDate
             },
             endDate = if(binding.registeredDateRange.isChecked) {
                 if (binding.regDateStartSpinner.selectedItem.toString() != "") {
                     getLastMillisOfMonth(binding.regDateEndSpinner.selectedItem.toString())
                 } else {
-                    sortSettingsViewModel.getMaxDate()
+                    WordsList.maxDate
                 }
             } else {
-                sortSettingsViewModel.getMaxDate()
+                WordsList.maxDate
             },
             reference = if(binding.referenceSort.isChecked) {
                 binding.referenceSortSpinner.selectedItem.toString()

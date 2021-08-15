@@ -112,14 +112,6 @@ class MainRepository @Inject constructor(
         greens, minDS, maxDS, minDate, maxDate, references
     )
 
-    fun getMinDate() = wordDAO.getMinDate()
-
-    fun getMaxDate() = wordDAO.getMaxDate()
-
-    fun getMinDS() = wordDAO.getMinDS()
-
-    fun getMaxDS() = wordDAO.getMaxDS()
-
     fun getAllReferences() = wordDAO.getAllReferences()
 
     /**

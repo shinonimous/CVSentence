@@ -12,6 +12,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.cvrabbit.cvsentence.util.constant.DS
 import com.cvrabbit.cvsentence.util.constant.RRT
+import java.util.*
 
 @Entity(tableName = "word_table")
 data class WordEntity(
@@ -34,7 +35,7 @@ data class WordEntity(
     var notRememberedCount: Int = 0,
     var rememberedCount: Int = 0,
     var tryAddSameWordCount: Int = 0,
-    var registeredDate: Long = 0L,
+    var registeredDate: Long = Date().time,
     var green: Boolean = false,
     var reference: String = ""
 ) {
@@ -62,35 +63,11 @@ fun initializeWordEntity(wordEntity: WordEntity) {
     wordEntity.notRememberedCount = 0
     wordEntity.rememberedCount = 0
     wordEntity.tryAddSameWordCount = 0
-    wordEntity.registeredDate = 0L
+    wordEntity.registeredDate = Date().time
     wordEntity.green = false
     wordEntity.reference = ""
 }
 
-fun overwriteWordEntity(writeEntity: WordEntity, writtenEntity: WordEntity) {
-    writtenEntity.word = writeEntity.word
-    writtenEntity.mainMeaning = writeEntity.mainMeaning
-    writtenEntity.verb = writeEntity.verb
-    writtenEntity.noun = writeEntity.noun
-    writtenEntity.adjective = writeEntity.adjective
-    writtenEntity.adverb = writeEntity.adverb
-    writtenEntity.expression = writeEntity.expression
-    writtenEntity.prefix = writeEntity.prefix
-    writtenEntity.suffix = writeEntity.suffix
-    writtenEntity.others = writeEntity.others
-    writtenEntity.lookupCount = writeEntity.lookupCount
-    writtenEntity.lastLookupDate = writeEntity.lastLookupDate
-    writtenEntity.durationFromLastLookupTime = writeEntity.durationFromLastLookupTime
-    writtenEntity.recommendedRecurTiming = writeEntity.recommendedRecurTiming
-    writtenEntity.notRememberedCountSinceUnderLimitReached = writeEntity.notRememberedCountSinceUnderLimitReached
-    writtenEntity.difficultyScore = writeEntity.difficultyScore
-    writtenEntity.notRememberedCount = writeEntity.notRememberedCount
-    writtenEntity.rememberedCount = writeEntity.rememberedCount
-    writtenEntity.tryAddSameWordCount = writeEntity.tryAddSameWordCount
-    writtenEntity.registeredDate = writeEntity.registeredDate
-    writtenEntity.green = writeEntity.green
-    writtenEntity.reference = writeEntity.reference
-}
 
 
 

@@ -31,12 +31,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentTweetEntryDialogBinding
+import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.util.constant.Constants.CALLBACK_URL
 import com.cvrabbit.cvsentence.util.constant.Constants.CONSUMER_KEY
 import com.cvrabbit.cvsentence.util.constant.Constants.CONSUMER_SECRET
 import com.cvrabbit.cvsentence.util.constant.Constants.GOOGLE_PLAY_LINK
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import com.cvrabbit.cvsentence.viewmodel.WordDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
@@ -49,16 +51,16 @@ import twitter4j.conf.ConfigurationBuilder
 
 private const val TAG = "Twitter"
 
-class Twitter : DialogFragment() {
+@AndroidEntryPoint
+class Twitter(private val wordEntity: WordEntity) : DialogFragment() {
 
     private var _binding: FragmentTweetEntryDialogBinding? = null
     private val binding
         get() = _binding!!
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-    private val wordDetailViewModel: WordDetailViewModel by viewModels()
 
     companion object {
-        fun newInstance() = Twitter()
+        fun newInstance(word: WordEntity) = Twitter(word)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -135,11 +137,10 @@ class Twitter : DialogFragment() {
     }
 
     private fun makeTweetSentence(): String {
-        val wordObject = wordDetailViewModel.observableFocusWord.value!!
         val theme = requireContext().getString(R.string.tw_theme)
-        val word = requireContext().getString(R.string.tw_word) + wordObject.word
-        val meaning = requireContext().getString(R.string.tw_meaning) + wordObject.mainMeaning
-        val reference = requireContext().getString(R.string.tw_reference) + wordObject.reference
+        val word = requireContext().getString(R.string.tw_word) + wordEntity.word
+        val meaning = requireContext().getString(R.string.tw_meaning) + wordEntity.mainMeaning
+        val reference = requireContext().getString(R.string.tw_reference) + wordEntity.reference
         return theme + "\n" + word + "\n" + meaning + "\n" + reference
     }
 

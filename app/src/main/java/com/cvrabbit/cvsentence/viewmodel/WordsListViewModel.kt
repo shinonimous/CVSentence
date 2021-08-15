@@ -36,7 +36,7 @@ class WordsListViewModel @Inject constructor(
 
     private val allReferences = mainRepository.getAllReferences()
 
-    private val allWordsSortedByDateDesc = mainRepository.getAllWordsSortedByDateDesc()
+    val allWordsSortedByDateDesc = mainRepository.getAllWordsSortedByDateDesc()
 
     private val wordsSortedByDateDesc = mainRepository.getWordsSortedByDateDesc(
         if (filter.green) { listOf(true)} else {listOf(true, false)},

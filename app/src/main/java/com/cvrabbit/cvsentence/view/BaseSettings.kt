@@ -18,11 +18,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentBaseSettingsBinding
 import com.cvrabbit.cvsentence.model.db.ReferenceEntity
 import com.cvrabbit.cvsentence.util.constant.FloatingPosition
-import com.cvrabbit.cvsentence.util.device.CSVExport
 import com.cvrabbit.cvsentence.viewmodel.BaseSettingsViewModel
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +47,10 @@ class BaseSettings : Fragment(R.layout.fragment_base_settings) {
         binding.lifecycleOwner = this.viewLifecycleOwner
         initVisibility()
         initListeners()
+
+        baseSettingsViewModel.observableCsvSavedDir.observe(viewLifecycleOwner, Observer{
+            binding.csvExportSaveDir.text = it
+        })
     }
 
     private fun initVisibility() {
@@ -102,8 +106,7 @@ class BaseSettings : Fragment(R.layout.fragment_base_settings) {
 
         // CSV Export Button
         binding.csvExport.setOnClickListener {
-            val savedWord = CSVExport(requireContext()).saveWordsAsCSV(baseSettingsViewModel.getAllWords())
-            binding.csvExportSaveDir.text = savedWord
+            baseSettingsViewModel.csvExport(requireContext())
         }
 
         // SoundSettings

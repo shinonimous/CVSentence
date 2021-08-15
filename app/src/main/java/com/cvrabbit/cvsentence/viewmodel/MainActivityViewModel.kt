@@ -14,14 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.transition.Event
 import com.cvrabbit.cvsentence.view.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 private const val TAG = "MainActivityViewModel"
@@ -32,6 +29,8 @@ class MainActivityViewModel @Inject constructor(
 ): ViewModel() {
 
     var focusReference: String? = null
+
+    val observableReferences = mainRepository.getAllReferences()
 
     val navigateToFragment: LiveData<Event<FragmentNavigationRequest>>
         get() = _navigateToFragment
@@ -58,22 +57,16 @@ class MainActivityViewModel @Inject constructor(
     }
 
     // When Sort Settings button is clicked
-    fun openSortSetting() {
-        if(!ifAllWordEntityDeleted()) {
+    fun openSortSetting(ifAllWordsDeleted: Boolean) {
+        Log.d(TAG, "openSortSetting is Running: ifAllWordsDeleted: $ifAllWordsDeleted")
+        if(!ifAllWordsDeleted) {
             showFragment(SortSettings.newInstance())
         }
     }
 
-    private fun ifAllWordEntityDeleted(): Boolean =
-        runBlocking {
-            withContext(viewModelScope.coroutineContext) {
-                val words = mainRepository.getAllWords()
-                words.isEmpty()
-            }
-        }
-
     // When base Settings button is clicked
     fun openBaseSetting() {
+        Log.d(TAG, "openBaseSetting is Running")
         showFragment(BaseSettings.newInstance())
     }
 
@@ -86,7 +79,7 @@ class MainActivityViewModel @Inject constructor(
      */
     // When first time of showing main
     fun openFirstTimeGuidance() {
-        // When testing FirstTimeGuidance, comment out this.
+        // When testing FirstTimeGuidance, remove "!".
         if(!mainRepository.getIfShowMainFirstTime()) {
             backToList()
             return
@@ -97,8 +90,8 @@ class MainActivityViewModel @Inject constructor(
     fun setIfShowMainFirstTime() = mainRepository.setIfShowMainFirstTime()
 
     // When Twitter Button clicked
-    fun openTwitterDialog() {
-        showDialogFragment(Twitter.newInstance())
+    fun openTwitterDialog(word: WordEntity) {
+        showDialogFragment(Twitter.newInstance(word))
     }
 
     fun getTwitterAccessToken() = mainRepository.getTwitterAccessToken()
@@ -112,18 +105,11 @@ class MainActivityViewModel @Inject constructor(
      * Showing Reference Spinner Functions
      */
 
-    // check before showing reference spinner
-    fun ifReferenceEntityEmpty(): Boolean {
-        val references = mainRepository.getAllReferences()
-        return references.value?.isEmpty() ?: true
-    }
-
     // use when showing reference spinner
-    fun getAllReferencesAsArray(): Array<String> {
+    fun getAllReferencesAsArray(referencesFromDB: List<String>): Array<String> {
         val reference = mutableListOf<String>()
-        val referencesFromDB = mainRepository.getAllReferences()
         reference.add("")
-        reference.addAll(referencesFromDB.value!!)
+        reference.addAll(referencesFromDB)
         return reference.toTypedArray()
     }
 }

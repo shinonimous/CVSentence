@@ -277,13 +277,13 @@ class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment
 
         // Set reference button Listener
         binding.changeReference.setOnClickListener {
-            if(mainActivityViewModel.ifReferenceEntityEmpty()) {
+            if(MainActivity.ifReferenceEmpty) {
                 Toast.makeText(activity,R.string.wda_no_reference, Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             val title = context?.getString(R.string.wda_select_reference_title)
             val message = context?.getString(R.string.wda_select_reference_message)
-            val refArray = mainActivityViewModel.getAllReferencesAsArray()
+            val refArray = mainActivityViewModel.getAllReferencesAsArray(MainActivity.allReferences)
             val refAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, refArray)
             val spinner = Spinner(context)
             spinner.adapter = refAdapter
@@ -300,7 +300,7 @@ class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment
         }
         // Set Twitter Button Listener
         binding.twitter.setOnClickListener {
-            mainActivityViewModel.openTwitterDialog()
+            mainActivityViewModel.openTwitterDialog(word)
         }
 
     }

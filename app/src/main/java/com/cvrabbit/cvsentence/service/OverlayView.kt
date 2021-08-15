@@ -117,6 +117,7 @@ class OverlayView : FrameLayout {
     fun hide() {
         if (this.isShown) {
             windowManager.removeView(this)
+            overlayView = null
         }
     }
 

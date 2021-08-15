@@ -13,6 +13,7 @@ import androidx.room.*
 
 @Dao
 interface WordDAO {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWord(wordEntity: WordEntity)
 
@@ -90,19 +91,7 @@ interface WordDAO {
                                    maxDate: Long,
                                    references: List<String>): LiveData<List<WordEntity>>
 
-    @Query("SELECT MIN(difficultyScore) FROM word_table")
-    fun getMinDS(): Float
-
-    @Query("SELECT MAX(difficultyScore) FROM word_table")
-    fun getMaxDS(): Float
-
-    @Query("SELECT MIN(registeredDate) FROM word_table")
-    fun getMinDate(): Long
-
-    @Query("SELECT MAX(registeredDate) FROM word_table")
-    fun getMaxDate(): Long
-
-    @Query("SELECT DISTINCT reference FROM reference_table")
+    @Query("SELECT reference FROM reference_table")
     fun getAllReferences(): LiveData<List<String>>
 
 }
