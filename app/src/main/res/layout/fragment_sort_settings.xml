@@ -257,7 +257,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:background="#E4F4E5"
+                                    android:background="@color/theme_color_textbox_background"
                                     android:paddingEnd="10dp"
                                     android:spinnerMode="dialog" />
 

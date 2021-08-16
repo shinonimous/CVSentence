@@ -12,6 +12,7 @@ import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.constant.Constants.RUNNING_DATABASE_NAME
 import com.cvrabbit.cvsentence.util.constant.WordSearchType
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
+import com.cvrabbit.cvsentence.view.MainActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

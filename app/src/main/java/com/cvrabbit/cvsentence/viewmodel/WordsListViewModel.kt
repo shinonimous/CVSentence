@@ -18,6 +18,7 @@ import com.cvrabbit.cvsentence.util.calendar.CalendarOperation
 import com.cvrabbit.cvsentence.util.constant.Constants.NOT_INITIALIZED_DS
 import com.cvrabbit.cvsentence.util.constant.RRT
 import com.cvrabbit.cvsentence.util.constant.SortPattern
+import com.cvrabbit.cvsentence.view.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -34,67 +35,78 @@ class WordsListViewModel @Inject constructor(
 
     private val sortPattern = mainRepository.getSortPattern()
 
-    private val allReferences = mainRepository.getAllReferences()
+    private lateinit var allReferences: List<String>
 
-    val allWordsSortedByDateDesc = mainRepository.getAllWordsSortedByDateDesc()
+    val allWordsSortedByDateDesc get() = mainRepository.getAllWordsSortedByDateDesc()
 
-    private val wordsSortedByDateDesc = mainRepository.getWordsSortedByDateDesc(
+    private val wordsSortedByDateDesc get() = mainRepository.getWordsSortedByDateDesc(
         if (filter.green) { listOf(true)} else {listOf(true, false)},
         filter.minDS,
         filter.maxDS,
         filter.startDate,
         filter.endDate,
-        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+        if (filter.reference == "") {
+            Log.d(TAG, "inside mainRepository.getWordsSortedByDateDesc: allReferences: $allReferences")
+            allReferences } else { listOf(filter.reference) }
     )
 
-    private val wordsSortedByDateAsc = mainRepository.getWordsSortedByDateAsc(
+    private val wordsSortedByDateAsc get() = mainRepository.getWordsSortedByDateAsc(
         if (filter.green) { listOf(true)} else {listOf(true, false)},
         filter.minDS,
         filter.maxDS,
         filter.startDate,
         filter.endDate,
-        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+        if (filter.reference == "") {allReferences} else { listOf(filter.reference) }
     )
 
-    private val wordsSortedByDSDesc = mainRepository.getWordsSortedByDSDesc(
+    private val wordsSortedByDSDesc get() = mainRepository.getWordsSortedByDSDesc(
         if (filter.green) { listOf(true)} else {listOf(true, false)},
         filter.minDS,
         filter.maxDS,
         filter.startDate,
         filter.endDate,
-        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+        if (filter.reference == "") {allReferences} else { listOf(filter.reference) }
     )
 
-    private val wordsSortedByDSAsc = mainRepository.getWordsSortedByDSAsc(
+    private val wordsSortedByDSAsc get() = mainRepository.getWordsSortedByDSAsc(
         if (filter.green) { listOf(true)} else {listOf(true, false)},
         filter.minDS,
         filter.maxDS,
         filter.startDate,
         filter.endDate,
-        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+        if (filter.reference == "") {allReferences} else { listOf(filter.reference) }
     )
 
-    private val wordsSortedByWordDesc = mainRepository.getWordsSortedByWordDesc(
+    private val wordsSortedByWordDesc get() = mainRepository.getWordsSortedByWordDesc(
         if (filter.green) { listOf(true)} else {listOf(true, false)},
         filter.minDS,
         filter.maxDS,
         filter.startDate,
         filter.endDate,
-        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+        if (filter.reference == "") {allReferences} else { listOf(filter.reference) }
     )
 
-    private val wordsSortedByWordAsc = mainRepository.getWordsSortedByWordAsc(
+    private val wordsSortedByWordAsc get() = mainRepository.getWordsSortedByWordAsc(
         if (filter.green) { listOf(true)} else {listOf(true, false)},
         filter.minDS,
         filter.maxDS,
         filter.startDate,
         filter.endDate,
-        if (filter.reference == "") {allReferences.value ?: listOf("")} else { listOf(filter.reference) }
+        if (filter.reference == "") {allReferences} else { listOf(filter.reference) }
     )
 
     val words = MediatorLiveData<List<WordEntity>>()
 
-    init {
+    fun setWordsSources(allReferences: List<String>) {
+
+        this.allReferences = createAllReferencesWithBlank(allReferences)
+
+        Log.d(TAG, "init is Running: sortPattern: $sortPattern ," +
+                " minDS: ${filter.minDS}, maxDS: ${filter.maxDS}," +
+                " minDate: ${filter.startDate}, maxDate: ${filter.endDate}, " +
+                "green: ${filter.green}, references: ${filter.reference}, " +
+                "allReferences: ${this.allReferences}")
+
         words.addSource(allWordsSortedByDateDesc) {
             if (sortPattern == SortPattern.DATE_DESC && filter.minDS == NOT_INITIALIZED_DS) {
                 it?.let {
@@ -146,6 +158,13 @@ class WordsListViewModel @Inject constructor(
         }
     }
 
+    private fun createAllReferencesWithBlank(allReferences: List<String>): List<String> {
+        val resultList: MutableList<String> = mutableListOf()
+        resultList.add("")
+        resultList.addAll(allReferences)
+        return resultList
+    }
+
     // This might be needless if sort performed only once in init() is enough.
     fun sortWords() = when(sortPattern) {
         SortPattern.DATE_DESC -> {
@@ -162,8 +181,6 @@ class WordsListViewModel @Inject constructor(
         SortPattern.WORD_ASC -> wordsSortedByWordAsc.value?.let { words.value = it }
     }
 
-    fun ifAllWordsDeleted(): Boolean = words.value?.isEmpty() ?: true
-
     fun deleteWordEntity(wordEntity: WordEntity) {
         viewModelScope.launch {
             mainRepository.deleteWord(wordEntity)
@@ -171,10 +188,15 @@ class WordsListViewModel @Inject constructor(
     }
 
     // When certain word card color get green, use this method
-    fun setGreen() {
-        if (!words.value.isNullOrEmpty()) {
-            for (i in words.value!!) {
-                i.green = CalendarOperation.minusDateLong(Date().time, i.lastLookupDate) > RRT.getRRTValue(i.recommendedRecurTiming).longValue
+    fun setGreen(words: List<WordEntity>) {
+        for (i in words) {
+            val prevGreen = i.green
+            val currentGreen = CalendarOperation.minusDateLong(Date().time, i.lastLookupDate) > RRT.getRRTValue(i.recommendedRecurTiming).longValue
+            if(prevGreen != currentGreen) {
+                i.green = currentGreen
+                viewModelScope.launch {
+                    mainRepository.updateWord(i)
+                }
             }
         }
     }

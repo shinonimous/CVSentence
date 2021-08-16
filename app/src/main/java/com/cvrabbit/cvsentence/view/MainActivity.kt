@@ -33,10 +33,8 @@ private const val TAG = "MainActivity"
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
 
-    companion object {
-        var ifReferenceEmpty = true
-        var allReferences = listOf("")
-    }
+    private var ifReferenceEmpty = true
+    private var allReferences = listOf("")
 
     lateinit var binding: ActivityMainBinding
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
@@ -71,6 +69,7 @@ class MainActivity : AppCompatActivity(){
 
         // Observe the reference
         mainActivityViewModel.observableReferences.observe(this, Observer {
+            Log.d(TAG, "reference observer is Running: allReferences: $it")
             allReferences = it
             ifReferenceEmpty = it.isEmpty()
         })
@@ -81,7 +80,6 @@ class MainActivity : AppCompatActivity(){
             binding.recordButtonOn.isVisible = (it != null)
             binding.recordButtonOff.isVisible = (it == null)
         })
-
     }
 
     override fun onResume() {
@@ -151,6 +149,7 @@ class MainActivity : AppCompatActivity(){
 
     private fun initSpinner(spinner: Spinner): Spinner {
         // referenceSpinner
+        Log.d(TAG, "initSpinner is Running: References: $allReferences")
         val refArray = mainActivityViewModel.getAllReferencesAsArray(allReferences)
         val refAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, refArray)
         spinner.adapter = refAdapter

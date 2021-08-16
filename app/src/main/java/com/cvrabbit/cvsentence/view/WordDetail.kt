@@ -38,6 +38,8 @@ private const val TAG = "WordDetail"
 @AndroidEntryPoint
 class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment_word_detail) {
     private lateinit var binding: FragmentWordDetailBinding
+    private var ifReferenceEmpty = true
+    private var referencesArray: Array<String> = arrayOf()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val wordDetailViewModel: WordDetailViewModel by viewModels()
     private var notUpdatedAfterOpenPage: Boolean = false
@@ -49,24 +51,27 @@ class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment
         fun newInstance(focusWord: WordEntity) = WordDetail(focusWord)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_word_detail, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentWordDetailBinding.bind(view).apply {
             viewmodel = wordDetailViewModel
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
-        return view
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        mainActivityViewModel.observableReferences.observe(viewLifecycleOwner, Observer {
+            ifReferenceEmpty = it.isEmpty()
+            referencesArray = mainActivityViewModel.getAllReferencesAsArray(it)
+        })
+
         initVisibility()
+
         wordDetailViewModel.updateLookup(focusWord)
+
         updateUI(focusWord)
+
         setListeners(focusWord)
+
         wordDetailViewModel.observableFocusWord.observe(viewLifecycleOwner, Observer{
             Log.d(TAG, "LiveData<WordEntity> observer is Running")
             wordDetailViewModel.updateWord(it)
@@ -277,13 +282,13 @@ class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment
 
         // Set reference button Listener
         binding.changeReference.setOnClickListener {
-            if(MainActivity.ifReferenceEmpty) {
+            if(ifReferenceEmpty) {
                 Toast.makeText(activity,R.string.wda_no_reference, Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             val title = context?.getString(R.string.wda_select_reference_title)
             val message = context?.getString(R.string.wda_select_reference_message)
-            val refArray = mainActivityViewModel.getAllReferencesAsArray(MainActivity.allReferences)
+            val refArray = referencesArray
             val refAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, refArray)
             val spinner = Spinner(context)
             spinner.adapter = refAdapter

@@ -63,6 +63,11 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
 
+        // set sources for words list
+        mainActivityViewModel.observableReferences.observe(viewLifecycleOwner, Observer {
+            wordsListViewModel.setWordsSources(it)
+        })
+
         // recycler view adapter binding
         val adapter = WordAdapter()
         binding.wordsList.adapter = adapter
@@ -77,25 +82,26 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
         // set listener for delete
         getSwipeToDismissTouchHelper(adapter, view).attachToRecyclerView(binding.wordsList)
 
-        // update the green status
-        wordsListViewModel.setGreen()
-
         // update the recycler view
         wordsListViewModel.words.observe(viewLifecycleOwner, Observer{ listOfWordEntity ->
+            Log.d(TAG, "Observer of filtered words is Running: listOfWordIsEmpty: ${listOfWordEntity.isEmpty()}")
             adapter.submitList(listOfWordEntity)
         })
 
-        // get parameters for sort settings
+        // get parameters for sort settings, and set green
         wordsListViewModel.allWordsSortedByDateDesc.observe(viewLifecycleOwner, Observer { listOfWordEntity ->
+            Log.d(TAG, "Observer of allWords is running")
             ifAllWordsDeleted = listOfWordEntity.isEmpty()
             binding.firstGuidance.isVisible = ifAllWordsDeleted
             minDS = listOfWordEntity.minByOrNull { it.difficultyScore }?.difficultyScore ?: 7f
             maxDS = listOfWordEntity.maxByOrNull { it.difficultyScore }?.difficultyScore ?: 7f
             minDate = listOfWordEntity.minByOrNull { it.registeredDate }?.registeredDate ?: Date().time
             maxDate = listOfWordEntity.maxByOrNull { it.registeredDate }?.registeredDate ?: Date().time
+            wordsListViewModel.setGreen(listOfWordEntity)
         })
     }
 
+    // When swiped, delete word
     private fun getSwipeToDismissTouchHelper(adapter: WordAdapter, listView: View) =
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.ACTION_STATE_IDLE,

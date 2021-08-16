@@ -1,6 +1,13 @@
+/*
+ * Copyright (c) 2020 shinonistone
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/mit-license.php
+ *
+ */
+
 package com.cvrabbit.cvsentence.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -9,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentWordInListBinding
 import com.cvrabbit.cvsentence.model.db.WordEntity
+
+private const val TAG = "WordAdapter"
 
 class WordAdapter: RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
 
@@ -60,17 +69,29 @@ class WordAdapter: RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
         private var mBinding: FragmentWordInListBinding = binding
         // (3) Bind the event listener to the interface listener function
         fun bindTo(word: WordEntity, position: Int) {
+
             mBinding.addedWord.text = word.word
+
             mBinding.root.setOnClickListener {
                 listener.onItemClickListener(word, position)
             }
-            mBinding.addedCard.setCardBackgroundColor(
-                if (word.green) {
+
+            if (word.green) {
+                mBinding.addedCard.setCardBackgroundColor(
                     mBinding.root.context.resources.getColor(R.color.theme_color, mBinding.root.context.theme)
-                } else {
+                )
+                mBinding.addedWord.setTextColor(
+                    mBinding.root.context.resources.getColor(R.color.theme_color_text_white, mBinding.root.context.theme)
+                )
+            } else {
+                mBinding.addedCard.setCardBackgroundColor(
                     mBinding.root.context.resources.getColor(R.color.theme_color_white, mBinding.root.context.theme)
-                }
-            )
+                )
+                mBinding.addedWord.setTextColor(
+                    mBinding.root.context.resources.getColor(R.color.theme_color_text, mBinding.root.context.theme)
+                )
+            }
+
             mBinding.executePendingBindings()
         }
     }

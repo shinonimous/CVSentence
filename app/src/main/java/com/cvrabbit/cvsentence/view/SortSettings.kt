@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentSortSettingsBinding
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.getFirstMillisOfMonth
@@ -33,6 +34,7 @@ private const val TAG = "SortSettings"
 @AndroidEntryPoint
 class SortSettings : Fragment(R.layout.fragment_sort_settings) {
 
+    private var referencesArray: Array<String> = arrayOf()
     private lateinit var binding: FragmentSortSettingsBinding
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val sortSettingsViewModel: SortSettingsViewModel by viewModels()
@@ -47,6 +49,10 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
             viewmodel = sortSettingsViewModel
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
+
+        mainActivityViewModel.observableReferences.observe(viewLifecycleOwner, Observer {
+            referencesArray = mainActivityViewModel.getAllReferencesAsArray(it)
+        })
 
         initVisibility()
         initListeners()
@@ -194,7 +200,7 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
         }
 
         //referenceSpinner
-        val refArray = mainActivityViewModel.getAllReferencesAsArray(MainActivity.allReferences)
+        val refArray = referencesArray
         val refAdapter = ArrayAdapter(requireContext(), R.layout.spinner_layout, refArray)
         refAdapter.setDropDownViewResource(R.layout.spinner_layout_item)
         binding.referenceSortSpinner.adapter = refAdapter
