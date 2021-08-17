@@ -10,11 +10,11 @@ package com.cvrabbit.cvsentence.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.cvrabbit.cvsentence.model.repository.MainRepository
+import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.addOneMonthToLongDate
+import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.longDateToStringyyyyMMFormat
 import com.cvrabbit.cvsentence.util.constant.SortPattern
 import com.cvrabbit.cvsentence.util.data.WordFilter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 private const val TAG = "SortSettingsViewModel"
@@ -29,18 +29,14 @@ class SortSettingsViewModel @Inject constructor(
     fun saveFilter(wordFilter: WordFilter) = mainRepository.saveFilter(wordFilter)
 
     // use when showing reg date spinner
-    fun getRegArray(startEndDate: Pair<Date, Date>):Array<String> {
+    fun getRegArray(startEndDate: Pair<Long, Long>):Array<String> {
         val mStrList = mutableListOf<String>()
         mStrList.add(0, "")
         var x = startEndDate.first
         while (x <= startEndDate.second) {
-            val sdf = SimpleDateFormat("yyyy/MM", Locale.JAPAN)
-            val addDate = sdf.format(x)
+            val addDate = longDateToStringyyyyMMFormat(x)
             mStrList.add(addDate)
-            val calendar = Calendar.getInstance()
-            calendar.time = x
-            calendar.add(Calendar.MONTH, 1)
-            x = calendar.time
+            x = addOneMonthToLongDate(x)
         }
         return mStrList.toTypedArray()
     }

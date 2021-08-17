@@ -1,5 +1,7 @@
 package com.cvrabbit.cvsentence.util.constant
 
+import java.text.SimpleDateFormat
+
 object Constants {
 
     // Overlay Permission Constants

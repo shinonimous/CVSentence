@@ -29,6 +29,7 @@ import com.cvrabbit.cvsentence.databinding.FragmentWordsListBinding
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "WordsList"
@@ -42,10 +43,10 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
 
     companion object {
         var ifAllWordsDeleted = true
-        var minDS: Float = 7f
-        var maxDS: Float = 7f
-        var minDate: Long = Date().time
-        var maxDate: Long = Date().time
+        var minDS: Float = 0f
+        var maxDS: Float = 10f
+        var minDate: Long = 0L
+        var maxDate: Long = SimpleDateFormat("yyyy/MM").parse("5000/1").time
         fun newInstance() = WordsList()
     }
 
@@ -84,7 +85,7 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
 
         // update the recycler view
         wordsListViewModel.words.observe(viewLifecycleOwner, Observer{ listOfWordEntity ->
-            Log.d(TAG, "Observer of filtered words is Running: listOfWordIsEmpty: ${listOfWordEntity.isEmpty()}")
+            Log.d(TAG, "Observer of filtered words is Running: submitList(listOfWordIsEmpty): ${listOfWordEntity.isEmpty()}")
             adapter.submitList(listOfWordEntity)
         })
 
@@ -168,4 +169,5 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
             }
         }
         )
+
 }

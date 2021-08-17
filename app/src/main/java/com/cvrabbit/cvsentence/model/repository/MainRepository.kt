@@ -30,11 +30,9 @@ class MainRepository @Inject constructor(
     fun searchWord(requestWord: String) = wordSearch.searchWord(requestWord)
 
     /**
-     * Room Related Operation
+     * Room Related Operation: WordEntity
      */
     suspend fun insertWord(wordEntity: WordEntity) = wordDAO.insertWord(wordEntity)
-
-    suspend fun insertReference(referenceEntity: ReferenceEntity) = wordDAO.insertReference(referenceEntity)
 
     suspend fun deleteWord(wordEntity: WordEntity) = wordDAO.deleteWord(wordEntity)
 
@@ -111,6 +109,15 @@ class MainRepository @Inject constructor(
     ) = wordDAO.getWordsSortedByWordAsc(
         greens, minDS, maxDS, minDate, maxDate, references
     )
+
+    /**
+     * Room Related Operation: ReferenceEntity
+     */
+
+
+    suspend fun insertReference(referenceEntity: ReferenceEntity) = wordDAO.insertReference(referenceEntity)
+
+    suspend fun getCertainReference(reference: String) = wordDAO.getCertainReference(reference)
 
     fun getAllReferences() = wordDAO.getAllReferences()
 

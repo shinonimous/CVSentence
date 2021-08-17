@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(){
 
     private fun setListeners() {
         binding.sortButton.setOnClickListener {
-            mainActivityViewModel.openSortSetting(WordsList.ifAllWordsDeleted)
+            mainActivityViewModel.openSortSetting(WordsList.ifAllWordsDeleted, allReferences)
         }
         binding.baseButton.setOnClickListener {
             mainActivityViewModel.openBaseSetting()

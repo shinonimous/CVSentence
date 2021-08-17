@@ -57,25 +57,13 @@ class WordNikSearch(context: Context): WordSearch {
         if (!checkIfRequestValid(lowerRequestStr)) {
             return eir
         }
-        eir = getProperWirObject(lowerRequestStr)
-        return eir
-    }
-
-    private fun requestToWordNik(requestStr: String): String {
-        val url = URL(WORDNIK_ACCESS_URL + requestStr + WORDNIK_FIXED_PARAMETERS + WORDNIK_API_KEY)
-        var response = ""
         runBlocking {
             val job = CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    response = url.readText()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                eir = getProperWirObject(lowerRequestStr)
             }
             job.join()
         }
-        Log.d(TAG, "row response:${response}")
-        return response
+        return eir
     }
 
     private fun getProperWirObject(requestStr: String): WordNikInterpretedResponse {
@@ -95,6 +83,18 @@ class WordNikSearch(context: Context): WordSearch {
             }
         }
         return wir
+    }
+
+    private fun requestToWordNik(requestStr: String): String {
+        val url = URL(WORDNIK_ACCESS_URL + requestStr + WORDNIK_FIXED_PARAMETERS + WORDNIK_API_KEY)
+        var response = ""
+        try {
+            response = url.readText()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        Log.d(TAG, "row response:${response}")
+        return response
     }
 
     private fun getOriginalVerbWirObject(requestStr: String): WordNikInterpretedResponse {

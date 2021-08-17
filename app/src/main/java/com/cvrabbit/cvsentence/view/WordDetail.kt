@@ -11,9 +11,7 @@ package com.cvrabbit.cvsentence.view
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -24,7 +22,7 @@ import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentWordDetailBinding
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.durationMillisToDurationDateString
-import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.longDateToStringFormat
+import com.cvrabbit.cvsentence.util.calendar.CalendarOperation.longDateToStringyyyyMMddFormat
 import com.cvrabbit.cvsentence.util.constant.DS
 import com.cvrabbit.cvsentence.util.constant.RRT
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
@@ -65,6 +63,8 @@ class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment
         })
 
         initVisibility()
+
+        Log.d(TAG, "onViewCreated is Running: focusWord.durationFromLastLLT: ${focusWord.durationFromLastLookupTime}")
 
         wordDetailViewModel.updateLookup(focusWord)
 
@@ -114,9 +114,9 @@ class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment
         binding.notRememberedCountNum.text = word.notRememberedCount.toString()
         binding.rememberedCountNum.text = word.rememberedCount.toString()
         binding.rrtFromDate.text = if (notUpdatedAfterOpenPage) {
-            longDateToStringFormat(word.lastLookupDate + word.durationFromLastLookupTime)
+            longDateToStringyyyyMMddFormat(word.lastLookupDate + word.durationFromLastLookupTime)
         } else {
-            longDateToStringFormat(word.lastLookupDate)
+            longDateToStringyyyyMMddFormat(word.lastLookupDate)
         }
         binding.rrtDate.text = RRT.getRRTValue(word.recommendedRecurTiming).value
         val dsValue = DS.getDSValue(word.difficultyScore).value
@@ -125,7 +125,7 @@ class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment
         binding.lookupCountNum.text = word.lookupCount.toString()
         binding.durationFromLastLookupDateNum.text = durationMillisToDurationDateString(word.durationFromLastLookupTime)
         binding.tryAddSameWordCountNum.text = word.tryAddSameWordCount.toString()
-        binding.registeredDateStr.text = longDateToStringFormat(word.registeredDate)
+        binding.registeredDateStr.text = longDateToStringyyyyMMddFormat(word.registeredDate)
         binding.referenceText.text = if (word.reference == "") {
             context?.getString(R.string.wda_no_reference_title)} else {word.reference}
 

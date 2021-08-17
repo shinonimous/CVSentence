@@ -9,6 +9,7 @@
 package com.cvrabbit.cvsentence.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.AdapterView
@@ -32,15 +33,14 @@ import java.util.*
 private const val TAG = "SortSettings"
 
 @AndroidEntryPoint
-class SortSettings : Fragment(R.layout.fragment_sort_settings) {
+class SortSettings(private val allReferences: List<String>) : Fragment(R.layout.fragment_sort_settings) {
 
-    private var referencesArray: Array<String> = arrayOf()
     private lateinit var binding: FragmentSortSettingsBinding
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val sortSettingsViewModel: SortSettingsViewModel by viewModels()
 
     companion object {
-        fun newInstance() = SortSettings()
+        fun newInstance(allReferences: List<String>) = SortSettings(allReferences)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,10 +49,6 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
             viewmodel = sortSettingsViewModel
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
-
-        mainActivityViewModel.observableReferences.observe(viewLifecycleOwner, Observer {
-            referencesArray = mainActivityViewModel.getAllReferencesAsArray(it)
-        })
 
         initVisibility()
         initListeners()
@@ -149,7 +145,7 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
         }
 
         // regSpinner
-        val regArray = sortSettingsViewModel.getRegArray(Pair(Date(WordsList.minDate), Date(WordsList.maxDate)))
+        val regArray = sortSettingsViewModel.getRegArray(Pair(WordsList.minDate, WordsList.maxDate))
         val regAdapter = ArrayAdapter(requireContext(), R.layout.spinner_layout, regArray)
         regAdapter.setDropDownViewResource(R.layout.spinner_layout_item)
         binding.regDateStartSpinner.adapter = regAdapter
@@ -200,7 +196,8 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
         }
 
         //referenceSpinner
-        val refArray = referencesArray
+        val refArray = mainActivityViewModel.getAllReferencesAsArray(allReferences)
+        Log.d(TAG, "Setting of referenceSpinner: refArray isEmpty: ${refArray.isEmpty()}")
         val refAdapter = ArrayAdapter(requireContext(), R.layout.spinner_layout, refArray)
         refAdapter.setDropDownViewResource(R.layout.spinner_layout_item)
         binding.referenceSortSpinner.adapter = refAdapter
@@ -218,12 +215,12 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
             minDS = if(binding.dsRange.isChecked) {
                 binding.dsRangeStartSpinner.selectedItem.toString().toFloat()
             } else {
-                WordsList.minDS
+                0f
             },
             maxDS = if(binding.dsRange.isChecked) {
                 binding.dsRangeEndSpinner.selectedItem.toString().toFloat()
             } else {
-                WordsList.maxDS
+                10f
             },
             startDate = if(binding.registeredDateRange.isChecked) {
                 if (binding.regDateStartSpinner.selectedItem.toString() != "") {
@@ -232,7 +229,7 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
                     WordsList.minDate
                 }
             } else {
-                    WordsList.minDate
+                    0L // 1970/1/1
             },
             endDate = if(binding.registeredDateRange.isChecked) {
                 if (binding.regDateStartSpinner.selectedItem.toString() != "") {
@@ -241,7 +238,7 @@ class SortSettings : Fragment(R.layout.fragment_sort_settings) {
                     WordsList.maxDate
                 }
             } else {
-                WordsList.maxDate
+                SimpleDateFormat("yyyy/MM").parse("5000/1").time
             },
             reference = if(binding.referenceSort.isChecked) {
                 binding.referenceSortSpinner.selectedItem.toString()

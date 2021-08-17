@@ -27,7 +27,7 @@ data class WordEntity(
     var suffix: String = "", // Suffix
     var others: String = "", // Others
     var lookupCount: Int = 0,
-    var lastLookupDate: Long = 0L,
+    var lastLookupDate: Long = Date().time,
     var durationFromLastLookupTime: Long = 0L,
     var recommendedRecurTiming: String = RRT.FIRST.value,
     var notRememberedCountSinceUnderLimitReached: Int = 0,
@@ -55,7 +55,7 @@ fun initializeWordEntity(wordEntity: WordEntity) {
     wordEntity.suffix = "" // Suffix
     wordEntity.others = "" // Others
     wordEntity.lookupCount = 0
-    wordEntity.lastLookupDate = 0L
+    wordEntity.lastLookupDate = Date().time
     wordEntity.durationFromLastLookupTime = 0L
     wordEntity.recommendedRecurTiming = RRT.FIRST.value
     wordEntity.notRememberedCountSinceUnderLimitReached = 0

@@ -14,11 +14,11 @@ import androidx.room.*
 @Dao
 interface WordDAO {
 
+    /**
+     * Regarding to WordEntity
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWord(wordEntity: WordEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertReference(referenceEntity: ReferenceEntity)
 
     @Delete
     suspend fun deleteWord(wordEntity: WordEntity)
@@ -91,7 +91,19 @@ interface WordDAO {
                                    maxDate: Long,
                                    references: List<String>): LiveData<List<WordEntity>>
 
+    /**
+     * Regarding to ReferenceEntity
+     */
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertReference(referenceEntity: ReferenceEntity)
+
     @Query("SELECT reference FROM reference_table")
     fun getAllReferences(): LiveData<List<String>>
+
+    @Query(
+        "SELECT * FROM reference_table WHERE reference = :reference"
+    )
+    suspend fun getCertainReference(reference: String): List<ReferenceEntity>
 
 }

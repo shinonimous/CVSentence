@@ -38,7 +38,9 @@ class BaseSettingsViewModel @Inject constructor(
         Log.d(TAG, "createNewReference is Running")
         viewModelScope.launch {
             if (reference.reference != "") {
-                mainRepository.insertReference(reference)
+                if(mainRepository.getCertainReference(reference.reference).isEmpty()) {
+                    mainRepository.insertReference(reference)
+                }
             }
         }
     }

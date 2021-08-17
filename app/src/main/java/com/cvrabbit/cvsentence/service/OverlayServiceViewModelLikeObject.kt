@@ -8,6 +8,7 @@
 
 package com.cvrabbit.cvsentence.service
 
+import android.util.Log
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.lang.GoogleTextToSpeech
@@ -36,7 +37,8 @@ class OverlayViewModelLikeObject @Inject constructor(
 
     fun searchWord(requestWord: String) = mainRepository.searchWord(requestWord)
 
-    fun createNewWordEntity(wordEntity: WordEntity) =
+    fun createNewWordEntity(wordEntity: WordEntity) {
+        Log.d(TAG, "createNewWordEntity is Running: durationFromLLT: ${wordEntity.durationFromLastLookupTime}")
         CoroutineScope(IO).launch {
             val sameWords = mainRepository.getCertainWord(wordEntity.word)
             if(sameWords.isEmpty()) {
@@ -48,6 +50,7 @@ class OverlayViewModelLikeObject @Inject constructor(
                 }
             }
         }
+    }
 
     fun getFloatingPosition() = mainRepository.getFloatingPosition()
 

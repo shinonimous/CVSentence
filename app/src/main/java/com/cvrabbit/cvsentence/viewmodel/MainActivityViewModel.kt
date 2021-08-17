@@ -57,10 +57,10 @@ class MainActivityViewModel @Inject constructor(
     }
 
     // When Sort Settings button is clicked
-    fun openSortSetting(ifAllWordsDeleted: Boolean) {
+    fun openSortSetting(ifAllWordsDeleted: Boolean, allReferences: List<String>) {
         Log.d(TAG, "openSortSetting is Running: ifAllWordsDeleted: $ifAllWordsDeleted")
         if(!ifAllWordsDeleted) {
-            showFragment(SortSettings.newInstance())
+            showFragment(SortSettings.newInstance(allReferences))
         }
     }
 

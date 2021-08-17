@@ -18,9 +18,71 @@ import simplenlg.realiser.english.Realiser
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
+private const val TAG = "OriginalWordGenerator"
+
 class OriginalWordGenerator(context: Context) {
+
+    // Get Base form of Verb
+    fun getPresentStr(unknownWord: String): String {
+        return if (unknownWord.contains(" ")) {
+            val unknownWordArray = unknownWord.split(" ")
+            val changedWord = getBaseVerb(unknownWordArray[0])
+            var outputTail = ""
+            for(i in 1 until unknownWordArray.size) {
+                outputTail += " " + unknownWordArray[i]
+            }
+            changedWord + outputTail
+        } else if (unknownWord.contains("-")) {
+            val unknownWordArray = unknownWord.split("-")
+            val changedWord = getBaseVerb(unknownWordArray[0])
+            var outputTail = ""
+            for(i in 1 until unknownWordArray.size) {
+                outputTail += "-" + unknownWordArray[i]
+            }
+            changedWord + outputTail
+        } else {
+            getBaseVerb(unknownWord)
+        }
+    }
+
+    // Get Single format of noun
+    fun getSingleStr(unknownWord: String): String {
+        return Singularize.singularize(unknownWord)
+    }
+
+    // When using verb.json file (in asset folder) to get base verb, use this.
+    //private fun getBaseVerb(unknownWord: String) = getBaseVerbUsingDictionary(unknownWord)
+
+    // When using SimpleNLG to get base verb, use this.
+    private fun getBaseVerb(unknownWord: String) = getBaseVerbUsingSimpleNLG(unknownWord)
+
+    private fun getBaseVerbUsingDictionary(unknownWord: String): String {
+        val verbs = getVerbDictionary()
+        for (i in verbs) {
+            println(i[0] + ";" + i[1] + ";")
+            if (unknownWord == i[1] || unknownWord == i[2] || unknownWord == i[3] || unknownWord == i[4]) {
+                return i[0]
+            }
+        }
+        return unknownWord
+    }
+
+    private fun getBaseVerbUsingSimpleNLG(unknownWord: String): String {
+        val lexicon = Lexicon.getDefaultLexicon()
+        val nlgFactory = NLGFactory(lexicon)
+        val realiser = Realiser(lexicon)
+        val p = nlgFactory.createClause()
+        p.setSubject("I")
+        p.setVerb(unknownWord)
+        p.setFeature(Feature.TENSE, Tense.PRESENT)
+        var output = realiser.realiseSentence(p).substring(2)
+        output = output.substring(0, output.length - 1)
+        return output
+    }
+
     private val appContext = context.applicationContext
     private var verbDictionary: Array<Array<String>> = arrayOf()
+
     private fun getVerbDictionary(): Array<Array<String>> {
         if (verbDictionary.isEmpty()) {
             val assetManager = appContext.resources.assets
@@ -39,51 +101,5 @@ class OriginalWordGenerator(context: Context) {
             }
         }
         return verbDictionary
-    }
-    private fun getBaseVerbUsingDictionary(unknownWord: String): String {
-        val verbs = getVerbDictionary()
-        for (i in verbs) {
-            println(i[0] + ";" + i[1] + ";")
-            if (unknownWord == i[1] || unknownWord == i[2] || unknownWord == i[3] || unknownWord == i[4]) {
-                return i[0]
-            }
-        }
-        return unknownWord
-    }
-    private fun getBaseVerbUsingSimpleNLG(unknownWord: String): String {
-        val lexicon = Lexicon.getDefaultLexicon()
-        val nlgFactory = NLGFactory(lexicon)
-        val realiser = Realiser(lexicon)
-        val p = nlgFactory.createClause()
-        p.setSubject("I")
-        p.setVerb(unknownWord)
-        p.setFeature(Feature.TENSE, Tense.PRESENT)
-        var output = realiser.realiseSentence(p).substring(2)
-        output = output.substring(0, output.length - 1)
-        return output
-    }
-    fun getPresentStr(unknownWord: String): String {
-        return if (unknownWord.contains(" ")) {
-            val unknownWordArray = unknownWord.split(" ")
-            val changedWord = getBaseVerbUsingDictionary(unknownWordArray[0])
-            var outputTail = ""
-            for(i in 1 until unknownWordArray.size) {
-                outputTail += " " + unknownWordArray[i]
-            }
-            changedWord + outputTail
-        } else if (unknownWord.contains("-")) {
-            val unknownWordArray = unknownWord.split("-")
-            val changedWord = getBaseVerbUsingDictionary(unknownWordArray[0])
-            var outputTail = ""
-            for(i in 1 until unknownWordArray.size) {
-                outputTail += "-" + unknownWordArray[i]
-            }
-            changedWord + outputTail
-        } else {
-            getBaseVerbUsingDictionary(unknownWord)
-        }
-    }
-    fun getSingleStr(unknownWord: String): String {
-        return Singularize.singularize(unknownWord)
     }
 }
