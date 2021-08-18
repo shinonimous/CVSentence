@@ -64,6 +64,14 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
 
+        wordsListViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                binding.progress.visibility = View.VISIBLE
+            } else {
+                binding.progress.visibility = View.GONE
+            }
+        })
+
         // set sources for words list
         mainActivityViewModel.observableReferences.observe(viewLifecycleOwner, Observer {
             wordsListViewModel.setWordsSources(it)
@@ -100,6 +108,7 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
             maxDate = listOfWordEntity.maxByOrNull { it.registeredDate }?.registeredDate ?: Date().time
             wordsListViewModel.setGreen(listOfWordEntity)
         })
+
     }
 
     // When swiped, delete word

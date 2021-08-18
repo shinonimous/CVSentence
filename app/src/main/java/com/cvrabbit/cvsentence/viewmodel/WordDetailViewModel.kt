@@ -29,8 +29,8 @@ class WordDetailViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
-    private val focusWord: MutableLiveData<WordEntity> = MutableLiveData()
-    val observableFocusWord: LiveData<WordEntity> = focusWord
+    private val _focusWord: MutableLiveData<WordEntity> = MutableLiveData()
+    val focusWord: LiveData<WordEntity> = _focusWord
     private lateinit var backUp: BackUp
 
     // Back up some of the data to deal with user's undo action
@@ -41,95 +41,95 @@ class WordDetailViewModel @Inject constructor(
     )
 
     fun setReference(reference: String) {
-        focusWord.value?.reference = reference
-        focusWord.postValue(focusWord.value)
+        _focusWord.value?.reference = reference
+        _focusWord.postValue(_focusWord.value)
     }
 
     fun updateLookup(word: WordEntity) {
         Log.d(TAG, "updateLookup is Running: Word ID: ${word.id}")
-        focusWord.value = word
-        focusWord.value?.let {
+        _focusWord.value = word
+        _focusWord.value?.let {
             it.lookupCount += 1
             it.durationFromLastLookupTime = Date().time - it.lastLookupDate
             it.lastLookupDate = Date().time
             it.green = false
         }
-        focusWord.postValue(focusWord.value)
+        _focusWord.postValue(_focusWord.value)
     }
 
     fun updateWhenNotRememberedChecked() {
         Log.d(TAG, "updateWhenNotRememberedChecked is Running")
         backUp = BackUp(
-            RRT.getRRTValue(focusWord.value!!.recommendedRecurTiming),
-            DS.getDSValue(focusWord.value!!.difficultyScore),
-            focusWord.value?.notRememberedCountSinceUnderLimitReached
+            RRT.getRRTValue(_focusWord.value!!.recommendedRecurTiming),
+            DS.getDSValue(_focusWord.value!!.difficultyScore),
+            _focusWord.value?.notRememberedCountSinceUnderLimitReached
         )
 
-        focusWord.value!!.notRememberedCount += 1
+        _focusWord.value!!.notRememberedCount += 1
 
-        if (RRT.getRRTValue(focusWord.value!!.recommendedRecurTiming) == RRT.FIRST) {
-            focusWord.value!!.notRememberedCountSinceUnderLimitReached += 1
+        if (RRT.getRRTValue(_focusWord.value!!.recommendedRecurTiming) == RRT.FIRST) {
+            _focusWord.value!!.notRememberedCountSinceUnderLimitReached += 1
         }
 
-        focusWord.value!!.recommendedRecurTiming = RRT.getProperRRTWhenNotRemembered(
-            focusWord.value!!.durationFromLastLookupTime,
-            RRT.getRRTValue(focusWord.value!!.recommendedRecurTiming)
+        _focusWord.value!!.recommendedRecurTiming = RRT.getProperRRTWhenNotRemembered(
+            _focusWord.value!!.durationFromLastLookupTime,
+            RRT.getRRTValue(_focusWord.value!!.recommendedRecurTiming)
         ).value
 
-        focusWord.value!!.difficultyScore = DS.getProperDS(
-            focusWord.value!!.notRememberedCountSinceUnderLimitReached,
-            RRT.getRRTValue(focusWord.value!!.recommendedRecurTiming)
+        _focusWord.value!!.difficultyScore = DS.getProperDS(
+            _focusWord.value!!.notRememberedCountSinceUnderLimitReached,
+            RRT.getRRTValue(_focusWord.value!!.recommendedRecurTiming)
         ).value
 
-        focusWord.postValue(focusWord.value)
+        _focusWord.postValue(_focusWord.value)
     }
 
     fun updateWhenNotRememberedUnChecked() {
-        Log.d(TAG, "updateWhenNotRememberedUnChecked is Running: ${focusWord.value?.notRememberedCount}")
-        focusWord.value?.let {
+        Log.d(TAG, "updateWhenNotRememberedUnChecked is Running: ${_focusWord.value?.notRememberedCount}")
+        _focusWord.value?.let {
             it.notRememberedCount -= 1
             it.notRememberedCountSinceUnderLimitReached = backUp.notRememberedCountSinceUnderLimitReached!!
             it.recommendedRecurTiming = backUp.lastRRT!!.value
             it.difficultyScore = backUp.lastDS!!.value
         }
-        focusWord.postValue(focusWord.value)
+        _focusWord.postValue(_focusWord.value)
     }
 
     fun updateWhenRememberedChecked() {
         Log.d(TAG, "updateWhenRememberedChecked is Running")
         backUp = BackUp(
-            RRT.getRRTValue(focusWord.value!!.recommendedRecurTiming),
-            DS.getDSValue(focusWord.value!!.difficultyScore),
-            focusWord.value?.notRememberedCountSinceUnderLimitReached
+            RRT.getRRTValue(_focusWord.value!!.recommendedRecurTiming),
+            DS.getDSValue(_focusWord.value!!.difficultyScore),
+            _focusWord.value?.notRememberedCountSinceUnderLimitReached
         )
 
-        focusWord.value!!.rememberedCount += 1
+        _focusWord.value!!.rememberedCount += 1
 
-        focusWord.value!!.notRememberedCountSinceUnderLimitReached = 0
+        _focusWord.value!!.notRememberedCountSinceUnderLimitReached = 0
 
-        focusWord.value!!.recommendedRecurTiming = RRT.getProperRRTWhenRemembered(
-            focusWord.value!!.durationFromLastLookupTime,
-            RRT.getRRTValue(focusWord.value!!.recommendedRecurTiming)
+        _focusWord.value!!.recommendedRecurTiming = RRT.getProperRRTWhenRemembered(
+            _focusWord.value!!.durationFromLastLookupTime,
+            RRT.getRRTValue(_focusWord.value!!.recommendedRecurTiming)
         ).value
 
-        focusWord.value!!.difficultyScore = DS.getProperDS(
-            focusWord.value!!.notRememberedCountSinceUnderLimitReached,
-            RRT.getRRTValue(focusWord.value!!.recommendedRecurTiming)
+        _focusWord.value!!.difficultyScore = DS.getProperDS(
+            _focusWord.value!!.notRememberedCountSinceUnderLimitReached,
+            RRT.getRRTValue(_focusWord.value!!.recommendedRecurTiming)
         ).value
 
-        focusWord.postValue(focusWord.value)
+        _focusWord.postValue(_focusWord.value)
     }
 
     fun updateWhenRememberedUnChecked() {
         Log.d(TAG, "updateWhenRememberedUnChecked is Running")
-        focusWord.value?.let {
+        _focusWord.value?.let {
             it.rememberedCount -= 1
             it.notRememberedCountSinceUnderLimitReached = backUp.notRememberedCountSinceUnderLimitReached!!
             it.recommendedRecurTiming = backUp.lastRRT!!.value
             it.difficultyScore = backUp.lastDS!!.value
         }
 
-        focusWord.postValue(focusWord.value)
+        _focusWord.postValue(_focusWord.value)
     }
 
     fun updateWord(word: WordEntity) =

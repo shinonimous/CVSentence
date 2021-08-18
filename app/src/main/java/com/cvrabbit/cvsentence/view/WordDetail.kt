@@ -57,6 +57,8 @@ class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment
         }
         binding.lifecycleOwner = this.viewLifecycleOwner
 
+        binding.progress.visibility = View.VISIBLE
+
         mainActivityViewModel.observableReferences.observe(viewLifecycleOwner, Observer {
             ifReferenceEmpty = it.isEmpty()
             referencesArray = mainActivityViewModel.getAllReferencesAsArray(it)
@@ -72,11 +74,13 @@ class WordDetail(private val focusWord: WordEntity) : Fragment(R.layout.fragment
 
         setListeners(focusWord)
 
-        wordDetailViewModel.observableFocusWord.observe(viewLifecycleOwner, Observer{
+        wordDetailViewModel.focusWord.observe(viewLifecycleOwner, Observer{
             Log.d(TAG, "LiveData<WordEntity> observer is Running")
             wordDetailViewModel.updateWord(it)
             updateUI(it)
         })
+
+        binding.progress.visibility = View.GONE
     }
 
     // Define visibility when WordDetailFragment is Firstly opened

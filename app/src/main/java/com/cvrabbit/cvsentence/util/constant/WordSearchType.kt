@@ -5,6 +5,6 @@ enum class WordSearchType {
     EN_EN, EN_JP;
 
     companion object {
-        var current = EN_EN
+        var current = EN_JP
     }
 }

@@ -9,9 +9,7 @@
 package com.cvrabbit.cvsentence.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.cvrabbit.cvsentence.model.db.WordEntity
 import com.cvrabbit.cvsentence.model.repository.MainRepository
 import com.cvrabbit.cvsentence.util.calendar.CalendarOperation
@@ -35,6 +33,10 @@ private const val TAG = "WordsListViewModel"
 class WordsListViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ): ViewModel() {
+
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+
+    val isLoading: LiveData<Boolean> = _isLoading
 
     private val filter = mainRepository.getFilter()
 
@@ -104,6 +106,8 @@ class WordsListViewModel @Inject constructor(
 
     fun setWordsSources(allReferences: List<String>) {
 
+        _isLoading.postValue(true)
+
         this.allReferences = createAllReferencesWithBlank(allReferences)
 
         Log.d(TAG, "init is Running: sortPattern: $sortPattern ," +
@@ -161,6 +165,9 @@ class WordsListViewModel @Inject constructor(
                 }
             }
         }
+
+        _isLoading.postValue(false)
+
     }
 
     private fun createAllReferencesWithBlank(allReferences: List<String>): List<String> {
@@ -168,22 +175,6 @@ class WordsListViewModel @Inject constructor(
         resultList.add("")
         resultList.addAll(allReferences)
         return resultList
-    }
-
-    // This might be needless if sort performed only once in init() is enough.
-    fun sortWords() = when(sortPattern) {
-        SortPattern.DATE_DESC -> {
-            if (filter.minDS == NOT_INITIALIZED_DS) {
-                allWordsSortedByDateDesc.value?.let { words.value = it }
-            } else {
-                wordsSortedByDateDesc.value?.let { words.value = it }
-            }
-        }
-        SortPattern.DATE_ASC -> wordsSortedByDateAsc.value?.let { words.value = it }
-        SortPattern.DS_DESC -> wordsSortedByDSDesc.value?.let { words.value = it }
-        SortPattern.DS_ASC -> wordsSortedByDSAsc.value?.let { words.value = it }
-        SortPattern.WORD_DESC -> wordsSortedByWordDesc.value?.let { words.value = it }
-        SortPattern.WORD_ASC -> wordsSortedByWordAsc.value?.let { words.value = it }
     }
 
     // Delete word entity
@@ -207,17 +198,4 @@ class WordsListViewModel @Inject constructor(
         }
     }
 
-    // reset WordFilter
-    fun resetFilter() {
-        mainRepository.saveFilter(
-            WordFilter(
-                green = false,
-                minDS = NOT_INITIALIZED_DS,
-                maxDS = NOT_INITIALIZED_DS,
-                startDate = NOT_INITIALIZED_DATE,
-                endDate = NOT_INITIALIZED_DATE,
-                reference = ""
-            )
-        )
-    }
 }

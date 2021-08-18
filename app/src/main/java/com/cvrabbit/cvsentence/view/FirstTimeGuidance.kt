@@ -106,6 +106,7 @@ class FirstTimeGuidance : DialogFragment() {
         Log.d(TAG, "guideWhenShowMainFirstTime() is Running")
         FirstTimeGuidanceAppearing.current = FirstTimeGuidanceAppearing.TRUE
         binding.guidanceBase.setOnClickListener {}
+
         val message1 = requireContext().getString(R.string.ftg_showmainfirsttime_1)
         val message2 = requireContext().getString(R.string.ftg_showmainfirsttime_2)
         val message3 = requireContext().getString(R.string.ftg_showmainfirsttime_3)
@@ -119,20 +120,20 @@ class FirstTimeGuidance : DialogFragment() {
         val message11 = requireContext().getString(R.string.ftg_showmainfirsttime_11)
         val message12 = requireContext().getString(R.string.ftg_showmainfirsttime_12)
         val message13 = requireContext().getString(R.string.ftg_showmainfirsttime_13)
-        // TODO change marginfromtop to relative margin
-        val cvp1 = CustomViewPresenter(this, ViewWelcomeToCVSentence(requireContext()), message1, 300)
-        val cvp2 = CustomViewPresenter(this, ViewPressStartButton(requireContext()),message2, 300)
-        val cvp3 = CustomViewPresenter(this, ViewOverlayAppear(requireContext()),message3,400)
-        val cvp4 = CustomViewPresenter(this, ViewOverlayAppear(requireContext()),message4,400)
-        val cvp5 = CustomViewPresenter(this, ViewOverlayAppear(requireContext()),message5,400)
-        val cvp6 = CustomViewPresenter(this, ViewPressStopButton(requireContext()),message6,400)
-        val cvp7 = CustomViewPresenter(this, ViewYouCanDeleteCardBySwipe(requireContext()), message7, 600)
-        val cvp8 = CustomViewPresenter(this, ViewYouCanSeeWordMeaningByTap(requireContext()), message8, 600)
-        val cvp9 = CustomViewPresenter(this, ViewCardTintTurnsGreenWhenRRTArrived(requireContext()),message9,600)
-        val cvp10 = CustomViewPresenter(this, ViewCardTintTurnsGreenWhenRRTArrived(requireContext()),message10,600)
-        val cvp11 = CustomViewPresenter(this, ViewYouCanSortOnSortSettings(requireContext()),message11,300)
-        val cvp12 = CustomViewPresenter(this, ViewYouCanSetSoundOnBaseSettings(requireContext()),message12,300)
-        val cvp13 = CustomViewPresenter(this, ViewWelcomeToCVSentence(requireContext()), message13, 300)
+
+        val cvp1 = CustomViewPresenter(this, ViewWelcomeToCVSentence(requireContext()), message1, (deviceHeight/5.7).toInt())
+        val cvp2 = CustomViewPresenter(this, ViewPressStartButton(requireContext()),message2, (deviceHeight/5.7).toInt())
+        val cvp3 = CustomViewPresenter(this, ViewOverlayAppear(requireContext()),message3,(deviceHeight/4.3).toInt())
+        val cvp4 = CustomViewPresenter(this, ViewOverlayAppear(requireContext()),message4,(deviceHeight/4.3).toInt())
+        val cvp5 = CustomViewPresenter(this, ViewOverlayAppear(requireContext()),message5,(deviceHeight/4.3).toInt())
+        val cvp6 = CustomViewPresenter(this, ViewPressStopButton(requireContext()),message6,(deviceHeight/4.3).toInt())
+        val cvp7 = CustomViewPresenter(this, ViewYouCanDeleteCardBySwipe(requireContext()), message7, (deviceHeight/2.9).toInt())
+        val cvp8 = CustomViewPresenter(this, ViewYouCanSeeWordMeaningByTap(requireContext()), message8, (deviceHeight/2.9).toInt())
+        val cvp9 = CustomViewPresenter(this, ViewCardTintTurnsGreenWhenRRTArrived(requireContext()),message9,(deviceHeight/2.9).toInt())
+        val cvp10 = CustomViewPresenter(this, ViewCardTintTurnsGreenWhenRRTArrived(requireContext()),message10,(deviceHeight/2.9).toInt())
+        val cvp11 = CustomViewPresenter(this, ViewYouCanSortOnSortSettings(requireContext()),message11,(deviceHeight/5.7).toInt())
+        val cvp12 = CustomViewPresenter(this, ViewYouCanSetSoundOnBaseSettings(requireContext()),message12,(deviceHeight/5.7).toInt())
+        val cvp13 = CustomViewPresenter(this, ViewWelcomeToCVSentence(requireContext()), message13, (deviceHeight/5.7).toInt())
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
             cvp1.next = cvp2; cvp2.next = cvp3; cvp3.next = cvp4; cvp4.next = cvp5; cvp5.next = cvp6; cvp6.next = cvp7
             cvp7.next = cvp8; cvp8.next = cvp9; cvp9.next = cvp10; cvp10.next = cvp11; cvp11.next = cvp12; cvp12.next = cvp13
