@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontwarn twitter4j.management.**
+-dontwarn twitter4j.TwitterAPIMonitor
+-dontwarn twitter4j.internal.**
+-dontwarn twitter4j.Annotation
+-keep class twitter4j.** { *; }
