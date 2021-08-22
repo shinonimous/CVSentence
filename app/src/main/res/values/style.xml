@@ -1,11 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="CustomSwitch" parent="Theme.AppCompat.Light">
-        <!--ボタンON時のボタンの通り道（透明度30%）・ボタンとタッチフィードバックカラー-->
-        <item name="colorControlActivated">#1e90ff</item>
-        <!--ボタンOFF時のボタンの通り道（透明度30%）-->
-        <item name="android:colorForeground">#c0c0c0</item>
-        <!-- OFFボタンを押したときのタッチフィードバックカラー -->
-        <item name="colorControlHighlight">#c0c0c0</item>
+    <!-- Switch-->
+    <style name="CustomSwitch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:thumb">@drawable/switch_custom_thumb</item>
+        <item name="android:background">@drawable/switch_custom_background</item>
+        <item name="track">@drawable/switch_custom_track</item>
+        <item name="colorControlActivated">?attr/colorPrimaryVariant</item>
+        <item name="android:colorForeground">@color/gray_100</item>
+        <item name="colorControlHighlight">@color/gray_100</item>
     </style>
+
+    <!--Spinner-->
+    <style name="CustomSpinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+
+    <style name="CustomSpinnerOnLinearLayout" parent="Widget.AppCompat.Spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+
+    <!--TextViews-->
+    <!--Common-->
+    <style name="TextOnTitle" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/white_100</item>
+        <item name="android:textStyle">bold</item>
+        <item name="singleLine">true</item>
+    </style>
+
+    <style name="TextOnSubTitle" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+
+    <style name="TextOnLinearLayoutFullWeight" parent="android:TextAppearance">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="TextDash" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="Text24" parent="android:TextAppearance">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <!--fragment_word_detail-->
+    <style name="TextOnMainMeaning" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextOnLink" parent="android:TextAppearance">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="TextOnPosLabel" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white_100</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/solid_lightgreen_corners_rounded5dp</item>
+    </style>
+
+    <style name="TextOnPosDetail" parent="android:TextAppearance">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">15dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="TextOnProgressTitle" parent="android:TextAppearance">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black_100</item>
+        <item name="android:drawableStart">@drawable/vector_widget</item>
+    </style>
+
+    <style name="TextEwertNumber" parent="android:TextAppearance">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/ewert</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:textSize">60sp</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="TextEwert24" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/ewert</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="TextEwert30" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/ewert</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="TextEwert40" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ewert</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/black_100</item>
+        <item name="android:textAlignment">textEnd</item>
+    </style>
+
+    <style name="TextEwert60" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:fontFamily">@font/ewert</item>
+        <item name="android:textSize">60sp</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="TextOnTail" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="TextOnDescription" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="TextOnCard" parent="android:TextAppearance">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">7dp</item>
+        <item name="android:background">@drawable/solid_white_corners_rounded7dp_stroke_gray</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="TextOnOverlay" parent="android:TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/solid_transparentlightgreen_corners_rounded10dp</item>
+        <item name="android:drawableEnd">@drawable/vector_record</item>
+        <item name="android:paddingStart">10dp</item>
+    </style>
+
+    <!--Buttons-->
+    <style name="NormalButtonBlue" parent="android:Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/solid_lightgreen_corners_rounded10dp</item>
+        <item name="android:textColor">@color/white_100</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="CircleButtonBlue" parent="android:Widget.Button">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:background">@drawable/solid_lightgreen_corners_rounded40dp</item>
+        <item name="android:textColor">@color/white_100</item>
+        <item name="android:drawableTop">@drawable/vector_record</item>
+        <item name="android:gravity">bottom|center_horizontal</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:src">@drawable/vector_record</item>
+    </style>
+
+    <style name="MenuButtonBlue" parent="android:Widget.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/solid_lightgreen_corners_rounded10dp</item>
+        <item name="android:textColor">@color/white_100</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="NormalButtonRed" parent="android:Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/solid_lightred_corners_rounded10dp</item>
+        <item name="android:textColor">@color/white_100</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="CircleButtonRed" parent="android:Widget.Button">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:background">@drawable/solid_lightred_corners_rounded40dp</item>
+        <item name="android:textColor">@color/white_100</item>
+        <item name="android:drawableTop">@drawable/vector_record</item>
+        <item name="android:gravity">bottom|center_horizontal</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:src">@drawable/vector_record</item>
+    </style>
+
+    <style name="NormalButtonGray" parent="android:Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/solid_gray_corners_rounded10dp</item>
+        <item name="android:textColor">@color/black_100</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AdButton" parent="android:Widget.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:paddingStart">30dp</item>
+        <item name="android:paddingEnd">30dp</item>
+        <item name="android:background">@drawable/solid_white_corners_rounded30dp_stroke_lightgreen</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

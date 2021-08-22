@@ -46,28 +46,9 @@
 
             <TextView
                 android:id="@+id/baseSettingsTitleWord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="#00000000"
+                style="@style/TextOnTitle"
                 android:drawableStart="@drawable/vector_setting_big"
-                android:enabled="true"
-                android:focusable="true"
-                android:singleLine="true"
-                android:text="@string/bs_title"
-                android:textColor="@color/theme_color_text_white"
-                android:textSize="34sp"
-                android:textStyle="bold" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/base_ad_frame"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/baseSettingsTitle">
-
+                android:text="@string/bs_title" />
         </FrameLayout>
 
         <ScrollView
@@ -77,7 +58,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/base_ad_frame">
+            app:layout_constraintTop_toBottomOf="@+id/baseSettingsTitle">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,7 +80,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="8dp"
-                        app:cardBackgroundColor="#ffffff"
+                        app:cardBackgroundColor="@color/white_100"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -116,14 +97,8 @@
 
                             <TextView
                                 android:id="@+id/soundEnableSetting"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="20dp"
-                                android:layout_marginBottom="20dp"
-                                android:paddingBottom="10dp"
-                                android:text="@string/bsc_soundtitle"
-                                android:textColor="@color/theme_color"
-                                android:textSize="30sp" />
+                                style="@style/TextOnSubTitle"
+                                android:text="@string/bsc_soundtitle"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -135,26 +110,13 @@
 
                                 <TextView
                                     android:id="@+id/selectedWordSoundText"
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="@string/bsc_onselectword_sound"
-                                    android:textColor="@color/theme_color_text"
-                                    android:textSize="20sp" />
+                                    style="@style/TextOnLinearLayoutFullWeight"
+                                    android:text="@string/bsc_onselectword_sound" />
 
-                                <Switch
+                                <androidx.appcompat.widget.SwitchCompat
                                     android:id="@+id/selectedWordSound"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:background="@drawable/switch_custom_background"
-                                    android:showText="false"
-                                    android:theme="@style/CustomSwitch"
-                                    android:thumb="@drawable/switch_custom_thumb"
-                                    android:track="@drawable/switch_custom_track" />
+                                    style="@style/CustomSwitch" />
+
                             </LinearLayout>
 
                             <LinearLayout
@@ -167,26 +129,13 @@
 
                                 <TextView
                                     android:id="@+id/selectedMeaningSoundText"
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="@string/bsc_onselectmeaning_sound"
-                                    android:textColor="@color/theme_color_text"
-                                    android:textSize="20sp" />
+                                    style="@style/TextOnLinearLayoutFullWeight"
+                                    android:text="@string/bsc_onselectmeaning_sound"/>
 
-                                <Switch
+                                <androidx.appcompat.widget.SwitchCompat
                                     android:id="@+id/selectedMeaningSound"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:background="@drawable/switch_custom_background"
-                                    android:showText="false"
-                                    android:theme="@style/CustomSwitch"
-                                    android:thumb="@drawable/switch_custom_thumb"
-                                    android:track="@drawable/switch_custom_track" />
+                                    style="@style/CustomSwitch" />
+
                             </LinearLayout>
 
                             <LinearLayout
@@ -199,26 +148,13 @@
 
                                 <TextView
                                     android:id="@+id/onDemandWordSoundText"
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="@string/bsc_ontapword_sound"
-                                    android:textColor="@color/theme_color_text"
-                                    android:textSize="20sp" />
+                                    style="@style/TextOnLinearLayoutFullWeight"
+                                    android:text="@string/bsc_ontapword_sound"/>
 
-                                <Switch
+                                <androidx.appcompat.widget.SwitchCompat
                                     android:id="@+id/onDemandWordSound"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:background="@drawable/switch_custom_background"
-                                    android:showText="false"
-                                    android:theme="@style/CustomSwitch"
-                                    android:thumb="@drawable/switch_custom_thumb"
-                                    android:track="@drawable/switch_custom_track" />
+                                    style="@style/CustomSwitch" />
+
                             </LinearLayout>
 
                             <LinearLayout
@@ -231,37 +167,19 @@
 
                                 <TextView
                                     android:id="@+id/onDemandMeaningSoundText"
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="@string/bsc_ontapword_sound"
-                                    android:textColor="@color/theme_color_text"
-                                    android:textSize="20sp" />
+                                    style="@style/TextOnLinearLayoutFullWeight"
+                                    android:text="@string/bsc_ontapword_sound"/>
 
-                                <Switch
+                                <androidx.appcompat.widget.SwitchCompat
                                     android:id="@+id/onDemandMeaningSound"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:background="@drawable/switch_custom_background"
-                                    android:showText="false"
-                                    android:theme="@style/CustomSwitch"
-                                    android:thumb="@drawable/switch_custom_thumb"
-                                    android:track="@drawable/switch_custom_track" />
+                                    style="@style/CustomSwitch" />
+
                             </LinearLayout>
 
                             <TextView
                                 android:id="@+id/soundVolumeSetting"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="50dp"
-                                android:layout_marginBottom="40dp"
-                                android:text="@string/bsc_volume"
-                                android:textColor="@color/theme_color"
-                                android:textSize="30sp" />
+                                style="@style/TextOnSubTitle"
+                                android:text="@string/bsc_volume" />
 
                             <SeekBar
                                 android:id="@+id/volumeSeekBar"
@@ -277,91 +195,48 @@
 
                             <TextView
                                 android:id="@+id/floatingSetting"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="30dp"
-                                android:layout_marginBottom="40dp"
-                                android:text="@string/bsc_floatingposition"
-                                android:textColor="@color/theme_color"
-                                android:textSize="30sp" />
+                                style="@style/TextOnSubTitle"
+                                android:text="@string/bsc_floatingposition" />
 
                             <Spinner
                                 android:id="@+id/floatSpinner"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:background="@color/theme_color_textbox_background"
-                                android:entries="@array/floating_type"
-                                android:paddingEnd="10dp"
-                                android:spinnerMode="dialog" />
+                                style="@style/CustomSpinner"
+                                android:entries="@array/floating_type" />
 
                             <TextView
                                 android:id="@+id/referenceSetting"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="50dp"
-                                android:text="@string/bsc_reference_setting"
-                                android:textColor="@color/theme_color"
-                                android:textSize="30sp" />
+                                style="@style/TextOnSubTitle"
+                                android:text="@string/bsc_reference_setting" />
 
                             <TextView
                                 android:id="@+id/referenceSettingDescription"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginTop="20dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="40dp"
-                                android:text="@string/bsc_reference_setting_description"
-                                android:textColor="@color/theme_color_text"
-                                android:textSize="18sp" />
+                                style="@style/TextOnDescription"
+                                android:text="@string/bsc_reference_setting_description" />
 
                             <Button
                                 android:id="@+id/referenceRegister"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                style="@style/NormalButtonBlue"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
-                                android:background="@drawable/solid_lightgreen_corners_rounded10dp"
-                                android:padding="5dp"
-                                android:text="@string/bsc_reference_register"
-                                android:textColor="@color/theme_color_text_white"
-                                android:textSize="24sp" />
+                                android:text="@string/bsc_reference_register"/>
 
                             <TextView
                                 android:id="@+id/csvExportTitle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="50dp"
-                                android:layout_marginBottom="40dp"
-                                android:text="@string/bsc_csv_export"
-                                android:textColor="@color/theme_color"
-                                android:textSize="30sp" />
+                                style="@style/TextOnSubTitle"
+                                android:text="@string/bsc_csv_export" />
 
                             <TextView
                                 android:id="@+id/csvExportSaveDir"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="20dp"
-                                android:text="@string/bsc_csv_export_save_dir"
-                                android:textColor="@color/theme_color_text"
-                                android:textSize="18sp" />
+                                style="@style/TextOnDescription"
+                                android:text="@string/bsc_csv_export_save_dir"/>
 
                             <Button
                                 android:id="@+id/csvExport"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                style="@style/NormalButtonBlue"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
                                 android:layout_marginBottom="60dp"
-                                android:background="@drawable/solid_lightgreen_corners_rounded10dp"
-                                android:padding="5dp"
-                                android:text="@string/bsc_csv_export_button"
-                                android:textColor="@color/theme_color_text_white"
-                                android:textSize="24sp" />
+                                android:text="@string/bsc_csv_export_button"/>
 
                             <androidx.fragment.app.FragmentContainerView
                                 android:id="@+id/fragment_container_for_base"

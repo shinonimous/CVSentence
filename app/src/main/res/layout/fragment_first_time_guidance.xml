@@ -10,15 +10,8 @@
 
     <TextView
         android:id="@+id/sampleCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="7dp"
-        android:background="@drawable/solid_white_corners_rounded7dp_stroke_gray"
-        android:padding="15dp"
+        style="@style/TextOnCard"
         android:text="language"
-        android:textAlignment="center"
-        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -55,11 +48,7 @@
 
     <TextView
         android:id="@+id/sampleRabbit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/solid_transparentlightgreen_corners_rounded10dp"
-        android:drawableEnd="@drawable/vector_record"
-        android:paddingStart="10dp"
+        style="@style/TextOnOverlay"
         android:text="@string/ov_rabbit_df"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

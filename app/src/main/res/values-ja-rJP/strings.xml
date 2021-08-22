@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">コピペ英単語(英英)</string>
-    <string name="notification_content">00:00:00</string>
+    <string name="notification_content">オーバーレイ起動中</string>
     <!--overlay_view.xml-->
     <string name="ov_firstGuidance">単語の登録がありません。\nSTARTボタンを押下後、\n単語をコピーすることで、\n新規登録が可能です。</string>
     <string name="ov_rabbit_df">&#160;&#160;Let\'s Copy !&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>

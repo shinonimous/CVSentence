@@ -9,11 +9,11 @@
                 android:topLeftRadius="30dp"
                 />
             <solid
-                android:color="#FFFFFF"
+                android:color="@color/white_100"
                 />
             <stroke
                 android:width="2dp"
-                android:color="@color/theme_color" />
+                android:color="?attr/colorPrimary" />
         </shape>
     </item>
 </selector>

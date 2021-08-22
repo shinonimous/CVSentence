@@ -5,7 +5,7 @@
     android:id="@+id/tweetEntryBase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A8252525"
+    android:background="@color/gray_400"
     tools:context=".view.Twitter">
 
     <LinearLayout
@@ -59,27 +59,20 @@
             android:layout_marginBottom="15dp"
             android:checked="true"
             android:text="@string/ted_include_app_link"
-            android:textColor="#333333"
-            android:textColorHighlight="@color/theme_color_complement"
-            android:textColorLink="@color/theme_color_complement" />
+            android:textColor="@color/black_100"
+            android:textColorHighlight="?attr/colorSecondary"
+            android:textColorLink="?attr/colorSecondary" />
 
         <Button
             android:id="@+id/doTweet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/NormalButtonRed"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/solid_lightred_corners_rounded10dp"
-            android:text="@string/ted_tweet"
-            android:textColor="@color/theme_color_text_white"
-            android:textSize="24sp" />
+            android:text="@string/ted_tweet" />
 
         <Button
             android:id="@+id/resetTweetConfig"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/solid_gray_corners_rounded10dp"
-            android:text="@string/ted_change_twitter_account"
-            android:textColor="@color/theme_color_text"
-            android:textSize="18sp" />
+            style="@style/NormalButtonGray"
+            android:text="@string/ted_change_twitter_account" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

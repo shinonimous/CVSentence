@@ -8,6 +8,7 @@
 
 package com.cvrabbit.cvsentence.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentWordInListBinding
 import com.cvrabbit.cvsentence.model.db.WordEntity
+import com.cvrabbit.cvsentence.util.color.ColorOperator
 
 private const val TAG = "WordAdapter"
 
@@ -77,18 +79,19 @@ class WordAdapter: RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
             }
 
             if (word.green) {
+                Log.d(TAG, "${ColorOperator(mBinding.root.context).fetchColor(R.attr.colorPrimary)}")
                 mBinding.addedCard.setCardBackgroundColor(
-                    mBinding.root.context.resources.getColor(R.color.theme_color, mBinding.root.context.theme)
+                    ColorOperator(mBinding.root.context).fetchColor(R.attr.colorPrimary)
                 )
                 mBinding.addedWord.setTextColor(
-                    mBinding.root.context.resources.getColor(R.color.theme_color_text_white, mBinding.root.context.theme)
+                    mBinding.root.context.resources.getColor(R.color.white_100, mBinding.root.context.theme)
                 )
             } else {
                 mBinding.addedCard.setCardBackgroundColor(
-                    mBinding.root.context.resources.getColor(R.color.theme_color_white, mBinding.root.context.theme)
+                    mBinding.root.context.resources.getColor(R.color.white_100, mBinding.root.context.theme)
                 )
                 mBinding.addedWord.setTextColor(
-                    mBinding.root.context.resources.getColor(R.color.theme_color_text, mBinding.root.context.theme)
+                    mBinding.root.context.resources.getColor(R.color.black_100, mBinding.root.context.theme)
                 )
             }
 

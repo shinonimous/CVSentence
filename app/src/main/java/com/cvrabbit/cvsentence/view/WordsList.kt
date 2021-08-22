@@ -27,6 +27,7 @@ import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 import com.cvrabbit.cvsentence.viewmodel.WordsListViewModel
 import com.cvrabbit.cvsentence.databinding.FragmentWordsListBinding
 import com.cvrabbit.cvsentence.model.db.WordEntity
+import com.cvrabbit.cvsentence.util.color.ColorOperator
 import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -152,7 +153,7 @@ class WordsList : Fragment(R.layout.fragment_words_list) {
                 val radius = listView.context.resources.getDimensionPixelSize(R.dimen.radius_5dp).toFloat()
                 val drawable = GradientDrawable()
                 drawable.cornerRadius = radius
-                drawable.setColor(resources.getColor(R.color.theme_color_complement, requireActivity().theme))
+                drawable.setColor(ColorOperator(requireContext()).fetchColor(R.attr.colorSecondary))
 
                 val deleteIcon = AppCompatResources.getDrawable(
                     listView.context,

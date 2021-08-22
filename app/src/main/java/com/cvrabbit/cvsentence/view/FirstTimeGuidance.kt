@@ -26,6 +26,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.cvrabbit.cvsentence.R
 import com.cvrabbit.cvsentence.databinding.FragmentFirstTimeGuidanceBinding
+import com.cvrabbit.cvsentence.util.color.ColorOperator
 import com.cvrabbit.cvsentence.util.device.SizeMetrics
 import com.cvrabbit.cvsentence.viewmodel.MainActivityViewModel
 
@@ -230,11 +231,14 @@ class FirstTimeGuidance : DialogFragment() {
         }
     }
     internal inner class ViewCardTintTurnsGreenWhenRRTArrived(context: Context) : View(context) {
+
+        private val colorOperator = ColorOperator(requireContext())
+
         init {
             setLayerType(LAYER_TYPE_SOFTWARE, null)
         }
         override fun onDraw(canvas: Canvas){
-            setVisibility(true,true, resources.getColor(R.color.theme_color, requireActivity().theme),Color.parseColor("#ffffff"),false,false,false)
+            setVisibility(true,true, colorOperator.fetchColor(R.attr.colorPrimary),Color.parseColor("#ffffff"),false,false,false)
             drawRect(canvas)
             drawCircle(canvas,
                 deviceWidth.toFloat() /2,
